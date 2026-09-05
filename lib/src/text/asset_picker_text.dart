@@ -28,6 +28,9 @@ abstract base class AssetPickerText {
 
   String get pickerCameraTile;
 
+  /// The tooltip on a selected strip tile's remove affordance.
+  String get pickerRemove;
+
   String get pickerPermissionDeniedTitle;
   String get pickerPermissionDeniedBody;
   String get pickerOpenSettings;

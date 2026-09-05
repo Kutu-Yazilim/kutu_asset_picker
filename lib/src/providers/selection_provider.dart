@@ -47,6 +47,17 @@ class Selection extends _$Selection {
     toggle(asset.id);
   }
 
+  /// [reorder] for `ReorderableListView.onReorderItem`, whose `newIndex` is
+  /// already adjusted for the removed item. The contract's [reorder] keeps
+  /// the raw insertion-point convention, so the adjusted index is mapped back
+  /// rather than the contract changing under slice 4's rail.
+  void reorderItem(int oldIndex, int adjustedNewIndex) {
+    reorder(
+      oldIndex,
+      adjustedNewIndex > oldIndex ? adjustedNewIndex + 1 : adjustedNewIndex,
+    );
+  }
+
   void reorder(int oldIndex, int newIndex) {
     if (oldIndex < 0 || oldIndex >= state.length) {
       return;

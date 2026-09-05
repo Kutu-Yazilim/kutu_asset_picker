@@ -22,6 +22,9 @@ base class AssetPickerTextEn extends AssetPickerText {
   String get pickerCameraTile => 'Camera';
 
   @override
+  String get pickerRemove => 'Remove';
+
+  @override
   String get pickerPermissionDeniedTitle => 'Photo access is off';
   @override
   String get pickerPermissionDeniedBody =>
