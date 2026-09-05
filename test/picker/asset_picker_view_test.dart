@@ -7,9 +7,6 @@ import 'package:kutu_asset_picker/src/picker/asset_picker_sheet.dart';
 
 import '../support/pump_picker.dart';
 import 'package:kutu_asset_picker/src/source/fake_asset_source.dart';
-import 'package:kutu_asset_picker/src/result/asset_picker_result.dart';
-import 'package:kutu_asset_picker/src/view/picker_step_controller.dart';
-import 'package:kutu_asset_picker/src/crop/crop_providers.dart';
 
 void main() {
   testWidgets('the page surface hosts the grid step in a scaffold',

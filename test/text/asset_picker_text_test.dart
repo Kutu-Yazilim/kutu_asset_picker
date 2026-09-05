@@ -2,9 +2,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
 import 'package:kutu_asset_picker/src/picker/duration_format.dart';
-import 'package:kutu_asset_picker/src/text/asset_picker_text_locale.dart';
-import 'package:kutu_asset_picker/src/text/asset_picker_text_scope.dart';
-import 'package:kutu_asset_picker/src/text/asset_picker_text_tr.dart';
 import 'package:flutter/material.dart';
 
 /// A consumer overriding exactly one string — the whole point of a concrete

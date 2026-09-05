@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
 import 'package:kutu_asset_picker/src/theme/asset_picker_media_colors.dart';
-import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
 import 'package:kutu_asset_picker/src/constants/asset_picker_radii.dart';
 
 Future<ResolvedAssetPickerTheme> _resolve(

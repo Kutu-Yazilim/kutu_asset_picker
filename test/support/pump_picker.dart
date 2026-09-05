@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
 import 'package:kutu_asset_picker/testing.dart';
-import 'package:kutu_asset_picker/src/text/asset_picker_text_scope.dart';
 
 /// Builds a `PickerAsset` with sensible defaults, so a test names only what it
 /// cares about.

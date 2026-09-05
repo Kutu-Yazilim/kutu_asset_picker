@@ -32,3 +32,33 @@ export 'src/source/asset_availability.dart';
 export 'src/providers/library_empty_provider.dart';
 export 'src/picker/asset_picker_view.dart';
 export 'src/picker/picker_grid_step.dart';
+
+// Result
+export 'src/result/asset_picker_result.dart';
+export 'src/result/picked_asset.dart';
+
+// Crop state and math — the math is exported because slice 5 and any consumer
+// building a custom crop surface need it, and it is pure and stable.
+export 'src/crop/crop_math.dart';
+export 'src/crop/crop_state.dart';
+
+// Export pipeline
+export 'src/export/export_failure.dart';
+export 'src/export/export_progress.dart';
+export 'src/export/export_queue.dart';
+
+// Theme and text — only this slice's new files; slice 3 exports the rest.
+export 'src/text/asset_picker_text_locale.dart';
+export 'src/text/asset_picker_text_scope.dart';
+export 'src/text/asset_picker_text_tr.dart';
+export 'src/theme/asset_picker_theme_scope.dart';
+
+// Providers a consumer overrides or watches
+export 'src/crop/crop_providers.dart';
+export 'src/export/export_controller.dart';
+export 'src/view/picker_step_controller.dart';
+
+// Entry points — `src/picker/asset_picker_view.dart` is slice 3's export and
+// already there; Task 17 changed its contents, not its path.
+export 'src/view/asset_picker_scope.dart';
+export 'src/view/kutu_asset_picker.dart';
