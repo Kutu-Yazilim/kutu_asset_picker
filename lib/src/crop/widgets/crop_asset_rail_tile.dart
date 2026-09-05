@@ -14,8 +14,10 @@ import 'package:kutu_media_transform/kutu_media_transform.dart';
 /// One asset in the rail. Tapping focuses it; the crop state it already has is
 /// untouched, because that state lives in `CropStates` and not here.
 class CropAssetRailTile extends ConsumerWidget {
+  /// Creates a [CropAssetRailTile].
   const CropAssetRailTile({required this.asset, super.key});
 
+  /// The asset.
   final PickerAsset asset;
 
   @override

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 /// iOS/macOS).
 @immutable
 final class PickerAlbum {
+  /// Creates a [PickerAlbum].
   const PickerAlbum({
     required this.id,
     required this.name,
@@ -11,8 +12,13 @@ final class PickerAlbum {
     required this.isAll,
   });
 
+  /// The id.
   final String id;
+
+  /// The name.
   final String name;
+
+  /// The asset count.
   final int assetCount;
 
   /// Whether this is the root "Recent"/"All" album.

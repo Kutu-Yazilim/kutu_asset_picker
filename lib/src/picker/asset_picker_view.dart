@@ -32,6 +32,7 @@ void _ignore() {}
 /// button that awaited one would break Flutter rule 9. `ref.listen` on the
 /// export controller is the same pattern every screen in `apps/mobile` uses.
 class AssetPickerView extends ConsumerWidget {
+  /// Creates a [AssetPickerView].
   const AssetPickerView({
     required this.onCompleted,
     this.onCancelled,
@@ -44,6 +45,7 @@ class AssetPickerView extends ConsumerWidget {
   /// the order the author dragged them into.
   final ValueChanged<AssetPickerResult> onCompleted;
 
+  /// The on cancelled.
   final VoidCallback? onCancelled;
 
   /// Level one of the three-level theme resolve (spec §8.1). It reaches every

@@ -16,21 +16,33 @@ abstract final class AssetPickerSizes {
   /// whole point of spec §2.7's layout decision, so the crop area does not
   /// resize as the author tabs between a photo and a video.
   static const double railHeight = 76;
+
+  /// The rail tile.
   static const double railTile = 56;
 
   /// Pixel size requested for a rail thumbnail. Flat and clamped, deliberately
   /// larger than [railTile] logical px so it survives a 3× device pixel ratio
   /// without a second cache entry per density (spec §4.4).
   static const int railTileThumb = 160;
+
+  /// The rail tile border.
   static const double railTileBorder = 2;
 
+  /// The chip row.
   static const double chipRow = 52;
+
+  /// The chip height.
   static const double chipHeight = 32;
+
+  /// The app bar height.
   static const double appBarHeight = 56;
 
   /// Breathing room between the crop window and the edges of the stage.
   static const double cropStageInset = 16;
 
+  /// The thirds line width.
   static const double thirdsLineWidth = 1;
+
+  /// The window border width.
   static const double windowBorderWidth = 1.5;
 }

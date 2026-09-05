@@ -15,6 +15,7 @@ sealed class AssetAvailability {
 /// true; the interesting cases are iOS and macOS with Optimize Storage on.
 @immutable
 final class AssetReady extends AssetAvailability {
+  /// Creates a [AssetReady].
   const AssetReady();
 
   @override
@@ -30,8 +31,10 @@ final class AssetReady extends AssetAvailability {
 /// The file lives in iCloud and is being fetched. [progress] is 0..1.
 @immutable
 final class AssetDownloading extends AssetAvailability {
+  /// Creates a [AssetDownloading].
   const AssetDownloading(this.progress);
 
+  /// The progress.
   final double progress;
 
   @override
@@ -52,6 +55,7 @@ final class AssetDownloading extends AssetAvailability {
 /// discard the rest of the batch (design §4.5).
 @immutable
 final class AssetUnavailable extends AssetAvailability {
+  /// Creates a [AssetUnavailable].
   const AssetUnavailable();
 
   @override

@@ -4,7 +4,9 @@ abstract final class VideoExportConstants {
   /// container by the plugin, so the type is the same for either codec.
   static const String mp4MimeType = 'video/mp4';
 
+  /// The cover mime type.
   static const String coverMimeType = 'image/jpeg';
 
+  /// The cover suffix.
   static const String coverSuffix = '_cover.jpg';
 }

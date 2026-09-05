@@ -15,6 +15,7 @@ import 'package:kutu_media_transform/kutu_media_transform.dart';
 /// the equivalent overrides themselves; this widget exists so
 /// `KutuAssetPicker.show` — and the `example/` app — do not have to.
 class AssetPickerScope extends StatelessWidget {
+  /// Creates a [AssetPickerScope].
   const AssetPickerScope({
     required this.config,
     required this.source,
@@ -26,15 +27,25 @@ class AssetPickerScope extends StatelessWidget {
     super.key,
   });
 
+  /// The config.
   final AssetPickerConfig config;
+
+  /// The source.
   final AssetSource source;
+
+  /// The on completed.
   final ValueChanged<AssetPickerResult> onCompleted;
+
+  /// The on cancelled.
   final VoidCallback onCancelled;
 
   /// Null keeps `mediaTransformProvider`'s real default, which is the plugin.
   final MediaTransform? transform;
 
+  /// The theme.
   final AssetPickerTheme? theme;
+
+  /// The text.
   final AssetPickerText? text;
 
   @override

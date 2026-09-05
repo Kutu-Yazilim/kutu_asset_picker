@@ -10,8 +10,10 @@ import 'package:kutu_asset_picker/src/providers/injection_providers.dart';
 /// The ratio menu for the focused asset, plus *Apply to all* when it has
 /// something to do.
 class CropAspectChipRow extends ConsumerWidget {
+  /// Creates a [CropAspectChipRow].
   const CropAspectChipRow({required this.assetId, super.key});
 
+  /// The asset id.
   final String assetId;
 
   @override

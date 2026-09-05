@@ -9,8 +9,10 @@ import '../theme/resolved_asset_picker_theme.dart';
 /// [index] is 1-based; 0 means unselected and renders the empty ring, which is
 /// the affordance that tells the user the cell is selectable at all.
 class SelectionBadge extends StatelessWidget {
+  /// Creates a [SelectionBadge].
   const SelectionBadge({super.key, required this.index});
 
+  /// The index.
   final int index;
 
   @override

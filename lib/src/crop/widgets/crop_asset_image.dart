@@ -19,8 +19,10 @@ import 'package:kutu_asset_picker/src/source/picker_asset_image_provider.dart';
 /// mechanism, and handing a provider to a plain `Image` is what buys
 /// `ScrollAwareImageProvider` for free (spec §4.4).
 class CropAssetImage extends ConsumerWidget {
+  /// Creates a [CropAssetImage].
   const CropAssetImage({required this.asset, super.key});
 
+  /// The asset.
   final PickerAsset asset;
 
   @override

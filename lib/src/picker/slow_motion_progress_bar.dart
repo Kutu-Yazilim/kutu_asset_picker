@@ -17,6 +17,7 @@ import '../text/asset_picker_text_scope.dart';
 /// It renders nothing at all when the pass is idle, so the grid's layout never
 /// shifts for a selection with no slow-motion clip in it.
 class SlowMotionProgressBar extends ConsumerWidget {
+  /// Creates a [SlowMotionProgressBar].
   const SlowMotionProgressBar({super.key});
 
   @override

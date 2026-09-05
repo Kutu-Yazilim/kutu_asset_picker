@@ -10,6 +10,7 @@ import 'picker_enums.dart';
 /// plus `AssetPickerTheme` plus the text delegate.
 @immutable
 final class AssetPickerConfig {
+  /// Creates a [AssetPickerConfig].
   const AssetPickerConfig({
     this.mediaTypes = const <PickerMediaType>{
       PickerMediaType.image,
@@ -53,6 +54,7 @@ final class AssetPickerConfig {
   /// an empty grid and an empty [aspects] throws from [effectiveInitialAspect].
   final Set<PickerMediaType> mediaTypes;
 
+  /// The min selection.
   final int minSelection;
 
   /// `maxSelection: 1` is the single-pick mode.
@@ -61,23 +63,40 @@ final class AssetPickerConfig {
   /// The ratio menu. A single-entry list is the forced-ratio mode.
   final List<CropAspect> aspects;
 
+  /// The initial aspect.
   final CropAspect? initialAspect;
 
   /// False collapses the aspect to one shared value for the whole batch.
   final bool allowPerAssetAspect;
 
+  /// The crop overlay shape.
   final CropOverlayShape cropOverlayShape;
 
+  /// The grid columns.
   final int gridColumns;
+
+  /// The cell aspect ratio.
   final double cellAspectRatio;
+
+  /// The grid spacing.
   final double gridSpacing;
 
+  /// The picker surface.
   final PickerSurface pickerSurface;
+
+  /// The crop surface.
   final PickerSurface cropSurface;
 
+  /// The enable camera.
   final bool enableCamera;
+
+  /// The enable crop.
   final bool enableCrop;
+
+  /// The enable trim.
   final bool enableTrim;
+
+  /// The enable cover frame.
   final bool enableCoverFrame;
 
   /// Both a trim clamp and a query-time filter (design §4.5).
@@ -98,9 +117,13 @@ final class AssetPickerConfig {
   /// (design §7.2).
   final int? maxSourceMegapixels;
 
+  /// The keep originals.
   final bool keepOriginals;
 
+  /// The image encode.
   final ImageEncodeSettings imageEncode;
+
+  /// The video encode.
   final VideoEncodeSettings videoEncode;
 
   /// One flat, clamped thumbnail size for the whole grid.

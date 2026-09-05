@@ -11,8 +11,10 @@ import 'limited_empty_view.dart';
 /// [scrollController] is the sheet's controller in sheet mode and null in page
 /// mode; it is threaded straight through to the grid.
 class LimitedAccessBody extends ConsumerWidget {
+  /// Creates a [LimitedAccessBody].
   const LimitedAccessBody({super.key, this.scrollController});
 
+  /// The scroll controller.
   final ScrollController? scrollController;
 
   @override

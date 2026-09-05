@@ -12,6 +12,7 @@ import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
 /// `exportControllerProvider` in `AssetPickerView`. `ExportController.run` is
 /// documented never to throw precisely so this call is safe to drop.
 class CropDoneButton extends ConsumerWidget {
+  /// Creates a [CropDoneButton].
   const CropDoneButton({super.key});
 
   @override

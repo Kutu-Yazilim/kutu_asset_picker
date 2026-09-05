@@ -18,26 +18,46 @@ import '../config/picker_enums.dart';
 /// `exportCancel`, `aspectLabel`, `durationRange`, `exportProgress` — plus
 /// `AssetPickerTextTr` and `assetPickerTextFromLocale`.
 abstract base class AssetPickerText {
+  /// Creates a [AssetPickerText].
   const AssetPickerText();
 
+  /// The picker title.
   String get pickerTitle;
+
+  /// The picker next.
   String get pickerNext;
+
+  /// The picker cancel.
   String get pickerCancel;
+
+  /// The picker done.
   String get pickerDone;
 
+  /// The picker album all.
   String get pickerAlbumAll;
+
+  /// The picker album switch.
   String get pickerAlbumSwitch;
 
+  /// The picker camera tile.
   String get pickerCameraTile;
 
   /// The tooltip on a selected strip tile's remove affordance.
   String get pickerRemove;
 
+  /// The picker permission denied title.
   String get pickerPermissionDeniedTitle;
+
+  /// The picker permission denied body.
   String get pickerPermissionDeniedBody;
+
+  /// The picker open settings.
   String get pickerOpenSettings;
 
+  /// The picker limited banner.
   String get pickerLimitedBanner;
+
+  /// The picker manage selection.
   String get pickerManageSelection;
 
   /// The empty state under limited access.
@@ -51,28 +71,55 @@ abstract base class AssetPickerText {
   /// The empty state under full access, where the library really is empty.
   String get pickerEmptyLibrary;
 
+  /// The picker downloading from cloud.
   String get pickerDownloadingFromCloud;
+
+  /// The picker download failed.
   String get pickerDownloadFailed;
+
+  /// The picker retry.
   String get pickerRetry;
 
+  /// The crop title.
   String get cropTitle;
+
+  /// The crop apply to all.
   String get cropApplyToAll;
+
+  /// The crop reorder hint.
   String get cropReorderHint;
+
+  /// The crop trim.
   String get cropTrim;
+
+  /// The crop cover frame.
   String get cropCoverFrame;
 
+  /// The export failed.
   String get exportFailed;
+
+  /// The export cancel.
   String get exportCancel;
 
+  /// Selected count.
   String selectedCount(int count);
+
+  /// Limit reached.
   String limitReached(int max);
 
   /// The named ratios only. A custom ratio has no name, so the chip prints its
   /// numbers instead — see `aspectChipLabel`.
   String aspectLabel(CropAspectLabel label);
 
+  /// Duration range.
   String durationRange(Duration start, Duration end);
+
+  /// Export progress.
   String exportProgress(int done, int total);
+
+  /// Video too long.
   String videoTooLong(Duration max);
+
+  /// File too large.
   String fileTooLarge(int maxBytes);
 }

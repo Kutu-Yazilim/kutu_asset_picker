@@ -66,6 +66,7 @@ class VideoTrimController extends _$VideoTrimController {
   void nudgeCover(double deltaFraction) =>
       setCover(state.coverAt + _delta(deltaFraction));
 
+  /// Set cover.
   void setCover(Duration at) {
     final next = clampCoverAt(at, state.trim);
     _commit(state.trim, next);

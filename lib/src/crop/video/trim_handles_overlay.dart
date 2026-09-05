@@ -10,6 +10,7 @@ import '../../theme/asset_picker_theme_scope.dart';
 /// The trim mode of the scrubber: two handles plus the dimming that shows what
 /// the export will throw away.
 class TrimHandlesOverlay extends ConsumerWidget {
+  /// Creates a [TrimHandlesOverlay].
   const TrimHandlesOverlay({
     super.key,
     required this.assetId,
@@ -17,11 +18,19 @@ class TrimHandlesOverlay extends ConsumerWidget {
     required this.trackWidth,
   });
 
+  /// The leading mask key.
   static const Key leadingMaskKey = Key('trim-leading-mask');
+
+  /// The trailing mask key.
   static const Key trailingMaskKey = Key('trim-trailing-mask');
 
+  /// The asset id.
   final String assetId;
+
+  /// The total.
   final Duration total;
+
+  /// The track width.
   final double trackWidth;
 
   @override

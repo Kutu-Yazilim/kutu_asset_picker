@@ -20,6 +20,7 @@ part 'slow_motion_flatten.g.dart';
 /// How far the flatten pass has got, and what it rewrote.
 @immutable
 final class SlowMotionFlattenState {
+  /// Creates a [SlowMotionFlattenState].
   const SlowMotionFlattenState({
     required this.running,
     required this.done,
@@ -28,6 +29,7 @@ final class SlowMotionFlattenState {
     required this.files,
   });
 
+  /// Creates a [SlowMotionFlattenState] via `idle`.
   const SlowMotionFlattenState.idle()
       : running = false,
         done = 0,
@@ -35,6 +37,7 @@ final class SlowMotionFlattenState {
         fraction = 0,
         files = const <String, File>{};
 
+  /// The running.
   final bool running;
 
   /// Clips finished, and clips this pass set out to flatten.
@@ -51,6 +54,7 @@ final class SlowMotionFlattenState {
   /// three times would read as three stalls.
   double get progress => total == 0 ? 0 : (done + fraction) / total;
 
+  /// Copy with.
   SlowMotionFlattenState copyWith({
     bool? running,
     int? done,

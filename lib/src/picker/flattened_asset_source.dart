@@ -19,8 +19,10 @@ import '../source/picker_permission.dart';
 /// rewritten file through the `AssetSource` seam they already use, so neither
 /// has a second lookup it can forget.
 final class FlattenedAssetSource implements AssetSource {
+  /// Creates a [FlattenedAssetSource].
   const FlattenedAssetSource({required this.delegate, required this.flattened});
 
+  /// The delegate.
   final AssetSource delegate;
 
   /// Asset id → the rewritten file. Ids absent here fall straight through.

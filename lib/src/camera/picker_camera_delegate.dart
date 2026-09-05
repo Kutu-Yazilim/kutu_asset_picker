@@ -19,5 +19,6 @@ import '../source/picker_media_type.dart';
 /// commit removes CoreLocation, which will make `saveImage(latitude:)` throw
 /// (design §13).
 abstract interface class PickerCameraDelegate {
+  /// Capture.
   Future<PickerAsset?> capture(Set<PickerMediaType> kinds);
 }

@@ -19,6 +19,7 @@ import 'picker_permission.dart';
 /// Everything `photo_manager` in this package lives behind this class:
 /// `AssetEntity` and `AssetPathEntity` never escape it (design §4.1).
 final class PhotoManagerAssetSource implements AssetSource {
+  /// Creates a [PhotoManagerAssetSource].
   PhotoManagerAssetSource() {
     _changes = StreamController<void>.broadcast(onListen: _startNotifying);
   }

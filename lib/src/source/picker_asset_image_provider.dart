@@ -23,6 +23,7 @@ import 'picker_asset_key.dart';
 /// `AssetThumbnail` is the only place that does it.
 @immutable
 final class PickerAssetImageProvider extends ImageProvider<PickerAssetKey> {
+  /// Creates a [PickerAssetImageProvider].
   const PickerAssetImageProvider(
     this.asset, {
     required this.source,
@@ -30,13 +31,17 @@ final class PickerAssetImageProvider extends ImageProvider<PickerAssetKey> {
     this.quality = 85,
   });
 
+  /// The asset.
   final PickerAsset asset;
+
+  /// The source.
   final AssetSource source;
 
   /// One flat, clamped size for the whole grid. Per-cell DPR scaling
   /// multiplies cache keys, which is the thing to avoid (design §4.4).
   final ThumbSize size;
 
+  /// The quality.
   final int quality;
 
   @override

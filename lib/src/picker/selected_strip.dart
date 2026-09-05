@@ -17,6 +17,7 @@ import 'selected_strip_tile.dart';
 /// surface and slice 4's rail on one convention. Do **not** adjust the indices
 /// here as well.
 class SelectedStrip extends ConsumerWidget {
+  /// Creates a [SelectedStrip].
   const SelectedStrip({super.key});
 
   @override

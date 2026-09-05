@@ -19,27 +19,45 @@ abstract final class VideoCropConstants {
   /// calls cancel one another.
   static const Duration seekDebounce = Duration(milliseconds: 40);
 
+  /// The bar fade duration.
   static const Duration barFadeDuration = Duration(milliseconds: 160);
+
+  /// The bar opacity idle.
   static const double barOpacityIdle = 1;
+
+  /// The bar opacity dragging.
   static const double barOpacityDragging = 0;
 
   /// Translucency of the floating bar over the footage (spec §2.7).
   static const double barSurfaceOpacity = 0.82;
 
+  /// The bar inset.
   static const double barInset = 12;
+
+  /// The bar padding.
   static const double barPadding = 10;
+
+  /// The bar content gap.
   static const double barContentGap = 8;
 
+  /// The filmstrip height.
   static const double filmstripHeight = 44;
 
+  /// The handle width.
   static const double handleWidth = 14;
+
+  /// The handle grip width.
   static const double handleGripWidth = 2;
+
+  /// The handle grip height.
   static const double handleGripHeight = 14;
 
+  /// The cover cursor width.
   static const double coverCursorWidth = 4;
 
   /// Dimming over the parts of the filmstrip outside the trim range.
   static const double maskOpacity = 0.6;
 
+  /// The toggle gap.
   static const double toggleGap = 6;
 }

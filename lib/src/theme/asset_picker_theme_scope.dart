@@ -9,14 +9,17 @@ import 'package:kutu_asset_picker/src/theme/resolved_asset_picker_theme.dart';
 /// what lets every chrome widget be pumped standalone in a golden test without
 /// a wrapper.
 final class AssetPickerThemeScope extends InheritedWidget {
+  /// Creates a [AssetPickerThemeScope].
   const AssetPickerThemeScope({
     required this.resolved,
     required super.child,
     super.key,
   });
 
+  /// The resolved.
   final ResolvedAssetPickerTheme resolved;
 
+  /// Of.
   static ResolvedAssetPickerTheme of(BuildContext context) =>
       context
           .dependOnInheritedWidgetOfExactType<AssetPickerThemeScope>()
@@ -28,6 +31,7 @@ final class AssetPickerThemeScope extends InheritedWidget {
       oldWidget.resolved != resolved;
 }
 
+/// Asset picker theme x.
 extension AssetPickerThemeX on BuildContext {
   /// The resolved picker theme. Every widget in the package reads colors and
   /// text styles through this and never through `AssetPickerTheme` directly.

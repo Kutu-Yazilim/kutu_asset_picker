@@ -12,6 +12,9 @@ import 'dart:ui' show Color;
 abstract final class AssetPickerMediaColors {
   const AssetPickerMediaColors._();
 
+  /// The on media.
   static const Color onMedia = Color(0xFFFFFFFF);
+
+  /// The scrim.
   static const Color scrim = Color(0xFF000000);
 }

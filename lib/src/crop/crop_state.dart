@@ -14,6 +14,7 @@ import 'package:flutter/foundation.dart';
 /// whatever the device laid out — see the doc on that constant.
 @immutable
 final class CropState {
+  /// Creates a [CropState].
   const CropState({
     required this.aspect,
     required this.scale,
@@ -32,6 +33,7 @@ final class CropState {
   const CropState.unsized(CropAspect aspect)
       : this(aspect: aspect, scale: 0, offset: Offset.zero);
 
+  /// The aspect.
   final CropAspect aspect;
 
   /// Multiplier on the source's own pixel size. Always `>= scaleToCover`
@@ -50,6 +52,7 @@ final class CropState {
   /// True while this state is still the placeholder from [CropState.unsized].
   bool get isUnsized => scale == 0;
 
+  /// Copy with.
   CropState copyWith({
     CropAspect? aspect,
     double? scale,

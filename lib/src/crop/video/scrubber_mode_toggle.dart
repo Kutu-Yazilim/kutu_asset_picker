@@ -13,6 +13,7 @@ import '../../text/asset_picker_text_scope.dart';
 /// Renders nothing when the config leaves only one mode — the scrubber is then
 /// permanently in that mode and a one-option toggle is noise.
 class ScrubberModeToggle extends ConsumerWidget {
+  /// Creates a [ScrubberModeToggle].
   const ScrubberModeToggle({super.key});
 
   @override

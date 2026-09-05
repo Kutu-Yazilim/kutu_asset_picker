@@ -7,8 +7,10 @@ import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
 
 /// Cancel, title, Done.
 class CropStepAppBar extends ConsumerWidget {
+  /// Creates a [CropStepAppBar].
   const CropStepAppBar({required this.onBack, super.key});
 
+  /// The on back.
   final VoidCallback onBack;
 
   @override

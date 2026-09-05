@@ -8,10 +8,15 @@ import 'package:flutter/painting.dart';
 abstract final class AssetPickerFallbackTextStyles {
   const AssetPickerFallbackTextStyles._();
 
+  /// The title.
   static const TextStyle title =
       TextStyle(fontSize: 16, fontWeight: FontWeight.w600);
+
+  /// The label.
   static const TextStyle label =
       TextStyle(fontSize: 14, fontWeight: FontWeight.w500);
+
+  /// The badge.
   static const TextStyle badge =
       TextStyle(fontSize: 11, fontWeight: FontWeight.w700);
 }

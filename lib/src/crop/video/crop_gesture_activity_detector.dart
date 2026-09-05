@@ -10,8 +10,10 @@ import 'crop_gesture_activity.dart';
 /// arena contention, no changed drag behaviour, and not one line of the crop
 /// gesture code touched.
 class CropGestureActivityDetector extends ConsumerWidget {
+  /// Creates a [CropGestureActivityDetector].
   const CropGestureActivityDetector({super.key, required this.child});
 
+  /// The child.
   final Widget child;
 
   @override

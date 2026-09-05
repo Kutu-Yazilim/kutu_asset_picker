@@ -15,8 +15,10 @@ import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
 /// never moves and never changes height, so the framing area does not resize as
 /// the author tabs between assets (spec §2.7).
 class AssetCropStep extends ConsumerWidget {
+  /// Creates a [AssetCropStep].
   const AssetCropStep({required this.onBack, super.key});
 
+  /// The on back.
   final VoidCallback onBack;
 
   @override

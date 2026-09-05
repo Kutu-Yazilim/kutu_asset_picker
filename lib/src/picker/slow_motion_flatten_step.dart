@@ -19,8 +19,10 @@ import '../source/picker_media_type.dart';
 /// rewrites only when the skew exceeds
 /// `SlowMotionFlattener.durationTolerance`.
 final class SlowMotionFlattenStep {
+  /// Creates a [SlowMotionFlattenStep].
   const SlowMotionFlattenStep({required this.transform});
 
+  /// The transform.
   final MediaTransform transform;
 
   /// The flattened file, or null when [asset] needed no rewrite.

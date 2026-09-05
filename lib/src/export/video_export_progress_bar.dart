@@ -6,6 +6,7 @@ import '../theme/asset_picker_theme_scope.dart';
 
 /// The within-asset progress of a running video export.
 class VideoExportProgressBar extends ConsumerWidget {
+  /// Creates a [VideoExportProgressBar].
   const VideoExportProgressBar({super.key});
 
   @override

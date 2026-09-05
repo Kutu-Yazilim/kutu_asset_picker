@@ -23,6 +23,8 @@ typedef VideoPreviewSource = ({File file, VideoInfo info, int sizeBytes});
 Duration? _noRetry(int retryCount, Object error) => null;
 
 @Riverpod(retry: _noRetry)
+
+/// Video preview source.
 Future<VideoPreviewSource> videoPreviewSource(Ref ref, String assetId) async {
   final config = ref.watch(assetPickerConfigProvider);
   final file = await ref.watch(flattenedAssetSourceProvider).file(assetId);

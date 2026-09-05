@@ -7,6 +7,9 @@
 abstract final class AssetPickerQuality {
   const AssetPickerQuality._();
 
+  /// The thumbnail.
   static const int thumbnail = 85;
+
+  /// The preview.
   static const int preview = 90;
 }

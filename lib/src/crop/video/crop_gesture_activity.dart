@@ -15,12 +15,14 @@ class CropGestureActivity extends _$CropGestureActivity {
   @override
   int build() => 0;
 
+  /// Pointer down.
   void pointerDown() => state = state + 1;
 
   /// Clamped at zero: a pointer that went down before this mounted would
   /// otherwise leave the bar faded out forever.
   void pointerUp() => state = state > 0 ? state - 1 : 0;
 
+  /// Reset.
   void reset() => state = 0;
 }
 

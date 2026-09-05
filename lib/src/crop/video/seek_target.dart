@@ -6,12 +6,16 @@ import 'package:video_player/video_player.dart';
 /// coalescing rules below are the highest-value logic in the video crop step
 /// and they must be testable without a platform player.
 abstract interface class SeekTarget {
+  /// Seek to.
   Future<void> seekTo(Duration position);
 }
 
+/// Video player seek target.
 final class VideoPlayerSeekTarget implements SeekTarget {
+  /// Creates a [VideoPlayerSeekTarget].
   const VideoPlayerSeekTarget(this.controller);
 
+  /// The controller.
   final VideoPlayerController controller;
 
   @override
@@ -24,6 +28,7 @@ final class VideoPlayerSeekTarget implements SeekTarget {
 /// before the player is ready; dropping those seeks is correct, because the
 /// player seeks to the in point when it does become ready.
 final class NoopSeekTarget implements SeekTarget {
+  /// Creates a [NoopSeekTarget].
   const NoopSeekTarget();
 
   @override

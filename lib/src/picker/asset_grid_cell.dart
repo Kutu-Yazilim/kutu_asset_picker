@@ -26,8 +26,10 @@ import 'selection_attempt.dart';
 /// passes `addRepaintBoundaries: false`, so there is exactly one boundary per
 /// cell and it is visible where a reader is looking for it.
 class AssetGridCell extends ConsumerWidget {
+  /// Creates a [AssetGridCell].
   const AssetGridCell({super.key, required this.asset});
 
+  /// The asset.
   final PickerAsset asset;
 
   @override

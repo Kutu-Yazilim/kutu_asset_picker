@@ -12,8 +12,10 @@ import '../../text/asset_picker_text_scope.dart';
 /// Two causes, one surface: a ceiling was exceeded, or the gallery could not
 /// hand over the file at all (spec §4.5's iCloud case).
 class VideoCropErrorView extends ConsumerWidget {
+  /// Creates a [VideoCropErrorView].
   const VideoCropErrorView({super.key, required this.error});
 
+  /// The error.
   final Object error;
 
   @override

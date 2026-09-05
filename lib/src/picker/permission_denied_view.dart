@@ -20,6 +20,7 @@ import '../theme/resolved_asset_picker_theme.dart';
 /// having never touched this screen. Returning from Settings is the only moment
 /// a denied user becomes a granted one without an app restart.
 class PermissionDeniedView extends ConsumerStatefulWidget {
+  /// Creates a [PermissionDeniedView].
   const PermissionDeniedView({super.key});
 
   @override

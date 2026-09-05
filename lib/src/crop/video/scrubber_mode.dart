@@ -10,15 +10,24 @@ part 'scrubber_mode.g.dart';
 /// The cover picker is a second *mode* on the same filmstrip rather than a
 /// second strip: identical frames, identical geometry, identical seek path
 /// (spec §6.3).
-enum ScrubberMode { trim, cover }
+enum ScrubberMode {
+  /// The `trim` variant.
+  trim,
+
+  /// The `cover` variant.
+  cover,
+}
 
 // keepAlive (contract §9): the mode the author chose must not reset when
 // the bar fades out and back during a drag.
 @Riverpod(keepAlive: true)
+
+/// Scrubber mode controller.
 class ScrubberModeController extends _$ScrubberModeController {
   @override
   ScrubberMode build() =>
       initialScrubberMode(ref.watch(assetPickerConfigProvider));
 
+  /// Select.
   void select(ScrubberMode mode) => state = mode;
 }

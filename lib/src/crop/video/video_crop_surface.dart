@@ -11,10 +11,14 @@ import 'video_preview_source.dart';
 /// No `await` here — the wait lives in `videoPreviewSourceProvider` and this
 /// widget only renders its three outcomes (Flutter rule 9).
 class VideoCropSurface extends ConsumerWidget {
+  /// Creates a [VideoCropSurface].
   const VideoCropSurface(
       {super.key, required this.assetId, required this.window});
 
+  /// The asset id.
   final String assetId;
+
+  /// The window.
   final Size window;
 
   @override

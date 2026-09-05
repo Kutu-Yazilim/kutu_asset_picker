@@ -12,21 +12,28 @@ sealed class VideoRejection {
 
   const factory VideoRejection.tooLarge(int maxBytes) = VideoTooLarge;
 
+  /// Message.
   String message(AssetPickerText text);
 }
 
+/// Video too long.
 final class VideoTooLong extends VideoRejection {
+  /// Creates a [VideoTooLong].
   const VideoTooLong(this.max);
 
+  /// The max.
   final Duration max;
 
   @override
   String message(AssetPickerText text) => text.videoTooLong(max);
 }
 
+/// Video too large.
 final class VideoTooLarge extends VideoRejection {
+  /// Creates a [VideoTooLarge].
   const VideoTooLarge(this.maxBytes);
 
+  /// The max bytes.
   final int maxBytes;
 
   @override
@@ -35,8 +42,10 @@ final class VideoTooLarge extends VideoRejection {
 
 /// Thrown by the preview source when a rejected video reaches the crop step.
 final class VideoRejectedException implements Exception {
+  /// Creates a [VideoRejectedException].
   const VideoRejectedException(this.rejection);
 
+  /// The rejection.
   final VideoRejection rejection;
 
   @override
@@ -47,8 +56,10 @@ final class VideoRejectedException implements Exception {
 /// where the thumbnail rendered but the asset lives only in the cloud
 /// (spec §4.5).
 final class VideoUnavailableException implements Exception {
+  /// Creates a [VideoUnavailableException].
   const VideoUnavailableException(this.assetId);
 
+  /// The asset id.
   final String assetId;
 
   @override

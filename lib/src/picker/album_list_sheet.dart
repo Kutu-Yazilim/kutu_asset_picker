@@ -13,6 +13,7 @@ import '../config/picker_tuning.dart';
 /// Popping is navigation, not business logic, so it stays in the tap handler
 /// alongside the single notifier call.
 class AlbumListSheet extends ConsumerWidget {
+  /// Creates a [AlbumListSheet].
   const AlbumListSheet({super.key});
 
   @override

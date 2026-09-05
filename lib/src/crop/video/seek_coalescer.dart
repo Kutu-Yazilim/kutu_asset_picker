@@ -22,6 +22,7 @@ import 'video_crop_constants.dart';
 ///    and the loop repeats until nothing is pending. The last position the
 ///    caller asked for therefore always lands.
 final class SeekCoalescer {
+  /// Creates a [SeekCoalescer].
   SeekCoalescer({
     required SeekTarget target,
     Duration debounce = VideoCropConstants.seekDebounce,
@@ -43,6 +44,7 @@ final class SeekCoalescer {
   /// Whether a seek is outstanding on the platform right now.
   bool get isSeeking => _inFlight;
 
+  /// Request.
   void request(Duration position) {
     if (_disposed) return;
     _pending = position;
@@ -86,6 +88,7 @@ final class SeekCoalescer {
     });
   }
 
+  /// Dispose.
   void dispose() {
     _disposed = true;
     _timer?.cancel();

@@ -11,6 +11,7 @@ import 'album_list_sheet.dart';
 
 /// The app-bar album switcher.
 class AlbumDropdownButton extends ConsumerWidget {
+  /// Creates a [AlbumDropdownButton].
   const AlbumDropdownButton({super.key});
 
   @override

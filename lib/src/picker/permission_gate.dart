@@ -23,6 +23,7 @@ import 'permission_denied_view.dart';
 /// user's situation is identical — no library — and the denied view is the only
 /// surface that carries a way out of it.
 class PermissionGate extends ConsumerWidget {
+  /// Creates a [PermissionGate].
   const PermissionGate({super.key, this.scrollController});
 
   /// The sheet's controller in sheet mode, null in page mode. Threaded through

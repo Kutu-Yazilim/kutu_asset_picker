@@ -31,9 +31,16 @@ sealed class PickedAsset {
   /// The exported file.
   final File file;
 
+  /// The mime type.
   final String mimeType;
+
+  /// The size bytes.
   final int sizeBytes;
+
+  /// The width.
   final int width;
+
+  /// The height.
   final int height;
 
   /// The ratio the author chose, not whatever the source happened to be.
@@ -44,7 +51,10 @@ sealed class PickedAsset {
 }
 
 @immutable
+
+/// Picked image.
 final class PickedImage extends PickedAsset {
+  /// Creates a [PickedImage].
   const PickedImage({
     required super.id,
     required super.file,
@@ -58,7 +68,10 @@ final class PickedImage extends PickedAsset {
 }
 
 @immutable
+
+/// Picked video.
 final class PickedVideo extends PickedAsset {
+  /// Creates a [PickedVideo].
   const PickedVideo({
     required super.id,
     required super.file,

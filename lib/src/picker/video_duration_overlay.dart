@@ -15,8 +15,10 @@ import 'duration_format.dart';
 /// (design §4.5). Those videos stay in the grid — they just have no chip.
 /// Rendering "0:00" on a two-minute clip would be worse than rendering nothing.
 class VideoDurationOverlay extends StatelessWidget {
+  /// Creates a [VideoDurationOverlay].
   const VideoDurationOverlay({super.key, required this.asset});
 
+  /// The asset.
   final PickerAsset asset;
 
   @override

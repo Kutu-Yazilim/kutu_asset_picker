@@ -6,6 +6,7 @@ import '../theme/resolved_asset_picker_theme.dart';
 
 /// One row in the album list.
 class AlbumListTile extends StatelessWidget {
+  /// Creates a [AlbumListTile].
   const AlbumListTile({
     super.key,
     required this.album,
@@ -13,8 +14,13 @@ class AlbumListTile extends StatelessWidget {
     required this.onTap,
   });
 
+  /// The album.
   final PickerAlbum album;
+
+  /// The selected.
   final bool selected;
+
+  /// The on tap.
   final VoidCallback onTap;
 
   @override

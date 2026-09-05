@@ -16,6 +16,7 @@ import '../theme/resolved_asset_picker_theme.dart';
 /// renders when the host app supplied a [PickerCameraDelegate]; the grid checks
 /// that before building it.
 class CameraTile extends ConsumerWidget {
+  /// Creates a [CameraTile].
   const CameraTile({super.key});
 
   @override

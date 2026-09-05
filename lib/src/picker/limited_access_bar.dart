@@ -18,6 +18,7 @@ import '../theme/resolved_asset_picker_theme.dart';
 /// the stale album list afterwards both live in
 /// [AssetPickerAlbums.manageLimitedSelection] (Flutter rule 6).
 class LimitedAccessBar extends ConsumerWidget {
+  /// Creates a [LimitedAccessBar].
   const LimitedAccessBar({super.key});
 
   @override

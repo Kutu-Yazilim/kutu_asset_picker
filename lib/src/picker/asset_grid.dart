@@ -19,8 +19,10 @@ import 'camera_tile.dart';
 /// into the `GridView` is the supported way to make sheet-drag and grid-scroll
 /// hand off instead of fighting (design §5).
 class AssetGrid extends ConsumerWidget {
+  /// Creates a [AssetGrid].
   const AssetGrid({super.key, this.scrollController});
 
+  /// The scroll controller.
   final ScrollController? scrollController;
 
   @override

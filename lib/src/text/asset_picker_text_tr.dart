@@ -10,6 +10,7 @@ import 'asset_picker_text.dart';
 /// `base class`, not `final`, for the same reason [AssetPickerTextEn] is: a
 /// consumer overriding one string writes `extends` plus one getter.
 base class AssetPickerTextTr extends AssetPickerText {
+  /// Creates a [AssetPickerTextTr].
   const AssetPickerTextTr();
 
   @override

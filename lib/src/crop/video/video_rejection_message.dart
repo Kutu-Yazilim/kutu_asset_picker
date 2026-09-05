@@ -10,8 +10,10 @@ import '../../text/asset_picker_text_scope.dart';
 /// The rejection owns its own copy lookup, so nothing here branches on the
 /// subtype — adding a third rejection reason never touches this widget.
 class VideoRejectionMessage extends ConsumerWidget {
+  /// Creates a [VideoRejectionMessage].
   const VideoRejectionMessage({super.key, required this.rejection});
 
+  /// The rejection.
   final VideoRejection rejection;
 
   @override

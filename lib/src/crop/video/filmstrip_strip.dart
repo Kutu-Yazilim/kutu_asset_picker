@@ -11,9 +11,13 @@ import '../../theme/asset_picker_theme_scope.dart';
 /// The whole clip on purpose: the handles slide over it to select a sub-range,
 /// so a strip showing only the current range would move under its own handles.
 class FilmstripStrip extends ConsumerWidget {
+  /// Creates a [FilmstripStrip].
   const FilmstripStrip({super.key, required this.srcPath, required this.total});
 
+  /// The src path.
   final String srcPath;
+
+  /// The total.
   final Duration total;
 
   @override

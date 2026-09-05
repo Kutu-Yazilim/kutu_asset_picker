@@ -13,9 +13,11 @@ import 'crop_viewport.dart';
 /// fills it. This is a move, not a rewrite — the gesture surface, the clamp and
 /// the chrome all still belong to `CropViewport` and `CropStage`.
 class ImageCropSurface extends ConsumerWidget {
+  /// Creates a [ImageCropSurface].
   const ImageCropSurface(
       {super.key, required this.asset, required this.window});
 
+  /// The asset.
   final PickerAsset asset;
 
   /// The crop window `CropStage`'s `LayoutBuilder` computed. Passed down rather

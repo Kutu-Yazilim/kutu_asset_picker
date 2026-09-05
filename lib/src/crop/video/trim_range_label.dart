@@ -7,9 +7,13 @@ import '../../text/asset_picker_text_scope.dart';
 
 /// The kept range, in words.
 class TrimRangeLabel extends ConsumerWidget {
+  /// Creates a [TrimRangeLabel].
   const TrimRangeLabel({super.key, required this.assetId, required this.total});
 
+  /// The asset id.
   final String assetId;
+
+  /// The total.
   final Duration total;
 
   @override

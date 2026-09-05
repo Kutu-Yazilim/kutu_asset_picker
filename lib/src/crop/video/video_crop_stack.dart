@@ -18,6 +18,7 @@ import 'video_preview_source.dart';
 /// the window the photo branch is handed. That is the whole point of spec §2.7
 /// — tabbing between a photo and a video must not resize anything.
 class VideoCropStack extends ConsumerWidget {
+  /// Creates a [VideoCropStack].
   const VideoCropStack({
     super.key,
     required this.assetId,
@@ -25,7 +26,10 @@ class VideoCropStack extends ConsumerWidget {
     required this.window,
   });
 
+  /// The asset id.
   final String assetId;
+
+  /// The preview.
   final VideoPreviewSource preview;
 
   /// The crop window `CropStage` computed for the focused aspect.

@@ -13,6 +13,7 @@ import 'video_crop_constants.dart';
 /// which overlay sits on top. That is what "the cover picker is a second mode
 /// on the same scrubber infrastructure" means concretely (spec §6.3).
 class VideoScrubber extends ConsumerWidget {
+  /// Creates a [VideoScrubber].
   const VideoScrubber({
     super.key,
     required this.assetId,
@@ -20,8 +21,13 @@ class VideoScrubber extends ConsumerWidget {
     required this.srcPath,
   });
 
+  /// The asset id.
   final String assetId;
+
+  /// The total.
   final Duration total;
+
+  /// The src path.
   final String srcPath;
 
   @override

@@ -20,13 +20,17 @@ import 'picker_body.dart';
 /// without claiming the whole screen, which is how slice 4's
 /// `KutuAssetPicker.show` presents it.
 class AssetPickerSheet extends ConsumerWidget {
+  /// Creates a [AssetPickerSheet].
   const AssetPickerSheet({
     super.key,
     required this.onNext,
     required this.onCancel,
   });
 
+  /// The on next.
   final VoidCallback onNext;
+
+  /// The on cancel.
   final VoidCallback onCancel;
 
   @override

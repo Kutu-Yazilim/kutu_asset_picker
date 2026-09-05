@@ -18,6 +18,7 @@ class CameraCapture extends _$CameraCapture {
   @override
   bool build() => false;
 
+  /// Capture.
   Future<void> capture() async {
     if (state) {
       return;

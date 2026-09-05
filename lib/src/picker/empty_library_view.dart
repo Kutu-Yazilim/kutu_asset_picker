@@ -19,6 +19,7 @@ import '../theme/resolved_asset_picker_theme.dart';
 /// importing `limited_empty_view.dart` here just to resolve a `[]` would be an
 /// unused import, and this package's analysis options treat those as errors.
 class EmptyLibraryView extends ConsumerWidget {
+  /// Creates a [EmptyLibraryView].
   const EmptyLibraryView({super.key});
 
   @override

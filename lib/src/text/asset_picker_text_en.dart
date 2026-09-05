@@ -4,6 +4,7 @@ import 'asset_picker_text.dart';
 
 /// English strings — the package default.
 base class AssetPickerTextEn extends AssetPickerText {
+  /// Creates a [AssetPickerTextEn].
   const AssetPickerTextEn();
 
   @override

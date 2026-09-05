@@ -58,6 +58,7 @@ class Selection extends _$Selection {
     );
   }
 
+  /// Reorder.
   void reorder(int oldIndex, int newIndex) {
     if (oldIndex < 0 || oldIndex >= state.length) {
       return;
@@ -73,6 +74,7 @@ class Selection extends _$Selection {
     state = next;
   }
 
+  /// Can select more.
   bool canSelectMore() =>
       state.length < ref.read(assetPickerConfigProvider).maxSelection;
 

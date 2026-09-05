@@ -12,6 +12,7 @@ import '../../theme/asset_picker_theme_scope.dart';
 /// the seek goes through the same coalescer — the whole of "cover picking" is
 /// this overlay swapping in for the handles.
 class CoverCursorOverlay extends ConsumerWidget {
+  /// Creates a [CoverCursorOverlay].
   const CoverCursorOverlay({
     super.key,
     required this.assetId,
@@ -19,10 +20,16 @@ class CoverCursorOverlay extends ConsumerWidget {
     required this.trackWidth,
   });
 
+  /// The cursor key.
   static const Key cursorKey = Key('cover-cursor');
 
+  /// The asset id.
   final String assetId;
+
+  /// The total.
   final Duration total;
+
+  /// The track width.
   final double trackWidth;
 
   @override

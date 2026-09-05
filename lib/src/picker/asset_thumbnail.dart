@@ -22,8 +22,10 @@ import 'thumbnail_fallback.dart';
 /// what defers decodes during a fling (flutter#48536). The whole product feel
 /// of the grid rests on this one structural choice.
 class AssetThumbnail extends ConsumerWidget {
+  /// Creates a [AssetThumbnail].
   const AssetThumbnail({super.key, required this.asset});
 
+  /// The asset.
   final PickerAsset asset;
 
   @override

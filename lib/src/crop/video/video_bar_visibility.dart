@@ -9,5 +9,6 @@ bool showsFloatingVideoBar(AssetPickerConfig config) =>
 bool showsScrubberModeToggle(AssetPickerConfig config) =>
     config.enableTrim && config.enableCoverFrame;
 
+/// Initial scrubber mode.
 ScrubberMode initialScrubberMode(AssetPickerConfig config) =>
     config.enableTrim ? ScrubberMode.trim : ScrubberMode.cover;

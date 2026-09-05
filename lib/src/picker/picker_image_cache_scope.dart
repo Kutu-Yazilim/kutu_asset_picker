@@ -34,13 +34,17 @@ int pickerImageCacheBytes(ThumbSize size) {
 /// The restore is not optional: leaving the host app with an inflated image
 /// cache after the picker closes is a memory leak with a UI.
 class PickerImageCacheScope extends StatefulWidget {
+  /// Creates a [PickerImageCacheScope].
   const PickerImageCacheScope({
     super.key,
     required this.thumbSize,
     required this.child,
   });
 
+  /// The thumb size.
   final ThumbSize thumbSize;
+
+  /// The child.
   final Widget child;
 
   @override

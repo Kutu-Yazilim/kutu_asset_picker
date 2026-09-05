@@ -24,8 +24,10 @@ import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
 /// a drag affordance that does nothing. Drag-to-dismiss belongs to the modal
 /// route `KutuAssetPicker.show` created, which is still there underneath.
 class CropStepHost extends ConsumerWidget {
+  /// Creates a [CropStepHost].
   const CropStepHost({required this.onBack, super.key});
 
+  /// The on back.
   final VoidCallback onBack;
 
   @override

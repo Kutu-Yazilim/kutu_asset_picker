@@ -2,4 +2,10 @@
 ///
 /// Audio is out of scope (design §14) and `photo_manager`'s `AssetType.other`
 /// is never surfaced.
-enum PickerMediaType { image, video }
+enum PickerMediaType {
+  /// The `image` variant.
+  image,
+
+  /// The `video` variant.
+  video,
+}

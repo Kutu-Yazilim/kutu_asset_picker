@@ -6,7 +6,14 @@ import 'video_crop_constants.dart';
 import 'video_trim_controller.dart';
 import '../../theme/asset_picker_theme_scope.dart';
 
-enum TrimHandleSide { start, end }
+/// Trim handle side.
+enum TrimHandleSide {
+  /// The `start` variant.
+  start,
+
+  /// The `end` variant.
+  end,
+}
 
 /// One draggable end of the trim range.
 ///
@@ -14,6 +21,7 @@ enum TrimHandleSide { start, end }
 /// position, because the handle moves with the value it sets: an absolute read
 /// of `localPosition` inside a moving box chases itself.
 class TrimHandle extends ConsumerWidget {
+  /// Creates a [TrimHandle].
   const TrimHandle({
     super.key,
     required this.assetId,
@@ -22,9 +30,16 @@ class TrimHandle extends ConsumerWidget {
     required this.side,
   });
 
+  /// The asset id.
   final String assetId;
+
+  /// The total.
   final Duration total;
+
+  /// The track width.
   final double trackWidth;
+
+  /// The side.
   final TrimHandleSide side;
 
   @override

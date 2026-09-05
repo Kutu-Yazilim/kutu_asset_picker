@@ -26,6 +26,7 @@ import 'package:kutu_asset_picker/src/providers/injection_providers.dart';
 /// passes the video player, and the identical `ClipRect` + `Transform` stack
 /// sits over it, so both media types get one interaction model (spec §6.3).
 class CropViewport extends HookConsumerWidget {
+  /// Creates a [CropViewport].
   const CropViewport({
     required this.assetId,
     required this.imageSize,
@@ -34,6 +35,7 @@ class CropViewport extends HookConsumerWidget {
     super.key,
   });
 
+  /// The asset id.
   final String assetId;
 
   /// The media's own pixel size, already display-oriented.
@@ -42,6 +44,7 @@ class CropViewport extends HookConsumerWidget {
   /// The crop window, in layout logical pixels.
   final Size window;
 
+  /// The child.
   final Widget child;
 
   @override

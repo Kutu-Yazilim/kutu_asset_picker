@@ -11,8 +11,10 @@ import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
 /// composition aid, not decoration, and a permanently visible grid competes
 /// with the photograph the author is trying to look at.
 class CropThirdsOverlay extends ConsumerWidget {
+  /// Creates a [CropThirdsOverlay].
   const CropThirdsOverlay({required this.window, super.key});
 
+  /// The window.
   final Size window;
 
   @override

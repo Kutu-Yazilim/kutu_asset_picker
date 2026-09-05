@@ -10,8 +10,10 @@ import 'empty_library_view.dart';
 /// The mirror image of `LimitedAccessBody`, minus the bar — same grid, same
 /// controller handoff, different empty state.
 class FullAccessBody extends ConsumerWidget {
+  /// Creates a [FullAccessBody].
   const FullAccessBody({super.key, this.scrollController});
 
+  /// The scroll controller.
   final ScrollController? scrollController;
 
   @override

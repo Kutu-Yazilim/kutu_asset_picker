@@ -4,8 +4,13 @@
 /// renders the same grid over the granted subset plus a permanent
 /// *Manage selection* bar (design §2.10, §4.2).
 enum PickerPermission {
+  /// The `full` variant.
   full,
+
+  /// The `limited` variant.
   limited,
+
+  /// The `denied` variant.
   denied;
 
   /// Whether the library can be read at all.

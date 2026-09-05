@@ -13,13 +13,17 @@ import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
 /// Mount inside a `Positioned.fill` — the painter needs the stage's full size
 /// to know what to dim.
 class CropDimmingMask extends StatelessWidget {
+  /// Creates a [CropDimmingMask].
   const CropDimmingMask({
     required this.window,
     required this.shape,
     super.key,
   });
 
+  /// The window.
   final Size window;
+
+  /// The shape.
   final CropOverlayShape shape;
 
   @override

@@ -63,10 +63,12 @@ DurationRange trimWithEnd(
 Duration clampCoverAt(Duration proposed, DurationRange trim) =>
     _clamp(proposed, trim.start, trim.end);
 
+/// Time at fraction.
 Duration timeAtFraction(double fraction, Duration total) => Duration(
       microseconds: (total.inMicroseconds * fraction.clamp(0.0, 1.0)).round(),
     );
 
+/// Fraction of time.
 double fractionOfTime(Duration time, Duration total) =>
     total.inMicroseconds == 0
         ? 0

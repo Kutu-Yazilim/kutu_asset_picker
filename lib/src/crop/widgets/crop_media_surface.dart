@@ -11,10 +11,14 @@ import '../../source/picker_media_type.dart';
 /// Both arms are handed the same [window], which is the whole reason the crop
 /// area cannot change size between a photo and a video (spec §2.7).
 class CropMediaSurface extends ConsumerWidget {
+  /// Creates a [CropMediaSurface].
   const CropMediaSurface(
       {super.key, required this.asset, required this.window});
 
+  /// The asset.
   final PickerAsset asset;
+
+  /// The window.
   final Size window;
 
   @override

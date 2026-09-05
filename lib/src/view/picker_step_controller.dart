@@ -10,9 +10,17 @@ part 'picker_step_controller.g.dart';
 /// above the grid would make the picker hold live crop state for every selected
 /// asset and force the cropper to be built into two different hosts (spec
 /// §2.6).
-enum AssetPickerStep { grid, crop }
+enum AssetPickerStep {
+  /// The `grid` variant.
+  grid,
+
+  /// The `crop` variant.
+  crop,
+}
 
 @Riverpod(keepAlive: true)
+
+/// Picker step controller.
 class PickerStepController extends _$PickerStepController {
   @override
   AssetPickerStep build() => AssetPickerStep.grid;
@@ -32,5 +40,6 @@ class PickerStepController extends _$PickerStepController {
     unawaited(ref.read(exportControllerProvider.notifier).run());
   }
 
+  /// Back.
   void back() => state = AssetPickerStep.grid;
 }

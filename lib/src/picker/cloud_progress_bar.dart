@@ -15,6 +15,7 @@ import '../theme/resolved_asset_picker_theme.dart';
 /// on screen after a failure so the user gets *Retry* rather than a bar that
 /// vanishes and a *Next* that silently does nothing.
 class CloudProgressBar extends ConsumerWidget {
+  /// Creates a [CloudProgressBar].
   const CloudProgressBar({super.key});
 
   @override

@@ -14,8 +14,10 @@ import 'crop_media_surface.dart';
 /// The crop window is derived here from the laid-out space and the focused
 /// asset's ratio; everything below works in the window it is handed.
 class CropStage extends ConsumerWidget {
+  /// Creates a [CropStage].
   const CropStage({required this.asset, super.key});
 
+  /// The asset.
   final PickerAsset asset;
 
   @override

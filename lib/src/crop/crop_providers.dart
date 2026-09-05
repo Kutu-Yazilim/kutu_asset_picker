@@ -48,6 +48,7 @@ class CropStates extends _$CropStates {
         ref.read(assetPickerConfigProvider).effectiveInitialAspect,
       );
 
+  /// Update.
   void update(String assetId, CropState next) =>
       state = {...state, assetId: next};
 
@@ -106,6 +107,7 @@ class FocusedAsset extends _$FocusedAsset {
   @override
   String? build() => null;
 
+  /// Focus.
   void focus(String assetId) => state = assetId;
 }
 
@@ -119,7 +121,9 @@ class CropInteraction extends _$CropInteraction {
   @override
   bool build() => false;
 
+  /// Begin.
   void begin() => state = true;
 
+  /// End.
   void end() => state = false;
 }

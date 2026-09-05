@@ -16,12 +16,15 @@ part 'picker_commit_provider.g.dart';
 /// The pre-flight's progress, per asset and in aggregate.
 @immutable
 final class PickerCommitState {
+  /// Creates a [PickerCommitState].
   const PickerCommitState({required this.running, required this.byAsset});
 
+  /// Creates a [PickerCommitState] via `idle`.
   const PickerCommitState.idle()
       : running = false,
         byAsset = const <String, AssetAvailability>{};
 
+  /// The running.
   final bool running;
 
   /// Asset id → where that asset is. Empty when idle.
@@ -33,6 +36,7 @@ final class PickerCommitState {
           if (entry.value is AssetUnavailable) entry.key,
       ];
 
+  /// The has failures.
   bool get hasFailures =>
       byAsset.values.any((AssetAvailability a) => a is AssetUnavailable);
 
@@ -54,6 +58,7 @@ final class PickerCommitState {
     return total / byAsset.length;
   }
 
+  /// Copy with.
   PickerCommitState copyWith({
     bool? running,
     Map<String, AssetAvailability>? byAsset,

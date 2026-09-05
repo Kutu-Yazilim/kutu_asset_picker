@@ -19,8 +19,10 @@ import 'video_export_constants.dart';
 /// the range, the poster, both `enableCoverFrame` branches and the retry — is
 /// testable against a fake transform without going through the queue.
 final class VideoExportStep {
+  /// Creates a [VideoExportStep].
   const VideoExportStep({required this.transform});
 
+  /// The transform.
   final MediaTransform transform;
 
   /// Spec §4.5: `AVAssetExportSession` failing on a freshly-downloaded iCloud
@@ -29,6 +31,7 @@ final class VideoExportStep {
   /// would otherwise cost the author twice the wait before the same error.
   static const int attempts = 2;
 
+  /// Export.
   Future<PickedVideo> export({
     required PickerAsset asset,
     required File source,

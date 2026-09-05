@@ -13,8 +13,10 @@ import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
 /// Rendering is gated by [CropAspectChipRow]: with one asset, or with
 /// `allowPerAssetAspect: false`, there is nothing for it to do.
 class CropApplyToAllButton extends ConsumerWidget {
+  /// Creates a [CropApplyToAllButton].
   const CropApplyToAllButton({required this.aspect, super.key});
 
+  /// The aspect.
   final CropAspect aspect;
 
   @override

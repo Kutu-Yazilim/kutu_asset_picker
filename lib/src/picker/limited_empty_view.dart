@@ -20,6 +20,7 @@ import '../theme/resolved_asset_picker_theme.dart';
 /// So it states what is actually known — the visible set is the granted set —
 /// and offers the one control that changes it.
 class LimitedEmptyView extends ConsumerWidget {
+  /// Creates a [LimitedEmptyView].
   const LimitedEmptyView({super.key});
 
   @override

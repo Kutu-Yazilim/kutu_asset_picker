@@ -26,9 +26,13 @@ import 'package:flutter/material.dart';
 /// iCloud video that will not download must not cost the author the nine photos
 /// that exported fine.
 final class ExportQueue {
+  /// Creates a [ExportQueue].
   ExportQueue({required this.transform, required this.source});
 
+  /// The transform.
   final MediaTransform transform;
+
+  /// The source.
   final AssetSource source;
 
   final List<ExportFailure> _failures = <ExportFailure>[];
@@ -37,6 +41,7 @@ final class ExportQueue {
   List<ExportFailure> get failures =>
       List<ExportFailure>.unmodifiable(_failures);
 
+  /// Run.
   Future<List<PickedAsset>> run(
     List<PickerAsset> assets,
     CropState Function(String id) stateOf,

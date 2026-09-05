@@ -8,8 +8,10 @@ import 'dart:typed_data';
 /// `gaplessPlayback` because the strip is re-extracted when the source path
 /// changes, and a flash to blank between two strips reads as a glitch.
 class FilmstripFrameTile extends StatelessWidget {
+  /// Creates a [FilmstripFrameTile].
   const FilmstripFrameTile({super.key, required this.bytes});
 
+  /// The bytes.
   final Uint8List bytes;
 
   @override

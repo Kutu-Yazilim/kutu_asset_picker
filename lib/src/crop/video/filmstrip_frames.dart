@@ -22,6 +22,7 @@ typedef FilmstripRequest = ({
   int frameEdge,
 });
 
+/// Filmstrip request for.
 FilmstripRequest filmstripRequestFor(String srcPath, DurationRange range) => (
       srcPath: srcPath,
       startMicros: range.start.inMicroseconds,

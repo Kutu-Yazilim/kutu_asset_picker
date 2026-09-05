@@ -17,13 +17,17 @@ import 'asset_picker_sheet.dart';
 /// builds `PickerGridStep(onNext: …, onCancel: …)` as the grid branch of its
 /// two-step view; the parameter names, order and optionality must not change.
 class PickerGridStep extends ConsumerWidget {
+  /// Creates a [PickerGridStep].
   const PickerGridStep({
     required this.onNext,
     required this.onCancel,
     super.key,
   });
 
+  /// The on next.
   final VoidCallback onNext;
+
+  /// The on cancel.
   final VoidCallback onCancel;
 
   @override

@@ -11,6 +11,7 @@ import '../theme/asset_picker_theme_scope.dart';
 /// Occupies no space at all when nothing has been refused, so the grid's
 /// layout does not shift the first time someone taps a too-long clip.
 class SelectionRejectionBanner extends ConsumerWidget {
+  /// Creates a [SelectionRejectionBanner].
   const SelectionRejectionBanner({super.key});
 
   @override

@@ -9,6 +9,7 @@ import '../config/picker_tuning.dart';
 /// A neutral tile, not an error dialog: one unreadable asset in a library of
 /// thousands is a normal occurrence and must not interrupt browsing.
 class ThumbnailFallback extends StatelessWidget {
+  /// Creates a [ThumbnailFallback].
   const ThumbnailFallback({super.key});
 
   @override

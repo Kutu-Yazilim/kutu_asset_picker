@@ -12,7 +12,9 @@ class VideoExportFraction extends _$VideoExportFraction {
   @override
   double build() => 0;
 
+  /// Report.
   void report(double fraction) => state = fraction.clamp(0.0, 1.0);
 
+  /// Reset.
   void reset() => state = 0;
 }

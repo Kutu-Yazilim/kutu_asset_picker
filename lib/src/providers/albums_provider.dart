@@ -71,6 +71,7 @@ class CurrentAlbum extends _$CurrentAlbum {
   @override
   PickerAlbum? build() => null;
 
+  /// Select.
   void select(PickerAlbum album) => state = album;
 
   /// Clears the selection — the library has no albums to show.

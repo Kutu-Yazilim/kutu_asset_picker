@@ -12,14 +12,20 @@ import 'package:kutu_media_transform/kutu_media_transform.dart';
 /// unstated one.
 @immutable
 final class PickerAssetKey {
+  /// Creates a [PickerAssetKey].
   const PickerAssetKey({
     required this.assetId,
     required this.size,
     required this.quality,
   });
 
+  /// The asset id.
   final String assetId;
+
+  /// The size.
   final ThumbSize size;
+
+  /// The quality.
   final int quality;
 
   @override

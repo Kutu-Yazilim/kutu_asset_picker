@@ -14,6 +14,7 @@ import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
 /// Tapping runs `CropStates.setAspect`, which is rule 3 of spec §6.2 — the
 /// widget itself decides nothing.
 class CropAspectChip extends ConsumerWidget {
+  /// Creates a [CropAspectChip].
   const CropAspectChip({
     required this.assetId,
     required this.aspect,
@@ -21,8 +22,13 @@ class CropAspectChip extends ConsumerWidget {
     super.key,
   });
 
+  /// The asset id.
   final String assetId;
+
+  /// The aspect.
   final CropAspect aspect;
+
+  /// The is selected.
   final bool isSelected;
 
   @override

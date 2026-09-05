@@ -24,6 +24,7 @@ class SelectionAttempt extends _$SelectionAttempt {
   @override
   VideoRejection? build() => null;
 
+  /// Toggle.
   void toggle(PickerAsset asset) {
     // Deselecting is never guarded: an asset already in the selection must
     // always be removable, whatever the config says about it now.
@@ -43,5 +44,6 @@ class SelectionAttempt extends _$SelectionAttempt {
     ref.read(selectionProvider.notifier).toggleAsset(asset);
   }
 
+  /// Dismiss.
   void dismiss() => state = null;
 }

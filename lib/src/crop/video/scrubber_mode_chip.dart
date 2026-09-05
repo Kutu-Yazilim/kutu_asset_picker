@@ -7,6 +7,7 @@ import '../../theme/asset_picker_theme_scope.dart';
 
 /// One mode of the scrubber, as a tappable chip.
 class ScrubberModeChip extends ConsumerWidget {
+  /// Creates a [ScrubberModeChip].
   const ScrubberModeChip({
     super.key,
     required this.label,
@@ -14,8 +15,13 @@ class ScrubberModeChip extends ConsumerWidget {
     required this.selected,
   });
 
+  /// The label.
   final String label;
+
+  /// The mode.
   final ScrubberMode mode;
+
+  /// The selected.
   final bool selected;
 
   @override

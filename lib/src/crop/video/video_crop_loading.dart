@@ -7,6 +7,7 @@ import '../../theme/asset_picker_theme_scope.dart';
 /// Sized to fill, so the area it occupies is the area the viewport will
 /// occupy — nothing jumps when the player arrives.
 class VideoCropLoading extends ConsumerWidget {
+  /// Creates a [VideoCropLoading].
   const VideoCropLoading({super.key});
 
   @override

@@ -12,18 +12,28 @@ import 'picker_permission.dart';
 
 /// One recorded `albums()` call.
 final class FakeAlbumQuery {
+  /// Creates a [FakeAlbumQuery].
   const FakeAlbumQuery(this.kinds, this.maxVideoDuration);
 
+  /// The kinds.
   final Set<PickerMediaType> kinds;
+
+  /// The max video duration.
   final Duration? maxVideoDuration;
 }
 
 /// One recorded `assets()` call.
 final class FakeAssetQuery {
+  /// Creates a [FakeAssetQuery].
   const FakeAssetQuery(this.albumId, this.offset, this.count);
 
+  /// The album id.
   final String albumId;
+
+  /// The offset.
   final int offset;
+
+  /// The count.
   final int count;
 }
 
@@ -34,14 +44,22 @@ final class FakeAssetQuery {
 /// calls — which is exactly what the limited-access flow needs.
 /// One recorded `prefetch()` call.
 final class FakePrefetchQuery {
+  /// Creates a [FakePrefetchQuery].
   const FakePrefetchQuery(this.ids, this.size, this.quality);
 
+  /// The ids.
   final List<String> ids;
+
+  /// The size.
   final ThumbSize size;
+
+  /// The quality.
   final int quality;
 }
 
+/// Fake asset source.
 final class FakeAssetSource implements AssetSource {
+  /// Creates a [FakeAssetSource].
   FakeAssetSource({
     this.permission = PickerPermission.full,
     List<PickerAlbum> albumList = const <PickerAlbum>[],
@@ -88,10 +106,16 @@ final class FakeAssetSource implements AssetSource {
   /// Artificial latency for [albums] and [assets].
   Duration? queryDelay;
 
+  /// The permission requests.
   final List<Set<PickerMediaType>> permissionRequests =
       <Set<PickerMediaType>>[];
+
+  /// The album queries.
   final List<FakeAlbumQuery> albumQueries = <FakeAlbumQuery>[];
+
+  /// The asset queries.
   final List<FakeAssetQuery> assetQueries = <FakeAssetQuery>[];
+  /// How many times [manageLimitedSelection] was called.
   int manageLimitedSelectionCalls = 0;
 
   final Map<String, Completer<File?>> _pending = <String, Completer<File?>>{};
@@ -213,6 +237,7 @@ final class FakeAssetSource implements AssetSource {
   /// Makes [prefetch] throw, so callers can be proved to guard.
   bool prefetchThrows = false;
 
+  /// The prefetch queries.
   final List<FakePrefetchQuery> prefetchQueries = <FakePrefetchQuery>[];
 
   @override

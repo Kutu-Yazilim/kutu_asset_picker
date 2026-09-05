@@ -17,8 +17,10 @@ import 'album_dropdown_button.dart';
 /// behind it — passes its own, because the widget is embeddable and popping
 /// somebody else's route is not the picker's call to make.
 class PickerAppBar extends ConsumerWidget implements PreferredSizeWidget {
+  /// Creates a [PickerAppBar].
   const PickerAppBar({super.key, this.onCancel});
 
+  /// The on cancel.
   final VoidCallback? onCancel;
 
   @override

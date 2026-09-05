@@ -21,9 +21,13 @@ import 'slow_motion_progress_bar.dart';
 /// [scrollController] is the sheet's controller in sheet mode and null in page
 /// mode; it is threaded down to the grid untouched.
 class PickerBody extends ConsumerWidget {
+  /// Creates a [PickerBody].
   const PickerBody({super.key, required this.onNext, this.scrollController});
 
+  /// The on next.
   final VoidCallback onNext;
+
+  /// The scroll controller.
   final ScrollController? scrollController;
 
   @override

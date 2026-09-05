@@ -8,14 +8,20 @@ import 'package:flutter/foundation.dart';
 /// author the nine photos that exported fine.
 @immutable
 final class ExportFailure {
+  /// Creates a [ExportFailure].
   const ExportFailure({
     required this.assetId,
     required this.failure,
     required this.message,
   });
 
+  /// The asset id.
   final String assetId;
+
+  /// The failure.
   final TransformFailure failure;
+
+  /// The message.
   final String message;
 
   @override

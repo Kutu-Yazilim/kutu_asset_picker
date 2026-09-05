@@ -20,6 +20,7 @@ import '../../theme/asset_picker_theme_scope.dart';
 /// of the frame being framed. The fade is the mitigation: it disappears the
 /// moment a finger lands on the footage and returns on release.
 class FloatingVideoBar extends ConsumerWidget {
+  /// Creates a [FloatingVideoBar].
   const FloatingVideoBar({
     super.key,
     required this.assetId,
@@ -27,8 +28,13 @@ class FloatingVideoBar extends ConsumerWidget {
     required this.srcPath,
   });
 
+  /// The asset id.
   final String assetId;
+
+  /// The total.
   final Duration total;
+
+  /// The src path.
   final String srcPath;
 
   @override

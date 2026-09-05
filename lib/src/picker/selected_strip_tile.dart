@@ -16,8 +16,10 @@ import 'asset_thumbnail.dart';
 /// strip and deselecting from the grid are the same operation and the badge
 /// numbers renumber identically either way.
 class SelectedStripTile extends ConsumerWidget {
+  /// Creates a [SelectedStripTile].
   const SelectedStripTile({super.key, required this.asset});
 
+  /// The asset.
   final PickerAsset asset;
 
   @override

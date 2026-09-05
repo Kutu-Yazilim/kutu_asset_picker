@@ -22,8 +22,10 @@ import '../theme/resolved_asset_picker_theme.dart';
 /// ordering is design §4.5's whole point: the failure has to be found here,
 /// with a progress bar and a *Retry*, not two screens later at export.
 class PickerFooter extends ConsumerWidget {
+  /// Creates a [PickerFooter].
   const PickerFooter({super.key, required this.onNext});
 
+  /// The on next.
   final VoidCallback onNext;
 
   @override

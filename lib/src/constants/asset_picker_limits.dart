@@ -15,5 +15,7 @@ abstract final class AssetPickerLimits {
   /// animation, so a fling here decelerates exactly like every other Flutter
   /// surface.
   static const double flingDrag = 0.0000135;
+
+  /// The fling motionless.
   static const double flingMotionless = 10;
 }

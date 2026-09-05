@@ -15,6 +15,7 @@ import 'package:kutu_asset_picker/src/providers/selection_provider.dart';
 /// assets was rejected because a horizontal drag inside the crop window is
 /// ambiguous — it fights pan.
 class CropAssetRail extends ConsumerWidget {
+  /// Creates a [CropAssetRail].
   const CropAssetRail({super.key});
 
   @override

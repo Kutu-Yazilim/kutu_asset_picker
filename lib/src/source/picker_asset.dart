@@ -8,6 +8,7 @@ import 'picker_media_type.dart';
 /// value type every other layer works with (design §4.1).
 @immutable
 final class PickerAsset {
+  /// Creates a [PickerAsset].
   const PickerAsset({
     required this.id,
     required this.type,
@@ -22,6 +23,7 @@ final class PickerAsset {
   /// `PHAsset.localIdentifier` on iOS/macOS.
   final String id;
 
+  /// The type.
   final PickerMediaType type;
 
   /// Reported pixel dimensions.
@@ -31,8 +33,11 @@ final class PickerAsset {
   /// Android-only and always 0 on iOS/macOS (design §7.2), so using it would
   /// make the same photo report different dimensions per platform.
   final int width;
+
+  /// The height.
   final int height;
 
+  /// The created at.
   final DateTime createdAt;
 
   /// Null for images, and also null for a video whose duration metadata is
@@ -41,6 +46,7 @@ final class PickerAsset {
   /// vanishes the video.
   final Duration? duration;
 
+  /// The is live photo.
   final bool isLivePhoto;
 
   @override
