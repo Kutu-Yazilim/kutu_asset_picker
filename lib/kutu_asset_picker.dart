@@ -31,3 +31,5 @@ export 'src/providers/camera_capture_provider.dart';
 export 'src/providers/picker_commit_provider.dart';
 export 'src/source/asset_availability.dart';
 export 'src/providers/library_empty_provider.dart';
+export 'src/picker/asset_picker_view.dart';
+export 'src/picker/picker_grid_step.dart';
