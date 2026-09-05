@@ -11,8 +11,15 @@ import 'album_dropdown_button.dart';
 ///
 /// *Next* deliberately lives in the footer with the selected strip rather than
 /// here, so the count, the strip and the primary action are one block.
+///
+/// [onCancel] is optional and defaults to `Navigator.maybePop`. A host that
+/// owns the route — `AssetPickerView`, and slice 4's `KutuAssetPicker.show`
+/// behind it — passes its own, because the widget is embeddable and popping
+/// somebody else's route is not the picker's call to make.
 class PickerAppBar extends ConsumerWidget implements PreferredSizeWidget {
-  const PickerAppBar({super.key});
+  const PickerAppBar({super.key, this.onCancel});
+
+  final VoidCallback? onCancel;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -29,7 +36,10 @@ class PickerAppBar extends ConsumerWidget implements PreferredSizeWidget {
       leading: IconButton(
         tooltip: text.pickerCancel,
         icon: const Icon(Icons.close),
-        onPressed: () => Navigator.of(context).maybePop(),
+        onPressed: onCancel ??
+            () {
+              Navigator.of(context).maybePop();
+            },
       ),
       title: const AlbumDropdownButton(),
     );
