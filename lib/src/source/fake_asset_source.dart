@@ -32,6 +32,15 @@ final class FakeAssetQuery {
 ///
 /// Every field is public and mutable so a test can reshape the library between
 /// calls — which is exactly what the limited-access flow needs.
+/// One recorded `prefetch()` call.
+final class FakePrefetchQuery {
+  const FakePrefetchQuery(this.ids, this.size, this.quality);
+
+  final List<String> ids;
+  final ThumbSize size;
+  final int quality;
+}
+
 final class FakeAssetSource implements AssetSource {
   FakeAssetSource({
     this.permission = PickerPermission.full,
@@ -181,5 +190,23 @@ final class FakeAssetSource implements AssetSource {
   @override
   Future<void> manageLimitedSelection(Set<PickerMediaType> kinds) async {
     manageLimitedSelectionCalls += 1;
+  }
+
+  /// Makes [prefetch] throw, so callers can be proved to guard.
+  bool prefetchThrows = false;
+
+  final List<FakePrefetchQuery> prefetchQueries = <FakePrefetchQuery>[];
+
+  @override
+  Future<void> prefetch(
+    List<String> ids,
+    ThumbSize size, {
+    int quality = 85,
+  }) async {
+    prefetchQueries.add(FakePrefetchQuery(List<String>.of(ids), size, quality));
+    if (prefetchThrows) {
+      throw StateError(
+          'PhotoCachingManager is experimental and just proved it.');
+    }
   }
 }

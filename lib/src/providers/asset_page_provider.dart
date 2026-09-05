@@ -51,6 +51,7 @@ class AssetPage extends _$AssetPage {
     );
     _offset = page.length;
     _endReached = page.length < PickerGridTuning.pageSize;
+    unawaited(_warmAhead(page));
     return page;
   }
 
@@ -76,8 +77,28 @@ class AssetPage extends _$AssetPage {
       _offset += next.length;
       _endReached = next.length < PickerGridTuning.pageSize;
       state = AsyncData<List<PickerAsset>>(<PickerAsset>[...current, ...next]);
+      unawaited(_warmAhead(next));
     } finally {
       _loading = false;
+    }
+  }
+
+  /// Warms the platform thumbnail cache for a page that has just landed.
+  ///
+  /// Fire-and-forget and double-guarded: the implementation swallows, and this
+  /// swallows again, so paging survives a plugin that starts throwing.
+  Future<void> _warmAhead(List<PickerAsset> page) async {
+    if (page.isEmpty) {
+      return;
+    }
+    try {
+      await ref.read(assetSourceProvider).prefetch(
+        <String>[for (final PickerAsset asset in page) asset.id],
+        ref.read(assetPickerConfigProvider).thumbSize,
+        quality: PickerGridTuning.thumbnailQuality,
+      );
+    } on Object {
+      // Best-effort (design §4.4).
     }
   }
 

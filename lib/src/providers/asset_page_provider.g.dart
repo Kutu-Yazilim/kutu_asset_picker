@@ -45,7 +45,7 @@ final class AssetPageProvider
   AssetPage create() => AssetPage();
 }
 
-String _$assetPageHash() => r'3f3ad47d99dd56067b4e5b44ca8e744ac716e0f7';
+String _$assetPageHash() => r'34d1cb6acaa723b9b164bbf0b1f9462d055916b4';
 
 /// The current album's assets, loaded a page at a time.
 ///

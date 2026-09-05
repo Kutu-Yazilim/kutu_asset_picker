@@ -229,6 +229,40 @@ final class PhotoManagerAssetSource implements AssetSource {
     // albums and restart paging after this returns either way.
     await PhotoManager.presentLimited(type: requestTypeFor(kinds));
   }
+
+  @override
+  Future<void> prefetch(
+    List<String> ids,
+    ThumbSize size, {
+    int quality = 85,
+  }) async {
+    if (ids.isEmpty) {
+      return;
+    }
+    try {
+      final List<AssetEntity> entities = <AssetEntity>[];
+      for (final String id in ids) {
+        final AssetEntity? entity = await AssetEntity.fromId(id);
+        if (entity != null) {
+          entities.add(entity);
+        }
+      }
+      if (entities.isEmpty) {
+        return;
+      }
+      await PhotoCachingManager().requestCacheAssets(
+        assets: entities,
+        option: ThumbnailOption(
+          size: ThumbnailSize(size.width, size.height),
+          quality: quality,
+        ),
+      );
+    } on Object {
+      // Swallowed on purpose. PhotoCachingManager is Experimental in
+      // photo_manager's own README (design §4.4); a cache warm that fails
+      // costs a few milliseconds of decode later and nothing else.
+    }
+  }
 }
 
 /// How often the cross-platform cancel token is polled while an iCloud

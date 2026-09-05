@@ -6,4 +6,4 @@
 library;
 
 export 'src/source/fake_asset_source.dart'
-    show FakeAlbumQuery, FakeAssetQuery, FakeAssetSource;
+    show FakeAlbumQuery, FakeAssetQuery, FakeAssetSource, FakePrefetchQuery;

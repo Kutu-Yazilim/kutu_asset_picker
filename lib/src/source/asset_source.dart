@@ -41,6 +41,14 @@ abstract interface class AssetSource {
   /// the platform defaults differ between overloads (design §4.4).
   Future<Uint8List?> thumbnail(String id, ThumbSize size, {int quality = 85});
 
+  /// Asks the platform to warm its thumbnail cache for [ids].
+  ///
+  /// Best-effort by contract. `photo_manager` documents
+  /// `PhotoCachingManager` as *Experimental* (design §4.4), so an
+  /// implementation must swallow its own failures and callers must guard
+  /// anyway — a warm-ahead is an optimisation and may never break paging.
+  Future<void> prefetch(List<String> ids, ThumbSize size, {int quality = 85});
+
   /// The asset's file, downloading from iCloud if necessary.
   ///
   /// [onProgress] reports 0..1 for that download; [cancelToken] abandons it.
