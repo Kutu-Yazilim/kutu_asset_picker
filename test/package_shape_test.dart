@@ -53,8 +53,9 @@ void main() {
 
   test('the changelog carries the pubspec version verbatim', () {
     final String pubspec = File('pubspec.yaml').readAsStringSync();
-    final String version =
-        RegExp(r'^version:\s*(\S+)$', multiLine: true).firstMatch(pubspec)!.group(1)!;
+    final String version = RegExp(r'^version:\s*(\S+)$', multiLine: true)
+        .firstMatch(pubspec)!
+        .group(1)!;
     expect(File('CHANGELOG.md').readAsStringSync(), contains('## $version'));
   });
 

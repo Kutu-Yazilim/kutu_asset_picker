@@ -126,8 +126,8 @@ void main() {
       await tester.runAsync(() async {
         final Completer<ui.Image> completer = Completer<ui.Image>();
         provider.resolve(ImageConfiguration.empty).addListener(
-              ImageStreamListener((ImageInfo info, bool _) =>
-                  completer.complete(info.image)),
+              ImageStreamListener(
+                  (ImageInfo info, bool _) => completer.complete(info.image)),
             );
 
         final ui.Image image = await completer.future;

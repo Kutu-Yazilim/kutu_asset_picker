@@ -37,10 +37,9 @@ void main() {
 
   test('a limited platform response survives as PickerPermission.limited',
       () async {
-    mock((MethodCall call) =>
-        call.method == 'requestPermissionExtend'
-            ? PermissionState.limited.index
-            : null);
+    mock((MethodCall call) => call.method == 'requestPermissionExtend'
+        ? PermissionState.limited.index
+        : null);
     final PhotoManagerAssetSource source = PhotoManagerAssetSource();
     addTearDown(source.dispose);
 

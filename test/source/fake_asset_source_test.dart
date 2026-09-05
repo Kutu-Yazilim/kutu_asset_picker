@@ -19,13 +19,14 @@ void main() {
     expect(FakeAssetSource(), isA<AssetSource>());
   });
 
-  test('records permission requests and returns the configured state', () async {
+  test('records permission requests and returns the configured state',
+      () async {
     final FakeAssetSource source =
         FakeAssetSource(permission: PickerPermission.limited);
     addTearDown(source.dispose);
 
-    final PickerPermission result =
-        await source.requestPermission(<PickerMediaType>{PickerMediaType.image});
+    final PickerPermission result = await source
+        .requestPermission(<PickerMediaType>{PickerMediaType.image});
 
     expect(result, PickerPermission.limited);
     expect(source.permissionRequests, <Set<PickerMediaType>>[
@@ -88,8 +89,7 @@ void main() {
     source.pendingFiles.add('slow');
 
     final List<double> progress = <double>[];
-    final Future<File?> pending =
-        source.file('slow', onProgress: progress.add);
+    final Future<File?> pending = source.file('slow', onProgress: progress.add);
 
     source.emitFileProgress('slow', 0.5);
     expect(progress, <double>[0.5]);
@@ -125,7 +125,8 @@ void main() {
     addTearDown(source.dispose);
 
     final Future<void> seen = source.changes.first;
-    await source.manageLimitedSelection(<PickerMediaType>{PickerMediaType.image});
+    await source
+        .manageLimitedSelection(<PickerMediaType>{PickerMediaType.image});
     source.emitChange();
     await seen;
 

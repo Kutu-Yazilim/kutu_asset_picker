@@ -63,7 +63,8 @@ void main() {
       expect(config.thumbSize.height, 200);
     });
 
-    test('effectiveInitialAspect falls back to the first configured aspect', () {
+    test('effectiveInitialAspect falls back to the first configured aspect',
+        () {
       const AssetPickerConfig config = AssetPickerConfig(
         aspects: <CropAspect>[CropAspect.story916, CropAspect.square],
       );
@@ -102,7 +103,8 @@ void main() {
       // A const constructor cannot assert on a collection's length, so an
       // empty aspect list surfaces at first use rather than at construction.
       expect(
-        () => const AssetPickerConfig(aspects: <CropAspect>[]).effectiveInitialAspect,
+        () => const AssetPickerConfig(aspects: <CropAspect>[])
+            .effectiveInitialAspect,
         throwsA(isA<StateError>()),
       );
     });
