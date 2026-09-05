@@ -21,3 +21,4 @@ export 'src/providers/injection_providers.dart';
 export 'src/providers/permission_provider.dart';
 export 'src/providers/albums_provider.dart';
 export 'src/providers/asset_page_provider.dart';
+export 'src/providers/selection_provider.dart';
