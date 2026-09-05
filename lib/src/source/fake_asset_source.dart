@@ -76,6 +76,15 @@ final class FakeAssetSource implements AssetSource {
   /// Ids whose [file] call throws.
   final Set<String> failingFiles = <String>{};
 
+  /// Ids whose [file] returns this exact file. Checked before the synthetic
+  /// `/fake/$id` fallback, so a test that needs real bytes on disk — a length,
+  /// a probe, an export — writes a temp file and registers it here.
+  final Map<String, File> filesById = <String, File>{};
+
+  /// Ids whose [file] resolves to null: present in the library, not obtainable.
+  /// The iCloud case of spec §4.5, which the `/fake/$id` fallback cannot express.
+  final Set<String> missingFiles = <String>{};
+
   /// Artificial latency for [albums] and [assets].
   Duration? queryDelay;
 
@@ -170,6 +179,15 @@ final class FakeAssetSource implements AssetSource {
           'FakeAssetSource was told to fail this asset.',
         ),
       );
+    }
+    if (missingFiles.contains(id)) {
+      onProgress?.call(1);
+      return Future<File?>.value();
+    }
+    final File? registered = filesById[id];
+    if (registered != null) {
+      onProgress?.call(1);
+      return Future<File?>.value(registered);
     }
     if (pendingFiles.contains(id)) {
       final Completer<File?> completer = Completer<File?>();

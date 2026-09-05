@@ -35,6 +35,7 @@ final class AssetPickerConfig {
     this.enableTrim = true,
     this.enableCoverFrame = true,
     this.maxVideoDuration,
+    this.maxVideoBytes,
     this.maxSourceMegapixels,
     this.keepOriginals = false,
     this.imageEncode = const ImageEncodeSettings(),
@@ -81,6 +82,17 @@ final class AssetPickerConfig {
 
   /// Both a trim clamp and a query-time filter (design §4.5).
   final Duration? maxVideoDuration;
+
+  /// Hard ceiling on the *source* file size of a video, in bytes.
+  ///
+  /// Enforced when the crop step materialises the file — before any upload,
+  /// never after (spec §10, `pickerFileTooLarge`). PatikaX passes the backend
+  /// catalog's 150 MB video ceiling here rather than hardcoding it in the
+  /// package (spec §9.1). Null means no ceiling.
+  ///
+  /// There is no `maxImageBytes` counterpart, and that is deliberate — Task 18
+  /// carries the reasoning.
+  final int? maxVideoBytes;
 
   /// Honoured at decode, never after, so a full-size bitmap is never allocated
   /// (design §7.2).
