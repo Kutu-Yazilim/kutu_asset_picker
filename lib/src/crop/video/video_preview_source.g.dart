@@ -8,9 +8,12 @@ part of 'video_preview_source.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Video preview source.
 
 @ProviderFor(videoPreviewSource)
 final videoPreviewSourceProvider = VideoPreviewSourceFamily._();
+
+/// Video preview source.
 
 final class VideoPreviewSourceProvider extends $FunctionalProvider<
         AsyncValue<VideoPreviewSource>,
@@ -19,6 +22,7 @@ final class VideoPreviewSourceProvider extends $FunctionalProvider<
     with
         $FutureModifier<VideoPreviewSource>,
         $FutureProvider<VideoPreviewSource> {
+  /// Video preview source.
   VideoPreviewSourceProvider._(
       {required VideoPreviewSourceFamily super.from,
       required String super.argument})
@@ -69,6 +73,8 @@ final class VideoPreviewSourceProvider extends $FunctionalProvider<
 String _$videoPreviewSourceHash() =>
     r'32150912a5a153ad5e5dcca6a7a954588096aaa8';
 
+/// Video preview source.
+
 final class VideoPreviewSourceFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<VideoPreviewSource>, String> {
   VideoPreviewSourceFamily._()
@@ -79,6 +85,8 @@ final class VideoPreviewSourceFamily extends $Family
           $allTransitiveDependencies: null,
           isAutoDispose: true,
         );
+
+  /// Video preview source.
 
   VideoPreviewSourceProvider call(
     String assetId,

@@ -8,12 +8,15 @@ part of 'picker_step_controller.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Picker step controller.
 
 @ProviderFor(PickerStepController)
 final pickerStepControllerProvider = PickerStepControllerProvider._();
 
+/// Picker step controller.
 final class PickerStepControllerProvider
     extends $NotifierProvider<PickerStepController, AssetPickerStep> {
+  /// Picker step controller.
   PickerStepControllerProvider._()
       : super(
           from: null,
@@ -43,6 +46,8 @@ final class PickerStepControllerProvider
 
 String _$pickerStepControllerHash() =>
     r'8f7c19706336370d58ef6ce435ffcc43a115e460';
+
+/// Picker step controller.
 
 abstract class _$PickerStepController extends $Notifier<AssetPickerStep> {
   AssetPickerStep build();

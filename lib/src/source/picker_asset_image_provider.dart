@@ -76,7 +76,7 @@ final class PickerAssetImageProvider extends ImageProvider<PickerAssetKey> {
       }
       final ui.ImmutableBuffer buffer =
           await ui.ImmutableBuffer.fromUint8List(bytes);
-      return decode(buffer);
+      return await decode(buffer);
     } catch (_) {
       // Evict on the next microtask, not synchronously: the cache is still
       // registering this key while `loadImage` runs, and leaving a failed key

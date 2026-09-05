@@ -55,7 +55,7 @@ class VideoCropStack extends ConsumerWidget {
               // above it is byte-for-byte the one the photo path uses.
               child: player == null
                   ? const SizedBox.expand()
-                  : VideoPlayer(player),
+                  : VideoPlayer(player.controller),
             ),
           ),
         ),

@@ -16,9 +16,23 @@ part 'video_preview_player.g.dart';
 ///
 /// Muted, because framing a crop is a silent activity and an autoplaying clip
 /// with sound is the wrong thing to do to someone who just tapped a thumbnail.
+/// The initialised, muted controller for one asset's preview.
+///
+/// A plain holder rather than the controller itself: riverpod_lint refuses a
+/// `ChangeNotifier` as provider state, and it has a point — the provider owns
+/// the controller's lifecycle (`ref.onDispose`), not its notifications.
+final class VideoPreviewPlayer {
+  /// Wraps [controller].
+  const VideoPreviewPlayer(this.controller);
+
+  /// The platform player, initialised and seeked to the trim's in point.
+  final VideoPlayerController controller;
+}
+
+/// The muted, initialised preview player for [assetId], seeked to the trim's
+/// in point. Disposed with the provider; framing a crop is a silent activity.
 @riverpod
-Future<VideoPlayerController> videoPreviewPlayer(
-    Ref ref, String assetId) async {
+Future<VideoPreviewPlayer> videoPreviewPlayer(Ref ref, String assetId) async {
   final preview = await ref.watch(videoPreviewSourceProvider(assetId).future);
   final controller = VideoPlayerController.file(preview.file);
   // Registered BEFORE the await: an asset the author tabs away from during
@@ -33,5 +47,5 @@ Future<VideoPlayerController> videoPreviewPlayer(
       ref.read(assetPickerConfigProvider).maxVideoDuration,
     ).start,
   );
-  return controller;
+  return VideoPreviewPlayer(controller);
 }

@@ -17,7 +17,7 @@ final videoSeekTargetProvider = Provider.family<SeekTarget, String>(
     final player = ref.watch(videoPreviewPlayerProvider(assetId)).value;
     return player == null
         ? const NoopSeekTarget()
-        : VideoPlayerSeekTarget(player);
+        : VideoPlayerSeekTarget(player.controller);
   },
 );
 

@@ -8,12 +8,15 @@ part of 'scrubber_mode.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Scrubber mode controller.
 
 @ProviderFor(ScrubberModeController)
 final scrubberModeControllerProvider = ScrubberModeControllerProvider._();
 
+/// Scrubber mode controller.
 final class ScrubberModeControllerProvider
     extends $NotifierProvider<ScrubberModeController, ScrubberMode> {
+  /// Scrubber mode controller.
   ScrubberModeControllerProvider._()
       : super(
           from: null,
@@ -43,6 +46,8 @@ final class ScrubberModeControllerProvider
 
 String _$scrubberModeControllerHash() =>
     r'5626356586b573066a86fb9042da4c5b996960d9';
+
+/// Scrubber mode controller.
 
 abstract class _$ScrubberModeController extends $Notifier<ScrubberMode> {
   ScrubberMode build();

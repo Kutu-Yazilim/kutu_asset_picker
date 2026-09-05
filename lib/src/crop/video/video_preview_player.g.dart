@@ -8,45 +8,17 @@ part of 'video_preview_player.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Owns one asset's [VideoPlayerController].
-///
-/// Deliberately a thin shim with no logic of its own: everything worth testing
-/// — the trim clamps, the seek coalescing, the crop rect — lives in pure
-/// functions and in providers that take a [SeekTarget], so this file needs no
-/// unit test and gets none.
-///
-/// Muted, because framing a crop is a silent activity and an autoplaying clip
-/// with sound is the wrong thing to do to someone who just tapped a thumbnail.
 
 @ProviderFor(videoPreviewPlayer)
 final videoPreviewPlayerProvider = VideoPreviewPlayerFamily._();
 
-/// Owns one asset's [VideoPlayerController].
-///
-/// Deliberately a thin shim with no logic of its own: everything worth testing
-/// — the trim clamps, the seek coalescing, the crop rect — lives in pure
-/// functions and in providers that take a [SeekTarget], so this file needs no
-/// unit test and gets none.
-///
-/// Muted, because framing a crop is a silent activity and an autoplaying clip
-/// with sound is the wrong thing to do to someone who just tapped a thumbnail.
-
 final class VideoPreviewPlayerProvider extends $FunctionalProvider<
-        AsyncValue<VideoPlayerController>,
-        VideoPlayerController,
-        FutureOr<VideoPlayerController>>
+        AsyncValue<VideoPreviewPlayer>,
+        VideoPreviewPlayer,
+        FutureOr<VideoPreviewPlayer>>
     with
-        $FutureModifier<VideoPlayerController>,
-        $FutureProvider<VideoPlayerController> {
-  /// Owns one asset's [VideoPlayerController].
-  ///
-  /// Deliberately a thin shim with no logic of its own: everything worth testing
-  /// — the trim clamps, the seek coalescing, the crop rect — lives in pure
-  /// functions and in providers that take a [SeekTarget], so this file needs no
-  /// unit test and gets none.
-  ///
-  /// Muted, because framing a crop is a silent activity and an autoplaying clip
-  /// with sound is the wrong thing to do to someone who just tapped a thumbnail.
+        $FutureModifier<VideoPreviewPlayer>,
+        $FutureProvider<VideoPreviewPlayer> {
   VideoPreviewPlayerProvider._(
       {required VideoPreviewPlayerFamily super.from,
       required String super.argument})
@@ -70,12 +42,12 @@ final class VideoPreviewPlayerProvider extends $FunctionalProvider<
 
   @$internal
   @override
-  $FutureProviderElement<VideoPlayerController> $createElement(
+  $FutureProviderElement<VideoPreviewPlayer> $createElement(
           $ProviderPointer pointer) =>
       $FutureProviderElement(pointer);
 
   @override
-  FutureOr<VideoPlayerController> create(Ref ref) {
+  FutureOr<VideoPreviewPlayer> create(Ref ref) {
     final argument = this.argument as String;
     return videoPreviewPlayer(
       ref,
@@ -95,20 +67,10 @@ final class VideoPreviewPlayerProvider extends $FunctionalProvider<
 }
 
 String _$videoPreviewPlayerHash() =>
-    r'9af4e5b8ab186b3f848abc19af5021264a2815c8';
-
-/// Owns one asset's [VideoPlayerController].
-///
-/// Deliberately a thin shim with no logic of its own: everything worth testing
-/// — the trim clamps, the seek coalescing, the crop rect — lives in pure
-/// functions and in providers that take a [SeekTarget], so this file needs no
-/// unit test and gets none.
-///
-/// Muted, because framing a crop is a silent activity and an autoplaying clip
-/// with sound is the wrong thing to do to someone who just tapped a thumbnail.
+    r'9264402ea307d850fde9ba7eb28457a81cd0a30a';
 
 final class VideoPreviewPlayerFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<VideoPlayerController>, String> {
+    with $FunctionalFamilyOverride<FutureOr<VideoPreviewPlayer>, String> {
   VideoPreviewPlayerFamily._()
       : super(
           retry: null,
@@ -117,16 +79,6 @@ final class VideoPreviewPlayerFamily extends $Family
           $allTransitiveDependencies: null,
           isAutoDispose: true,
         );
-
-  /// Owns one asset's [VideoPlayerController].
-  ///
-  /// Deliberately a thin shim with no logic of its own: everything worth testing
-  /// — the trim clamps, the seek coalescing, the crop rect — lives in pure
-  /// functions and in providers that take a [SeekTarget], so this file needs no
-  /// unit test and gets none.
-  ///
-  /// Muted, because framing a crop is a silent activity and an autoplaying clip
-  /// with sound is the wrong thing to do to someone who just tapped a thumbnail.
 
   VideoPreviewPlayerProvider call(
     String assetId,
