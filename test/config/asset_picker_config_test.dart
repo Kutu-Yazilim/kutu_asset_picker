@@ -135,4 +135,123 @@ void main() {
       expect(PickerGridTuning.bytesPerPixel, 4);
     });
   });
+
+  group('CropAspect, as the chip row uses it', () {
+    test('two aspects with the same numbers and label are equal', () {
+      // The chip row decides which chip is selected with ==, so identity
+      // equality would leave every chip unselected.
+      expect(
+        const CropAspect(x: 1, y: 1, label: CropAspectLabel.square),
+        CropAspect.square,
+      );
+      expect(
+        const CropAspect(x: 1, y: 1, label: CropAspectLabel.square).hashCode,
+        CropAspect.square.hashCode,
+      );
+      expect(CropAspect.square == CropAspect.portrait45, isFalse);
+    });
+
+    test('a custom ratio carries its own numbers and the custom label', () {
+      // aspectChipLabel prints these numbers, because a custom ratio has no
+      // copy key of its own.
+      const CropAspect aspect = CropAspect.custom(3, 2);
+
+      expect(aspect.x, 3);
+      expect(aspect.y, 2);
+      expect(aspect.label, CropAspectLabel.custom);
+      expect(aspect.ratio, closeTo(1.5, 1e-12));
+    });
+
+    test('a list of aspects preserves the order the menu renders in', () {
+      const AssetPickerConfig config = AssetPickerConfig(
+        aspects: <CropAspect>[
+          CropAspect.banner31,
+          CropAspect.square,
+          CropAspect.story916,
+        ],
+      );
+
+      expect(config.aspects.first, CropAspect.banner31);
+      expect(config.aspects.last, CropAspect.story916);
+    });
+  });
+
+  group('the crop step reads these off the config', () {
+    test('effectiveInitialAspect is the ratio a fresh asset opens on', () {
+      // CropStates.stateOf returns CropState.unsized(effectiveInitialAspect)
+      // for an asset nobody has framed yet, so this getter is the opening
+      // framing of every asset in the batch.
+      const AssetPickerConfig explicit = AssetPickerConfig(
+        aspects: <CropAspect>[CropAspect.square, CropAspect.story916],
+        initialAspect: CropAspect.story916,
+      );
+      const AssetPickerConfig implicit = AssetPickerConfig(
+        aspects: <CropAspect>[CropAspect.banner31, CropAspect.square],
+      );
+
+      expect(explicit.effectiveInitialAspect, CropAspect.story916);
+      expect(implicit.effectiveInitialAspect, CropAspect.banner31);
+    });
+
+    test('a single-entry aspects list is the forced-ratio mode', () {
+      // The chip row still renders the one chip, so the author can see what
+      // shape they are composing for.
+      const AssetPickerConfig config =
+          AssetPickerConfig(aspects: <CropAspect>[CropAspect.square]);
+
+      expect(config.aspects, hasLength(1));
+      expect(config.effectiveInitialAspect, CropAspect.square);
+    });
+
+    test('allowPerAssetAspect defaults on and can be collapsed', () {
+      // False collapses the aspect to one shared value for the whole batch and
+      // hides Apply to all, which would then have nothing to do (spec §2.4).
+      expect(const AssetPickerConfig().allowPerAssetAspect, isTrue);
+      expect(
+        const AssetPickerConfig(allowPerAssetAspect: false).allowPerAssetAspect,
+        isFalse,
+      );
+    });
+
+    test('cropSurface is settable independently of pickerSurface', () {
+      // spec §2.6: an avatar picker is a lightweight sheet while a post
+      // composer is a full page, and the two steps are configured separately.
+      // AssetPickerView switches CropStepHost on this field (Task 16).
+      const AssetPickerConfig mixed = AssetPickerConfig(
+        pickerSurface: PickerSurface.sheet,
+        cropSurface: PickerSurface.page,
+      );
+
+      expect(mixed.pickerSurface, PickerSurface.sheet);
+      expect(mixed.cropSurface, PickerSurface.page);
+      expect(const AssetPickerConfig().cropSurface, PickerSurface.page);
+    });
+
+    test('cropOverlayShape defaults to a rectangle', () {
+      // circle is the avatar case; the exported rect is still the square that
+      // bounds it, because a JPEG has no alpha to spare.
+      expect(
+        const AssetPickerConfig().cropOverlayShape,
+        CropOverlayShape.rectangle,
+      );
+      expect(
+        const AssetPickerConfig(cropOverlayShape: CropOverlayShape.circle)
+            .cropOverlayShape,
+        CropOverlayShape.circle,
+      );
+    });
+
+    test('enableCrop can be turned off, and keepOriginals turned on', () {
+      // enableCrop: false skips the crop step but still routes the source
+      // through the transform seam (spec §7.5); keepOriginals populates
+      // PickedAsset.originalFile.
+      const AssetPickerConfig config =
+          AssetPickerConfig(enableCrop: false, keepOriginals: true);
+
+      expect(config.enableCrop, isFalse);
+      expect(config.keepOriginals, isTrue);
+      expect(const AssetPickerConfig().enableCrop, isTrue);
+      expect(const AssetPickerConfig().keepOriginals, isFalse);
+    });
+  });
 }
