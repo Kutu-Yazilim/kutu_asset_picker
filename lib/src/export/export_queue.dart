@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:kutu_asset_picker/src/config/asset_picker_config.dart';
-import 'package:kutu_asset_picker/src/constants/asset_picker_sizes.dart';
 import 'package:kutu_asset_picker/src/crop/crop_math.dart';
 import 'package:kutu_asset_picker/src/crop/crop_state.dart';
 import 'package:kutu_asset_picker/src/crop/picker_asset_size.dart';
@@ -12,6 +11,9 @@ import 'package:kutu_asset_picker/src/source/asset_source.dart';
 import 'package:kutu_asset_picker/src/source/picker_asset.dart';
 import 'package:kutu_asset_picker/src/source/picker_media_type.dart';
 import 'package:kutu_media_transform/kutu_media_transform.dart';
+import '../crop/video/video_display_size.dart';
+import 'video_export_step.dart';
+import 'package:flutter/material.dart';
 
 /// Runs the export batch.
 ///
@@ -41,6 +43,11 @@ final class ExportQueue {
     AssetPickerConfig config, {
     void Function(int done, int total)? onProgress,
     TransformCancelToken? cancelToken,
+
+    /// Fine-grained progress inside one asset, by index into [assets]. A video
+    /// export is seconds to minutes, so the coarse done/total above is not
+    /// enough on its own; a photo export never reports through this.
+    void Function(int index, double fraction)? onAssetFraction,
   }) async {
     _failures.clear();
     final picked = <PickedAsset>[];
@@ -48,11 +55,18 @@ final class ExportQueue {
     var done = 0;
     onProgress?.call(done, total);
 
-    for (final asset in assets) {
+    for (var index = 0; index < assets.length; index++) {
+      final asset = assets[index];
       if (cancelToken?.isCancelled ?? false) break;
       try {
         picked.add(
-          await _exportOne(asset, stateOf(asset.id), config, cancelToken),
+          await _exportOne(
+            asset,
+            stateOf(asset.id),
+            config,
+            cancelToken,
+            (fraction) => onAssetFraction?.call(index, fraction),
+          ),
         );
       } on TransformException catch (error) {
         _failures.add(
@@ -83,15 +97,20 @@ final class ExportQueue {
     CropState state,
     AssetPickerConfig config,
     TransformCancelToken? cancelToken,
+    void Function(double fraction) onFraction,
   ) async {
     // `AssetSource.file` is the transcoded path, never `originFile` — Flutter
     // cannot render HEIC and `originFile` on HEIC fails outright on Android 10.
     final src = await source.file(asset.id, cancelToken: cancelToken);
     if (src == null) {
-      throw const TransformException(
+      throw TransformException(
         TransformFailure.sourceUnreadable,
-        'the asset file is not available locally',
+        'the gallery returned no file for ${asset.id}',
       );
+    }
+
+    if (asset.type == PickerMediaType.video) {
+      return _exportVideo(asset, src, state, config, onFraction, cancelToken);
     }
 
     final imageSize = pickerAssetSize(asset);
@@ -103,9 +122,7 @@ final class ExportQueue {
         ? toCropRect(normalized, imageSize, window)
         : const CropRect.full();
 
-    return asset.type == PickerMediaType.image
-        ? _exportImage(asset, src, crop, normalized, config)
-        : _exportVideo(asset, src, crop, normalized, config, cancelToken);
+    return _exportImage(asset, src, crop, normalized, config);
   }
 
   Future<PickedImage> _exportImage(
@@ -140,64 +157,42 @@ final class ExportQueue {
     );
   }
 
+  /// The video arm.
+  ///
+  /// Everything here that looks like duplication of the image arm is not: the
+  /// crop is computed against `videoDisplaySize(info)`, the POST-rotation size
+  /// the author actually framed, while `pickerAssetSize(asset)` would hand back
+  /// the gallery's dimensions and crop a portrait clip sideways (spec §7.4
+  /// invariant 1). `VideoExportStep` owns the trim, the poster and the single
+  /// §4.5 retry.
   Future<PickedVideo> _exportVideo(
     PickerAsset asset,
     File src,
-    CropRect crop,
     CropState state,
     AssetPickerConfig config,
+    void Function(double fraction) onFraction,
     TransformCancelToken? cancelToken,
   ) async {
-    final trim =
-        state.trim ?? DurationRange.wholeOf(asset.duration ?? Duration.zero);
-    final out = await transform.exportVideo(
-      src.path,
-      crop,
-      trim,
-      config.videoEncode,
+    final info = await transform.probeVideo(src.path);
+    final displaySize = videoDisplaySize(info);
+    final window = cropWindowSize(state.aspect, kCanonicalCropArea);
+    final normalized =
+        reclampForAspect(state, displaySize, window, state.aspect);
+
+    return VideoExportStep(transform: transform).export(
+      asset: asset,
+      source: src,
+      info: info,
+      state: config.enableCrop
+          ? normalized
+          : normalized.copyWith(
+              scale: scaleToCover(displaySize, window),
+              offset: Offset.zero,
+            ),
+      window: window,
+      config: config,
+      onProgress: onFraction,
       cancelToken: cancelToken,
-    );
-
-    // The cover frame is taken from the EXPORTED file, so it is already
-    // cropped, trimmed and tone-mapped and cannot disagree with the video.
-    // Offsets are relative to the exported clip, hence the subtraction.
-    final coverAt = (state.coverAt ?? trim.start) - trim.start;
-    final frames = await transform.extractFrames(
-      out.path,
-      [coverAt.isNegative ? Duration.zero : coverAt],
-      AssetPickerSizes.coverFrame,
-    );
-    if (frames.isEmpty) {
-      throw const TransformException(
-        TransformFailure.unknown,
-        'the cover frame could not be extracted',
-      );
-    }
-    // Written beside the exported video rather than into a directory of our
-    // own: the plugin already chose somewhere writable, and a poster that lives
-    // next to its clip is collected by whatever collects the clip.
-    final cover =
-        await File('${out.path}.cover.jpg').writeAsBytes(frames.first);
-
-    final size = exportedPixelSize(
-      crop: crop,
-      sourceWidth: asset.width,
-      sourceHeight: asset.height,
-      maxLongEdge: config.videoEncode.maxLongEdge,
-    );
-    return PickedVideo(
-      id: asset.id,
-      file: out,
-      mimeType: 'video/mp4',
-      sizeBytes: await out.length(),
-      width: size.width,
-      height: size.height,
-      aspectRatio:
-          config.enableCrop ? state.aspect.ratio : asset.width / asset.height,
-      duration: trim.duration,
-      trimmed: trim,
-      coverFrame: cover,
-      originalFile: config.keepOriginals ? src : null,
     );
   }
 }

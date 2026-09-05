@@ -314,8 +314,10 @@ void main() {
       source: source,
     ).run([video('v')], constantState(centred), const AssetPickerConfig());
 
+    // The PROBED duration (RecordingMediaTransform answers 10 s), not the
+    // gallery's 12 s metadata: the file is the source of truth for the export.
     expect(
-        (picked.single as PickedVideo).duration, const Duration(seconds: 12));
+        (picked.single as PickedVideo).duration, const Duration(seconds: 10));
   });
 
   test('failures from a previous run do not leak into the next', () async {
