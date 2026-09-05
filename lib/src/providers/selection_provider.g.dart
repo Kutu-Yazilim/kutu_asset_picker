@@ -53,7 +53,7 @@ final class SelectionProvider
   }
 }
 
-String _$selectionHash() => r'9496ec626d2f6578bb4883c242bae9c8c6bc588c';
+String _$selectionHash() => r'1672aba675f99a92c4ef5a9f9791ce9a4c034ed9';
 
 /// The ordered selection.
 ///
