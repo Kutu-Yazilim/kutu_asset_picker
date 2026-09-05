@@ -1,0 +1,11 @@
+# Local-only resolution inside the monorepo. kutu_media_transform is not
+# published yet, and `dart pub publish` refuses a package with `path:` deps.
+#
+# This file — not a `dependency_overrides:` block inside pubspec.yaml — is where
+# the override belongs: design §3.2 notes a package-side override section
+# triggers a publish hint and silently invalidates pana's `pub downgrade`
+# check, worth 20 points. Slice 7 deletes this file before the first
+# `dart pub publish --dry-run`.
+dependency_overrides:
+  kutu_media_transform:
+    path: ../kutu_media_transform

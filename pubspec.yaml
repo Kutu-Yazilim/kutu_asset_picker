@@ -1,0 +1,41 @@
+name: kutu_asset_picker
+description: >-
+  A themeable, embeddable asset picker for Flutter with a device-side crop step
+  for photos and videos, first-class limited-access support, and no native code
+  of its own.
+version: 0.1.0
+repository: https://github.com/Kutu-Yazilim/PatikaMono
+issue_tracker: https://github.com/Kutu-Yazilim/PatikaMono/issues
+
+environment:
+  sdk: ^3.5.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The floor must never drop below 3.8.1: earlier versions fail SQL pagination
+  # with "Failed to obtain the cursor" (design §4.1). 3.11.0 also uses a private
+  # PHAsset.filename selector that App Review has flagged — re-read the
+  # changelog before every release (design §13).
+  photo_manager: ^3.11.0
+
+  flutter_riverpod: ^3.3.2
+  riverpod_annotation: ^4.0.3
+
+  kutu_media_transform: ^0.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.15.0
+  riverpod_generator: ^4.0.4
+  riverpod_lint: ^3.1.4
+
+# There is deliberately NO `flutter:` section with a plugin block here, and
+# deliberately no android/, ios/ or macos/ directory. pana reads platform
+# support from a package's OWN pubspec, non-transitively, so this package keeps
+# a clean 20/20 platform declaration while still depending on two plugins
+# (design §2.2). test/package_shape_test.dart enforces it.
