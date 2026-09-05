@@ -7,7 +7,7 @@ import 'package:kutu_asset_picker/src/crop/widgets/crop_dimming_mask.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/crop_thirds_overlay.dart';
 import 'package:kutu_asset_picker/src/providers/injection_providers.dart';
 import 'package:kutu_asset_picker/src/source/picker_asset.dart';
-import 'image_crop_surface.dart';
+import 'crop_media_surface.dart';
 
 /// The framing area: the viewport with its chrome on top.
 ///
@@ -34,7 +34,7 @@ class CropStage extends ConsumerWidget {
           return Stack(
             alignment: Alignment.center,
             children: [
-              ImageCropSurface(asset: asset, window: window),
+              CropMediaSurface(asset: asset, window: window),
               Positioned.fill(
                 child: IgnorePointer(
                   child: CropDimmingMask(
