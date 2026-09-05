@@ -3,13 +3,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kutu_asset_picker/src/constants/asset_picker_sizes.dart';
 import 'package:kutu_asset_picker/src/crop/crop_math.dart';
 import 'package:kutu_asset_picker/src/crop/crop_providers.dart';
-import 'package:kutu_asset_picker/src/crop/picker_asset_size.dart';
-import 'package:kutu_asset_picker/src/crop/widgets/crop_asset_image.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/crop_dimming_mask.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/crop_thirds_overlay.dart';
-import 'package:kutu_asset_picker/src/crop/widgets/crop_viewport.dart';
 import 'package:kutu_asset_picker/src/providers/injection_providers.dart';
 import 'package:kutu_asset_picker/src/source/picker_asset.dart';
+import 'image_crop_surface.dart';
 
 /// The framing area: the viewport with its chrome on top.
 ///
@@ -36,12 +34,7 @@ class CropStage extends ConsumerWidget {
           return Stack(
             alignment: Alignment.center,
             children: [
-              CropViewport(
-                assetId: asset.id,
-                imageSize: pickerAssetSize(asset),
-                window: window,
-                child: CropAssetImage(asset: asset),
-              ),
+              ImageCropSurface(asset: asset, window: window),
               Positioned.fill(
                 child: IgnorePointer(
                   child: CropDimmingMask(
