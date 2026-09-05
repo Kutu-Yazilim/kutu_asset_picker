@@ -1,11 +1,15 @@
 name: kutu_asset_picker
-description: >-
-  A themeable, embeddable asset picker for Flutter with a device-side crop step
-  for photos and videos, first-class limited-access support, and no native code
-  of its own.
+description: "A themeable Flutter gallery picker with device-side crop for photos and video: per-asset aspect ratios, trim, cover frames, and a designed limited-access state."
 version: 0.1.0
-repository: https://github.com/Kutu-Yazilim/PatikaMono
+homepage: https://github.com/Kutu-Yazilim/PatikaMono/tree/main/packages/kutu_asset_picker
+repository: https://github.com/Kutu-Yazilim/PatikaMono/tree/main/packages/kutu_asset_picker
 issue_tracker: https://github.com/Kutu-Yazilim/PatikaMono/issues
+topics:
+  - picker
+  - gallery
+  - crop
+  - image-picker
+  - video
 
 environment:
   sdk: ^3.5.0
@@ -40,6 +44,7 @@ dev_dependencies:
   fake_async: ^1.3.3
   riverpod_generator: ^4.0.4
   riverpod_lint: ^3.1.4
+  yaml: ^3.1.4
 
 # There is deliberately NO `flutter:` section with a plugin block here, and
 # deliberately no android/, ios/ or macos/ directory. pana reads platform

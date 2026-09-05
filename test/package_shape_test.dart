@@ -41,7 +41,11 @@ void main() {
   test('the local path override lives outside pubspec.yaml', () {
     // Design §3.2: a package-side `dependency_overrides:` block triggers a
     // publish hint and invalidates pana's `pub downgrade` check (20 points).
-    // pubspec_overrides.yaml carries it instead, and slice 7 deletes the file.
+    // pubspec_overrides.yaml carries it instead. Slice 7 does not delete it —
+    // the package cannot resolve locally until kutu_media_transform 0.1.0 is on
+    // pub.dev — it untracks and gitignores it, and `dart pub publish` honours
+    // gitignore, so the file never reaches the archive. That is why the
+    // existsSync expectation below still holds after slice 7.
     final String pubspec = File('pubspec.yaml').readAsStringSync();
     expect(pubspec, isNot(contains('dependency_overrides')));
     expect(pubspec, isNot(contains('path: ../')));
