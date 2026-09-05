@@ -11,6 +11,16 @@ topics:
   - image-picker
   - video
 
+screenshots:
+  - description: The gallery grid with numbered selection badges and the camera tile.
+    path: doc/picker-grid.png
+  - description: The photo crop step, showing the ratio chips and the rule-of-thirds overlay.
+    path: doc/crop-photo.png
+  - description: The video crop step, with the trim rail floating over the footage.
+    path: doc/crop-video-trim.png
+  - description: The limited-access state, with its permanent Manage selection bar.
+    path: doc/limited-access.png
+
 environment:
   sdk: ^3.5.0
   flutter: ">=3.24.0"

@@ -376,4 +376,49 @@ void main() {
       }
     });
   });
+
+  group('screenshots', () {
+    test('every declared screenshot exists, is a PNG, and is small', () {
+      final Object? declared = pubspec['screenshots'];
+      expect(
+        declared,
+        isA<YamlList>(),
+        reason: 'pubspec.yaml declares no screenshots',
+      );
+      final YamlList screenshots = declared! as YamlList;
+      expect(screenshots, isNotEmpty);
+
+      for (final Object? entry in screenshots) {
+        final YamlMap shot = entry! as YamlMap;
+
+        final String description = shot['description'] as String;
+        expect(
+          description.length,
+          inInclusiveRange(10, 160),
+          reason: 'screenshot description "$description" is a bad length',
+        );
+
+        final File file = File(shot['path'] as String);
+        expect(
+          file.existsSync(),
+          isTrue,
+          reason: 'declared screenshot ${shot['path']} does not exist',
+        );
+        expect(
+          file.lengthSync(),
+          lessThan(2 * 1024 * 1024),
+          reason: '${shot['path']} is over 2 MiB',
+        );
+
+        final RandomAccessFile handle = file.openSync();
+        final List<int> header = handle.readSync(8);
+        handle.closeSync();
+        expect(
+          header,
+          <int>[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A],
+          reason: '${shot['path']} is not a PNG',
+        );
+      }
+    });
+  });
 }
