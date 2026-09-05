@@ -3,6 +3,9 @@ import 'dart:ui' show lerpDouble;
 import 'package:flutter/material.dart';
 
 import '../config/picker_tuning.dart';
+import '../constants/asset_picker_radii.dart';
+import 'asset_picker_media_colors.dart';
+import 'asset_picker_fallback_text_styles.dart';
 import 'resolved_asset_picker_theme.dart';
 
 /// The picker's design tokens.
@@ -28,6 +31,13 @@ final class AssetPickerTheme extends ThemeExtension<AssetPickerTheme> {
     this.selectionBadgeFill,
     this.selectionBadgeText,
     this.selectionBadgeBorder,
+    this.cropMask,
+    this.cropGridLine,
+    this.cropWindowBorder,
+    this.chipSelectedFill,
+    this.chipUnselectedFill,
+    this.chipSelectedText,
+    this.chipUnselectedText,
     this.disabledOverlay,
     this.danger,
     this.progressIndicator,
@@ -35,6 +45,7 @@ final class AssetPickerTheme extends ThemeExtension<AssetPickerTheme> {
     this.labelStyle,
     this.badgeStyle,
     this.cellRadius,
+    this.chipRadius,
     this.sheetRadius,
   });
 
@@ -47,6 +58,18 @@ final class AssetPickerTheme extends ThemeExtension<AssetPickerTheme> {
   final Color? selectionBadgeText;
   final Color? selectionBadgeBorder;
 
+  /// Dimming outside the crop window.
+  final Color? cropMask;
+
+  /// Rule-of-thirds lines.
+  final Color? cropGridLine;
+
+  final Color? cropWindowBorder;
+  final Color? chipSelectedFill;
+  final Color? chipUnselectedFill;
+  final Color? chipSelectedText;
+  final Color? chipUnselectedText;
+
   final Color? disabledOverlay;
   final Color? danger;
   final Color? progressIndicator;
@@ -56,6 +79,7 @@ final class AssetPickerTheme extends ThemeExtension<AssetPickerTheme> {
   final TextStyle? badgeStyle;
 
   final double? cellRadius;
+  final double? chipRadius;
   final double? sheetRadius;
 
   @override
@@ -67,6 +91,14 @@ final class AssetPickerTheme extends ThemeExtension<AssetPickerTheme> {
     Color? selectionBadgeFill,
     Color? selectionBadgeText,
     Color? selectionBadgeBorder,
+    Color? cropMask,
+    Color? cropGridLine,
+    Color? cropWindowBorder,
+    Color? chipSelectedFill,
+    Color? chipUnselectedFill,
+    Color? chipSelectedText,
+    Color? chipUnselectedText,
+    double? chipRadius,
     Color? disabledOverlay,
     Color? danger,
     Color? progressIndicator,
@@ -84,6 +116,14 @@ final class AssetPickerTheme extends ThemeExtension<AssetPickerTheme> {
         selectionBadgeFill: selectionBadgeFill ?? this.selectionBadgeFill,
         selectionBadgeText: selectionBadgeText ?? this.selectionBadgeText,
         selectionBadgeBorder: selectionBadgeBorder ?? this.selectionBadgeBorder,
+        cropMask: cropMask ?? this.cropMask,
+        cropGridLine: cropGridLine ?? this.cropGridLine,
+        cropWindowBorder: cropWindowBorder ?? this.cropWindowBorder,
+        chipSelectedFill: chipSelectedFill ?? this.chipSelectedFill,
+        chipUnselectedFill: chipUnselectedFill ?? this.chipUnselectedFill,
+        chipSelectedText: chipSelectedText ?? this.chipSelectedText,
+        chipUnselectedText: chipUnselectedText ?? this.chipUnselectedText,
+        chipRadius: chipRadius ?? this.chipRadius,
         disabledOverlay: disabledOverlay ?? this.disabledOverlay,
         danger: danger ?? this.danger,
         progressIndicator: progressIndicator ?? this.progressIndicator,
@@ -110,6 +150,16 @@ final class AssetPickerTheme extends ThemeExtension<AssetPickerTheme> {
           Color.lerp(selectionBadgeText, other.selectionBadgeText, t),
       selectionBadgeBorder:
           Color.lerp(selectionBadgeBorder, other.selectionBadgeBorder, t),
+      cropMask: Color.lerp(cropMask, other.cropMask, t),
+      cropGridLine: Color.lerp(cropGridLine, other.cropGridLine, t),
+      cropWindowBorder: Color.lerp(cropWindowBorder, other.cropWindowBorder, t),
+      chipSelectedFill: Color.lerp(chipSelectedFill, other.chipSelectedFill, t),
+      chipUnselectedFill:
+          Color.lerp(chipUnselectedFill, other.chipUnselectedFill, t),
+      chipSelectedText: Color.lerp(chipSelectedText, other.chipSelectedText, t),
+      chipUnselectedText:
+          Color.lerp(chipUnselectedText, other.chipUnselectedText, t),
+      chipRadius: lerpDouble(chipRadius, other.chipRadius, t),
       disabledOverlay: Color.lerp(disabledOverlay, other.disabledOverlay, t),
       danger: Color.lerp(danger, other.danger, t),
       progressIndicator:
@@ -158,6 +208,32 @@ final class AssetPickerTheme extends ThemeExtension<AssetPickerTheme> {
           pick((AssetPickerTheme t) => t.selectionBadgeText, colors.onPrimary),
       selectionBadgeBorder: pick(
           (AssetPickerTheme t) => t.selectionBadgeBorder, colors.onPrimary),
+      cropMask: pick(
+        (AssetPickerTheme t) => t.cropMask,
+        AssetPickerMediaColors.scrim.withValues(alpha: 0.72),
+      ),
+      cropGridLine: pick(
+        (AssetPickerTheme t) => t.cropGridLine,
+        AssetPickerMediaColors.onMedia.withValues(alpha: 0.55),
+      ),
+      cropWindowBorder: pick(
+        (AssetPickerTheme t) => t.cropWindowBorder,
+        AssetPickerMediaColors.onMedia.withValues(alpha: 0.9),
+      ),
+      chipSelectedFill:
+          pick((AssetPickerTheme t) => t.chipSelectedFill, colors.primary),
+      chipUnselectedFill: pick(
+        (AssetPickerTheme t) => t.chipUnselectedFill,
+        colors.surfaceContainerHighest,
+      ),
+      chipSelectedText:
+          pick((AssetPickerTheme t) => t.chipSelectedText, colors.onPrimary),
+      chipUnselectedText: pick(
+        (AssetPickerTheme t) => t.chipUnselectedText,
+        colors.onSurfaceVariant,
+      ),
+      chipRadius:
+          pick((AssetPickerTheme t) => t.chipRadius, AssetPickerRadii.chip),
       disabledOverlay: pick(
         (AssetPickerTheme t) => t.disabledOverlay,
         colors.scrim
@@ -166,12 +242,18 @@ final class AssetPickerTheme extends ThemeExtension<AssetPickerTheme> {
       danger: pick((AssetPickerTheme t) => t.danger, colors.error),
       progressIndicator:
           pick((AssetPickerTheme t) => t.progressIndicator, colors.primary),
-      titleStyle: pick((AssetPickerTheme t) => t.titleStyle,
-          text.titleMedium ?? const TextStyle()),
-      labelStyle: pick((AssetPickerTheme t) => t.labelStyle,
-          text.bodySmall ?? const TextStyle()),
-      badgeStyle: pick((AssetPickerTheme t) => t.badgeStyle,
-          text.labelSmall ?? const TextStyle()),
+      titleStyle: pick(
+        (AssetPickerTheme t) => t.titleStyle,
+        text.titleMedium ?? AssetPickerFallbackTextStyles.title,
+      ),
+      labelStyle: pick(
+        (AssetPickerTheme t) => t.labelStyle,
+        text.bodySmall ?? AssetPickerFallbackTextStyles.label,
+      ),
+      badgeStyle: pick(
+        (AssetPickerTheme t) => t.badgeStyle,
+        text.labelSmall ?? AssetPickerFallbackTextStyles.badge,
+      ),
       cellRadius: pick(
           (AssetPickerTheme t) => t.cellRadius, PickerChromeSizes.cellRadius),
       sheetRadius: pick(
