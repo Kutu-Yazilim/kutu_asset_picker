@@ -17,6 +17,11 @@ abstract final class AssetPickerSizes {
   /// resize as the author tabs between a photo and a video.
   static const double railHeight = 76;
   static const double railTile = 56;
+
+  /// Pixel size requested for a rail thumbnail. Flat and clamped, deliberately
+  /// larger than [railTile] logical px so it survives a 3× device pixel ratio
+  /// without a second cache entry per density (spec §4.4).
+  static const int railTileThumb = 160;
   static const double railTileBorder = 2;
 
   static const double chipRow = 52;
