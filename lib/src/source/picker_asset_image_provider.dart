@@ -93,6 +93,5 @@ final class PickerAssetImageProvider extends ImageProvider<PickerAssetKey> {
           other.quality == quality;
 
   @override
-  int get hashCode =>
-      Object.hash(asset.id, size.width, size.height, quality);
+  int get hashCode => Object.hash(asset.id, size.width, size.height, quality);
 }

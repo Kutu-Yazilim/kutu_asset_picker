@@ -3,6 +3,7 @@
 ///
 /// See `package:kutu_asset_picker/testing.dart` for [FakeAssetSource].
 library;
+
 export 'src/source/picker_album.dart';
 export 'src/source/picker_asset.dart';
 export 'src/source/picker_media_type.dart';
@@ -18,3 +19,5 @@ export 'src/source/picker_asset_key.dart';
 export 'src/camera/picker_camera_delegate.dart';
 export 'src/providers/injection_providers.dart';
 export 'src/providers/permission_provider.dart';
+export 'src/providers/albums_provider.dart';
+export 'src/providers/asset_page_provider.dart';

@@ -32,8 +32,7 @@ final class PickerAssetKey {
           other.quality == quality;
 
   @override
-  int get hashCode =>
-      Object.hash(assetId, size.width, size.height, quality);
+  int get hashCode => Object.hash(assetId, size.width, size.height, quality);
 
   @override
   String toString() =>
