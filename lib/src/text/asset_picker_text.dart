@@ -1,3 +1,5 @@
+import '../config/picker_enums.dart';
+
 /// Every string the picker renders.
 ///
 /// A concrete base class with per-locale subclasses, rather than
@@ -53,8 +55,24 @@ abstract base class AssetPickerText {
   String get pickerDownloadFailed;
   String get pickerRetry;
 
+  String get cropTitle;
+  String get cropApplyToAll;
+  String get cropReorderHint;
+  String get cropTrim;
+  String get cropCoverFrame;
+
+  String get exportFailed;
+  String get exportCancel;
+
   String selectedCount(int count);
   String limitReached(int max);
+
+  /// The named ratios only. A custom ratio has no name, so the chip prints its
+  /// numbers instead — see `aspectChipLabel`.
+  String aspectLabel(CropAspectLabel label);
+
+  String durationRange(Duration start, Duration end);
+  String exportProgress(int done, int total);
   String videoTooLong(Duration max);
   String fileTooLarge(int maxBytes);
 }

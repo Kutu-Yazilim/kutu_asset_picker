@@ -1,3 +1,5 @@
+import '../config/picker_enums.dart';
+import '../picker/duration_format.dart';
 import 'asset_picker_text.dart';
 
 /// English strings — the package default.
@@ -66,4 +68,37 @@ base class AssetPickerTextEn extends AssetPickerText {
   @override
   String fileTooLarge(int maxBytes) =>
       'Files must be ${maxBytes ~/ (1024 * 1024)} MB or smaller';
+
+  @override
+  String get cropTitle => 'Crop';
+  @override
+  String get cropApplyToAll => 'Apply to all';
+  @override
+  String get cropReorderHint => 'Drag to reorder';
+  @override
+  String get cropTrim => 'Trim';
+  @override
+  String get cropCoverFrame => 'Cover';
+
+  @override
+  String get exportFailed => 'Export failed';
+  @override
+  String get exportCancel => 'Cancel';
+
+  @override
+  String aspectLabel(CropAspectLabel label) => switch (label) {
+        CropAspectLabel.square => '1:1',
+        CropAspectLabel.portrait => '4:5',
+        CropAspectLabel.landscape => '16:9',
+        CropAspectLabel.story => '9:16',
+        CropAspectLabel.banner => '3:1',
+        CropAspectLabel.custom => 'Custom',
+      };
+
+  @override
+  String durationRange(Duration start, Duration end) =>
+      '${formatPickerDuration(start)} – ${formatPickerDuration(end)}';
+
+  @override
+  String exportProgress(int done, int total) => '$done of $total';
 }
