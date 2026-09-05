@@ -115,6 +115,7 @@ final class FakeAssetSource implements AssetSource {
 
   /// The asset queries.
   final List<FakeAssetQuery> assetQueries = <FakeAssetQuery>[];
+
   /// How many times [manageLimitedSelection] was called.
   int manageLimitedSelectionCalls = 0;
 

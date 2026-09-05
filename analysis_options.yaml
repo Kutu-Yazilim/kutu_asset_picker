@@ -8,7 +8,7 @@ analyzer:
     strict-raw-types: true
 
 plugins:
-  riverpod_lint: 3.1.4
+  riverpod_lint: 3.1.9
 
 linter:
   rules:
