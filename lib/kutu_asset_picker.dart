@@ -62,3 +62,13 @@ export 'src/view/picker_step_controller.dart';
 // already there; Task 17 changed its contents, not its path.
 export 'src/view/asset_picker_scope.dart';
 export 'src/view/kutu_asset_picker.dart';
+
+// Video (slice 5)
+export 'src/crop/video/scrubber_mode.dart' show ScrubberMode;
+export 'src/crop/video/video_rejection.dart'
+    show
+        VideoRejectedException,
+        VideoRejection,
+        VideoTooLarge,
+        VideoTooLong,
+        VideoUnavailableException;

@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
-import 'package:kutu_asset_picker/src/crop/video/video_rejection.dart';
 import 'package:kutu_asset_picker/src/picker/video_selection_guard.dart';
 
 void main() {

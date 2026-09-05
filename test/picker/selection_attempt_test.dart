@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
-import 'package:kutu_asset_picker/src/crop/video/video_rejection.dart';
 import 'package:kutu_asset_picker/src/picker/selection_attempt.dart';
 import 'package:kutu_asset_picker/src/source/fake_asset_source.dart';
 
