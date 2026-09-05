@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^3.3.2
+  riverpod_annotation: ^4.0.3
   kutu_asset_picker:
     path: ../
 
