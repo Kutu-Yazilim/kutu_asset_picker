@@ -19,6 +19,30 @@ final RegExp topicPattern = RegExp(r'^[a-z][a-z0-9-]{0,30}[a-z0-9]$');
 /// pub.dev accepts at most five topics per package.
 const int maxTopics = 5;
 
+/// Markdown with fenced code blocks and inline code spans removed.
+///
+/// Needed so that a literal like the Android XML namespace URI inside a snippet
+/// is not mistaken for an insecure link. pana only penalises real Markdown
+/// links, and so does this check.
+String withoutCode(String markdown) => markdown
+    .replaceAll(RegExp(r'^```[\s\S]*?^```', multiLine: true), '')
+    .replaceAll(RegExp(r'`[^`]*`'), '');
+
+/// Every Markdown file the package ships, excluding build output.
+Iterable<File> packageMarkdown() sync* {
+  for (final FileSystemEntity entity
+      in Directory('.').listSync(recursive: true, followLinks: false)) {
+    if (entity is! File || !entity.path.endsWith('.md')) {
+      continue;
+    }
+    if (entity.path.contains('/.dart_tool/') ||
+        entity.path.contains('/build/')) {
+      continue;
+    }
+    yield entity;
+  }
+}
+
 void main() {
   final YamlMap pubspec =
       loadYaml(File('pubspec.yaml').readAsStringSync()) as YamlMap;
@@ -189,6 +213,75 @@ void main() {
           text,
           isNot(contains(supersededClaim)),
           reason: 'CHANGELOG.md still claims `$supersededClaim`',
+        );
+      }
+    });
+  });
+
+  group('readme', () {
+    test('exists and documents the sections a consumer needs', () {
+      final File readme = File('README.md');
+      expect(readme.existsSync(), isTrue, reason: 'no README.md');
+      final String text = readme.readAsStringSync();
+      for (final String heading in <String>[
+        '# kutu_asset_picker',
+        '## Install',
+        '## Quick start',
+        '## Embedding it in your own route',
+        '## AssetPickerConfig',
+        '## The result, and who owns the files',
+        '## Theming',
+        '## Text and localisation',
+        '## Platform setup',
+        '### Android',
+        '### iOS',
+        '## Limited access is a designed state, not a fallback',
+        '## What this package does not do',
+      ]) {
+        expect(text, contains(heading), reason: 'README is missing `$heading`');
+      }
+    });
+
+    test('documents every AssetPickerConfig field', () {
+      final String text = File('README.md').readAsStringSync();
+      for (final String field in <String>[
+        'mediaTypes',
+        'minSelection',
+        'maxSelection',
+        'aspects',
+        'initialAspect',
+        'allowPerAssetAspect',
+        'cropOverlayShape',
+        'gridColumns',
+        'cellAspectRatio',
+        'gridSpacing',
+        'pickerSurface',
+        'cropSurface',
+        'enableCamera',
+        'enableCrop',
+        'enableTrim',
+        'enableCoverFrame',
+        'maxVideoDuration',
+        'maxSourceMegapixels',
+        'keepOriginals',
+        'imageEncode',
+        'videoEncode',
+        'thumbSize',
+      ]) {
+        expect(
+          text,
+          contains('`$field`'),
+          reason: 'README does not document AssetPickerConfig.$field',
+        );
+      }
+    });
+
+    test('no shipped Markdown carries an insecure link', () {
+      for (final File file in packageMarkdown()) {
+        expect(
+          withoutCode(file.readAsStringSync()),
+          isNot(contains('http://')),
+          reason: '${file.path} has an http:// link — pana docks 5 points',
         );
       }
     });
