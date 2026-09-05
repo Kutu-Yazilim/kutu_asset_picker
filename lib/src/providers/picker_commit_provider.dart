@@ -9,6 +9,7 @@ import '../source/asset_source.dart';
 import '../source/picker_asset.dart';
 import 'injection_providers.dart';
 import 'selection_provider.dart';
+import '../picker/slow_motion_flatten.dart';
 
 part 'picker_commit_provider.g.dart';
 
@@ -122,7 +123,15 @@ class PickerCommit extends _$PickerCommit {
       return;
     }
     state = state.copyWith(running: false);
-    if (!outcomes.contains(false)) {
+    if (outcomes.contains(false)) {
+      return;
+    }
+    // spec §7.3 — an iOS slow-motion clip's file can play for a quarter of the
+    // duration Photos showed, and flattening it is a multi-second transcode
+    // that "cannot happen silently behind *Next*". It runs here, after the
+    // pre-flight that materialised the files it needs and before the hand-over
+    // that would otherwise pass a wrong timeline to the crop step.
+    if (await ref.read(slowMotionFlattenProvider.notifier).run()) {
       onReady();
     }
   }
@@ -140,6 +149,7 @@ class PickerCommit extends _$PickerCommit {
   void cancel() {
     _token?.cancel();
     _token = null;
+    ref.read(slowMotionFlattenProvider.notifier).cancel();
     state = const PickerCommitState.idle();
   }
 

@@ -56,7 +56,7 @@ final class ExportControllerProvider
   }
 }
 
-String _$exportControllerHash() => r'78b0b4876456aee529650465223459cbf8eae335';
+String _$exportControllerHash() => r'524b9b87f4a09661117dd521c578b31024181c3f';
 
 /// Drives the sequential [ExportQueue] and publishes its progress.
 ///

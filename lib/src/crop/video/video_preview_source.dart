@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../providers/injection_providers.dart';
 import 'video_rejection.dart';
+import '../../picker/slow_motion_flatten.dart';
 
 part 'video_preview_source.g.dart';
 
@@ -24,7 +25,7 @@ Duration? _noRetry(int retryCount, Object error) => null;
 @Riverpod(retry: _noRetry)
 Future<VideoPreviewSource> videoPreviewSource(Ref ref, String assetId) async {
   final config = ref.watch(assetPickerConfigProvider);
-  final file = await ref.watch(assetSourceProvider).file(assetId);
+  final file = await ref.watch(flattenedAssetSourceProvider).file(assetId);
   if (file == null) throw VideoUnavailableException(assetId);
 
   final sizeBytes = await file.length();

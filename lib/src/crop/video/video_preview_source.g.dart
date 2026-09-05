@@ -67,7 +67,7 @@ final class VideoPreviewSourceProvider extends $FunctionalProvider<
 }
 
 String _$videoPreviewSourceHash() =>
-    r'28d532a643f531c25a450f5b4ebc1a37022bea23';
+    r'32150912a5a153ad5e5dcca6a7a954588096aaa8';
 
 final class VideoPreviewSourceFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<VideoPreviewSource>, String> {

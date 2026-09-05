@@ -9,6 +9,7 @@ import 'picker_footer.dart';
 import 'picker_image_cache_scope.dart';
 import 'selected_strip.dart';
 import 'selection_rejection_banner.dart';
+import 'slow_motion_progress_bar.dart';
 
 /// Everything below the app bar, in both surfaces.
 ///
@@ -37,6 +38,7 @@ class PickerBody extends ConsumerWidget {
           const SelectionRejectionBanner(),
           const SelectedStrip(),
           const CloudProgressBar(),
+          const SlowMotionProgressBar(),
           PickerFooter(onNext: onNext),
         ],
       ),

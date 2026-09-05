@@ -8,6 +8,7 @@ import 'package:kutu_asset_picker/src/result/asset_picker_result.dart';
 import 'package:kutu_media_transform/kutu_media_transform.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'video_export_fraction.dart';
+import '../picker/slow_motion_flatten.dart';
 
 part 'export_controller.g.dart';
 
@@ -32,7 +33,7 @@ class ExportController extends _$ExportController {
     final token = _token = TransformCancelToken();
     final queue = ExportQueue(
       transform: ref.read(mediaTransformProvider),
-      source: ref.read(assetSourceProvider),
+      source: ref.read(flattenedAssetSourceProvider),
     );
 
     _emit(ExportRunning(done: 0, total: assets.length));

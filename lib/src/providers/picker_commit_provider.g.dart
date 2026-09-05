@@ -77,7 +77,7 @@ final class PickerCommitProvider
   }
 }
 
-String _$pickerCommitHash() => r'5671855f90e6efaf878d105618f6c3c85ea96bc5';
+String _$pickerCommitHash() => r'93cbb39f27cef0e4099cd21faab76a526abfcf3e';
 
 /// The iCloud pre-flight that runs before the selection leaves the grid.
 ///
