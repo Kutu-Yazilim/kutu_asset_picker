@@ -30,3 +30,4 @@ export 'src/text/asset_picker_text_provider.dart';
 export 'src/providers/camera_capture_provider.dart';
 export 'src/providers/picker_commit_provider.dart';
 export 'src/source/asset_availability.dart';
+export 'src/providers/library_empty_provider.dart';
