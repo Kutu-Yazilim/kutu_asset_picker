@@ -17,3 +17,4 @@ export 'src/source/picker_asset_image_provider.dart';
 export 'src/source/picker_asset_key.dart';
 export 'src/camera/picker_camera_delegate.dart';
 export 'src/providers/injection_providers.dart';
+export 'src/providers/permission_provider.dart';
