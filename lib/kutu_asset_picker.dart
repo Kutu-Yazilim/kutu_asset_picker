@@ -22,3 +22,5 @@ export 'src/providers/permission_provider.dart';
 export 'src/providers/albums_provider.dart';
 export 'src/providers/asset_page_provider.dart';
 export 'src/providers/selection_provider.dart';
+export 'src/theme/asset_picker_theme.dart';
+export 'src/theme/resolved_asset_picker_theme.dart';
