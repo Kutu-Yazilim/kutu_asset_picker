@@ -1,7 +1,7 @@
 name: kutu_asset_picker_example
-description: Manual harness for kutu_asset_picker — the embeddable picker in a plain app.
+description: Four real configurations of kutu_asset_picker — post, story, avatar and banner.
 publish_to: none
-version: 1.0.0+1
+version: 0.1.0
 
 environment:
   sdk: ^3.5.0
@@ -10,7 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^3.3.2
-  riverpod_annotation: ^4.0.3
   kutu_asset_picker:
     path: ../
 
@@ -18,6 +17,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  # Only the smoke test needs this, for FakeMediaTransform. The example app
+  # itself never imports it — the picker pulls the plugin in transitively.
+  kutu_media_transform:
+    path: ../../kutu_media_transform
+  riverpod_annotation: ^4.0.7
 
 flutter:
   uses-material-design: true

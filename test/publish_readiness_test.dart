@@ -286,4 +286,94 @@ void main() {
       }
     });
   });
+
+  group('example', () {
+    test('has a pubspec, an entry point, a README and a smoke test', () {
+      expect(File('example/pubspec.yaml').existsSync(), isTrue);
+      expect(File('example/lib/main.dart').existsSync(), isTrue);
+      expect(
+        File('example/README.md').existsSync(),
+        isTrue,
+        reason: 'pub.dev renders example/README.md as its own tab',
+      );
+      expect(
+        File('example/test/example_smoke_test.dart').existsSync(),
+        isTrue,
+        reason: 'the example must be proven to still build a widget tree',
+      );
+    });
+
+    test('the example depends on this package by path, not by version', () {
+      final YamlMap examplePubspec =
+          loadYaml(File('example/pubspec.yaml').readAsStringSync()) as YamlMap;
+      final YamlMap dependencies = examplePubspec['dependencies'] as YamlMap;
+      final YamlMap self = dependencies['kutu_asset_picker'] as YamlMap;
+      expect(self['path'], '../');
+      expect(
+        examplePubspec['publish_to'],
+        'none',
+        reason: 'the example is shipped as files, never published itself',
+      );
+    });
+
+    test('the example resolves kutu_media_transform through its own override',
+        () {
+      // An override file is read only when its OWN directory is the resolution
+      // root, so the package's pubspec_overrides.yaml does nothing here.
+      final File overrides = File('example/pubspec_overrides.yaml');
+      expect(
+        overrides.existsSync(),
+        isTrue,
+        reason: 'flutter pub get in example/ cannot resolve without this',
+      );
+      final YamlMap parsed = loadYaml(overrides.readAsStringSync()) as YamlMap;
+      final YamlMap declared = parsed['dependency_overrides'] as YamlMap;
+      final YamlMap transform = declared['kutu_media_transform'] as YamlMap;
+      expect(transform['path'], '../../kutu_media_transform');
+
+      expect(
+        File('../../.gitignore').readAsStringSync(),
+        contains('packages/*/example/pubspec_overrides.yaml'),
+        reason: 'an override inside the package dir would ship in the archive',
+      );
+    });
+
+    test('the example ships the platform setup the README promises', () {
+      // Spec §4.3: the example is the working reference for the block the
+      // package README tells consumers to paste. A README that claims it while
+      // the files are bare is worse than no claim at all.
+      final String manifest =
+          File('example/android/app/src/main/AndroidManifest.xml')
+              .readAsStringSync();
+      for (final String permission in <String>[
+        'android.permission.READ_MEDIA_IMAGES',
+        'android.permission.READ_MEDIA_VIDEO',
+        'android.permission.READ_MEDIA_VISUAL_USER_SELECTED',
+        'android.permission.READ_EXTERNAL_STORAGE',
+        'android.permission.CAMERA',
+      ]) {
+        expect(
+          manifest,
+          contains(permission),
+          reason: 'the example manifest is missing $permission',
+        );
+      }
+
+      final String plist =
+          File('example/ios/Runner/Info.plist').readAsStringSync();
+      for (final String key in <String>[
+        'NSPhotoLibraryUsageDescription',
+        'NSCameraUsageDescription',
+        'NSMicrophoneUsageDescription',
+        'PHPhotoLibraryPreventAutomaticLimitedAccessAlert',
+      ]) {
+        expect(
+          RegExp('<key>$key</key>').allMatches(plist).length,
+          1,
+          reason: 'Info.plist must declare $key exactly once — duplicate keys '
+              'in one dict are invalid and the later one silently wins',
+        );
+      }
+    });
+  });
 }

@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This example reads your photos and videos so you can try the picker.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This example uses the camera so you can try the camera tile.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This example records audio with video captured from the camera tile.</string>
+	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
+	<true/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
