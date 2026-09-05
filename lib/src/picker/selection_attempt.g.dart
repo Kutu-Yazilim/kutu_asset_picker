@@ -68,7 +68,7 @@ final class SelectionAttemptProvider
   }
 }
 
-String _$selectionAttemptHash() => r'1b4bd7d2b7724fb0678d4f22badc88a9c78fc6df';
+String _$selectionAttemptHash() => r'd0609b83b67fff70201f1f8dc04b616469f9eabd';
 
 /// The guarded front door to selection.
 ///
