@@ -12,3 +12,6 @@ export 'src/config/crop_aspect.dart';
 export 'src/config/picker_enums.dart';
 export 'src/config/picker_tuning.dart';
 export 'src/source/asset_source.dart';
+export 'src/source/photo_manager_asset_source.dart';
+export 'src/source/picker_asset_image_provider.dart';
+export 'src/source/picker_asset_key.dart';
