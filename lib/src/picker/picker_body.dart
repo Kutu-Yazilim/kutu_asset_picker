@@ -8,6 +8,7 @@ import 'permission_gate.dart';
 import 'picker_footer.dart';
 import 'picker_image_cache_scope.dart';
 import 'selected_strip.dart';
+import 'selection_rejection_banner.dart';
 
 /// Everything below the app bar, in both surfaces.
 ///
@@ -33,6 +34,7 @@ class PickerBody extends ConsumerWidget {
       child: Column(
         children: <Widget>[
           Expanded(child: PermissionGate(scrollController: scrollController)),
+          const SelectionRejectionBanner(),
           const SelectedStrip(),
           const CloudProgressBar(),
           PickerFooter(onNext: onNext),

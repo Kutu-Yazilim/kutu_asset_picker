@@ -9,6 +9,7 @@ import '../theme/resolved_asset_picker_theme.dart';
 import 'asset_thumbnail.dart';
 import 'selection_badge.dart';
 import 'video_duration_overlay.dart';
+import 'selection_attempt.dart';
 
 /// One grid cell.
 ///
@@ -42,7 +43,7 @@ class AssetGridCell extends ConsumerWidget {
         behavior: HitTestBehavior.opaque,
         onTap: disabled
             ? null
-            : () => ref.read(selectionProvider.notifier).toggleAsset(asset),
+            : () => ref.read(selectionAttemptProvider.notifier).toggle(asset),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(theme.cellRadius),
           child: Stack(
