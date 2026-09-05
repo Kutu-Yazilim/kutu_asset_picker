@@ -12,7 +12,9 @@ part 'scrubber_mode.g.dart';
 /// (spec §6.3).
 enum ScrubberMode { trim, cover }
 
-@riverpod
+// keepAlive (contract §9): the mode the author chose must not reset when
+// the bar fades out and back during a drag.
+@Riverpod(keepAlive: true)
 class ScrubberModeController extends _$ScrubberModeController {
   @override
   ScrubberMode build() =>

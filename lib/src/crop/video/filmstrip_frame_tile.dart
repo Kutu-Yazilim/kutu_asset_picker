@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+
+import '../../picker/thumbnail_fallback.dart';
 import 'dart:typed_data';
 
 /// One extracted frame in the strip.
@@ -16,5 +18,8 @@ class FilmstripFrameTile extends StatelessWidget {
         fit: BoxFit.cover,
         gaplessPlayback: true,
         filterQuality: FilterQuality.low,
+        // A frame that fails to decode is a blank tile, never a crashed rail.
+        errorBuilder: (BuildContext context, Object error, StackTrace? stack) =>
+            const ThumbnailFallback(),
       );
 }

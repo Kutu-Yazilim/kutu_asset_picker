@@ -20,7 +20,7 @@ final class ScrubberModeControllerProvider
           argument: null,
           retry: null,
           name: r'scrubberModeControllerProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -42,7 +42,7 @@ final class ScrubberModeControllerProvider
 }
 
 String _$scrubberModeControllerHash() =>
-    r'9591b0fe223f8cec594be244b88a738955839960';
+    r'5626356586b573066a86fb9042da4c5b996960d9';
 
 abstract class _$ScrubberModeController extends $Notifier<ScrubberMode> {
   ScrubberMode build();
