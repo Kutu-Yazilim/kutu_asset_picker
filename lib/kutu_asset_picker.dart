@@ -7,3 +7,7 @@ export 'src/source/picker_album.dart';
 export 'src/source/picker_asset.dart';
 export 'src/source/picker_media_type.dart';
 export 'src/source/picker_permission.dart';
+export 'src/config/asset_picker_config.dart';
+export 'src/config/crop_aspect.dart';
+export 'src/config/picker_enums.dart';
+export 'src/config/picker_tuning.dart';
