@@ -4,6 +4,7 @@ import 'package:kutu_asset_picker/src/constants/asset_picker_quality.dart';
 import 'package:kutu_asset_picker/src/constants/asset_picker_sizes.dart';
 import 'package:kutu_asset_picker/src/constants/asset_picker_spacing.dart';
 import 'package:kutu_asset_picker/src/crop/crop_providers.dart';
+import 'package:kutu_asset_picker/src/picker/thumbnail_fallback.dart';
 import 'package:kutu_asset_picker/src/providers/injection_providers.dart';
 import 'package:kutu_asset_picker/src/source/picker_asset.dart';
 import 'package:kutu_asset_picker/src/source/picker_asset_image_provider.dart';
@@ -48,6 +49,9 @@ class CropAssetRailTile extends ConsumerWidget {
             ),
             fit: BoxFit.cover,
             gaplessPlayback: true,
+            errorBuilder:
+                (BuildContext context, Object error, StackTrace? stack) =>
+                    const ThumbnailFallback(),
           ),
         ),
       ),

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/picker_tuning.dart';
 import '../providers/permission_provider.dart';
 import '../text/asset_picker_text.dart';
-import '../text/asset_picker_text_provider.dart';
-import '../theme/asset_picker_theme.dart';
+import '../text/asset_picker_text_scope.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 
 /// The denied state: rationale, then the way out (design §4.2).
@@ -51,8 +51,8 @@ class _PermissionDeniedViewState extends ConsumerState<PermissionDeniedView>
 
   @override
   Widget build(BuildContext context) {
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
-    final AssetPickerText text = ref.watch(assetPickerTextProvider);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
+    final AssetPickerText text = context.pickerText;
 
     return ColoredBox(
       color: theme.background,

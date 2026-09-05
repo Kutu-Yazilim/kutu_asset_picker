@@ -7,7 +7,7 @@ import '../config/picker_tuning.dart';
 import '../providers/asset_page_provider.dart';
 import '../providers/injection_providers.dart';
 import '../source/picker_asset.dart';
-import '../theme/asset_picker_theme.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 import 'asset_grid_cell.dart';
 import 'camera_tile.dart';
@@ -26,7 +26,7 @@ class AssetGrid extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AssetPickerConfig config = ref.watch(assetPickerConfigProvider);
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
     final AsyncValue<List<PickerAsset>> page = ref.watch(assetPageProvider);
     final bool showCamera =
         config.enableCamera && ref.watch(pickerCameraDelegateProvider) != null;

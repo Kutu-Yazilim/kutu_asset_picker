@@ -5,6 +5,7 @@ import 'package:kutu_asset_picker/kutu_asset_picker.dart';
 import 'package:kutu_asset_picker/testing.dart';
 import 'package:kutu_media_transform/kutu_media_transform.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart' show Override;
+import 'package:kutu_asset_picker/src/result/asset_picker_result.dart';
 
 void main() {
   test('every value type a consumer configures is exported', () {
@@ -62,7 +63,6 @@ void main() {
       overrides: <Override>[
         assetPickerConfigProvider.overrideWithValue(const AssetPickerConfig()),
         assetSourceProvider.overrideWithValue(source),
-        assetPickerTextProvider.overrideWithValue(const AssetPickerTextEn()),
         pickerCameraDelegateProvider.overrideWithValue(null),
         pickerSettingsOpenerProvider.overrideWithValue(() async {}),
       ],
@@ -99,7 +99,7 @@ void main() {
           assetSourceProvider.overrideWithValue(source),
         ],
         child: MaterialApp(
-          home: AssetPickerView(onCompleted: (List<PickerAsset> _) {}),
+          home: AssetPickerView(onCompleted: (AssetPickerResult _) {}),
         ),
       ),
     );

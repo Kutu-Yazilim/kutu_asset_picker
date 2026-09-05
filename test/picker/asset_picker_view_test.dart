@@ -7,6 +7,9 @@ import 'package:kutu_asset_picker/src/picker/asset_picker_sheet.dart';
 
 import '../support/pump_picker.dart';
 import 'package:kutu_asset_picker/src/source/fake_asset_source.dart';
+import 'package:kutu_asset_picker/src/result/asset_picker_result.dart';
+import 'package:kutu_asset_picker/src/view/picker_step_controller.dart';
+import 'package:kutu_asset_picker/src/crop/crop_providers.dart';
 
 void main() {
   testWidgets('the page surface hosts the grid step in a scaffold',
@@ -52,71 +55,13 @@ void main() {
 
     await pumpPicker(
       tester,
-      AssetPickerView(onCompleted: (List<PickerAsset> _) {}),
+      AssetPickerView(onCompleted: (AssetPickerResult _) {}),
       source: source,
       wrapInScaffold: false,
     );
     await tester.pumpAndSettle();
 
     expect(find.byType(PickerGridStep), findsOneWidget);
-  });
-
-  testWidgets('NEXT DELIVERS THE SELECTION IN SELECTION ORDER',
-      (WidgetTester tester) async {
-    final FakeAssetSource source = fakeSourceWith(testAssets(4));
-    addTearDown(source.dispose);
-
-    List<PickerAsset>? delivered;
-    final ProviderContainer container = await pumpPicker(
-      tester,
-      AssetPickerView(
-        onCompleted: (List<PickerAsset> assets) => delivered = assets,
-      ),
-      source: source,
-      wrapInScaffold: false,
-    );
-    await tester.pumpAndSettle();
-
-    container.read(selectionProvider.notifier)
-      ..toggleAsset(testAsset('a2'))
-      ..toggleAsset(testAsset('a0'));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.text(en.pickerNext));
-    await tester.pumpAndSettle();
-
-    expect(delivered, isNotNull);
-    expect(
-        delivered!.map((PickerAsset asset) => asset.id), <String>['a2', 'a0']);
-  });
-
-  testWidgets('a reorder in the strip changes what Next delivers',
-      (WidgetTester tester) async {
-    final FakeAssetSource source = fakeSourceWith(testAssets(4));
-    addTearDown(source.dispose);
-
-    List<PickerAsset>? delivered;
-    final ProviderContainer container = await pumpPicker(
-      tester,
-      AssetPickerView(
-        onCompleted: (List<PickerAsset> assets) => delivered = assets,
-      ),
-      source: source,
-      wrapInScaffold: false,
-    );
-    await tester.pumpAndSettle();
-
-    container.read(selectionProvider.notifier)
-      ..toggleAsset(testAsset('a0'))
-      ..toggleAsset(testAsset('a1'))
-      ..reorder(1, 0);
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.text(en.pickerNext));
-    await tester.pumpAndSettle();
-
-    expect(
-        delivered!.map((PickerAsset asset) => asset.id), <String>['a1', 'a0']);
   });
 
   testWidgets('cancel reaches the host callback', (WidgetTester tester) async {
@@ -127,7 +72,7 @@ void main() {
     await pumpPicker(
       tester,
       AssetPickerView(
-        onCompleted: (List<PickerAsset> _) {},
+        onCompleted: (AssetPickerResult _) {},
         onCancelled: () => cancelled += 1,
       ),
       source: source,
@@ -151,12 +96,70 @@ void main() {
 
     await pumpPicker(
       tester,
-      AssetPickerView(onCompleted: (List<PickerAsset> _) {}),
+      AssetPickerView(onCompleted: (AssetPickerResult _) {}),
       source: source,
       wrapInScaffold: false,
     );
     await tester.pumpAndSettle();
 
     expect(find.byType(ProviderScope), findsNothing);
+  });
+
+  testWidgets('NEXT ADVANCES TO THE CROP STEP INSTEAD OF COMPLETING',
+      (WidgetTester tester) async {
+    final FakeAssetSource source = fakeSourceWith(testAssets(4));
+    addTearDown(source.dispose);
+
+    AssetPickerResult? delivered;
+    final ProviderContainer container = await pumpPicker(
+      tester,
+      AssetPickerView(
+        onCompleted: (AssetPickerResult result) => delivered = result,
+      ),
+      source: source,
+      wrapInScaffold: false,
+    );
+    await tester.pumpAndSettle();
+
+    container.read(selectionProvider.notifier)
+      ..toggleAsset(testAsset('a2'))
+      ..toggleAsset(testAsset('a0'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text(en.pickerNext));
+    await tester.pumpAndSettle();
+
+    // The result arrives from the export controller, not from Next.
+    expect(delivered, isNull);
+    expect(container.read(pickerStepControllerProvider), AssetPickerStep.crop);
+    expect(find.byType(PickerGridStep), findsNothing);
+  });
+
+  testWidgets('THE CROP STEP EDITS THE SELECTION IN SELECTION ORDER',
+      (WidgetTester tester) async {
+    final FakeAssetSource source = fakeSourceWith(testAssets(4));
+    addTearDown(source.dispose);
+
+    final ProviderContainer container = await pumpPicker(
+      tester,
+      AssetPickerView(onCompleted: (AssetPickerResult _) {}),
+      source: source,
+      wrapInScaffold: false,
+    );
+    await tester.pumpAndSettle();
+
+    container.read(selectionProvider.notifier)
+      ..toggleAsset(testAsset('a0'))
+      ..toggleAsset(testAsset('a1'))
+      ..reorder(1, 0);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text(en.pickerNext));
+    await tester.pumpAndSettle();
+
+    expect(
+      container.read(selectedAssetsProvider).map((PickerAsset a) => a.id),
+      <String>['a1', 'a0'],
+    );
   });
 }

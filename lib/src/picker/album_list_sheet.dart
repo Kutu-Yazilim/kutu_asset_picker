@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/albums_provider.dart';
 import '../source/picker_album.dart';
-import '../theme/asset_picker_theme.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 import 'album_list_tile.dart';
 import '../config/picker_tuning.dart';
@@ -17,7 +17,7 @@ class AlbumListSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
     final AsyncValue<List<PickerAlbum>> albums =
         ref.watch(assetPickerAlbumsProvider);
     final PickerAlbum? current = ref.watch(currentAlbumProvider);

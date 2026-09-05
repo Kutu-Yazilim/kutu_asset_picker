@@ -26,7 +26,6 @@ export 'src/theme/asset_picker_theme.dart';
 export 'src/theme/resolved_asset_picker_theme.dart';
 export 'src/text/asset_picker_text.dart';
 export 'src/text/asset_picker_text_en.dart';
-export 'src/text/asset_picker_text_provider.dart';
 export 'src/providers/camera_capture_provider.dart';
 export 'src/providers/picker_commit_provider.dart';
 export 'src/source/asset_availability.dart';

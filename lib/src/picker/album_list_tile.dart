@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../source/picker_album.dart';
-import '../theme/asset_picker_theme.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 
 /// One row in the album list.
@@ -19,7 +19,7 @@ class AlbumListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
 
     return ListTile(
       selected: selected,

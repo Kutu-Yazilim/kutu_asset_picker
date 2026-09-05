@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/picker_tuning.dart';
 import '../providers/picker_commit_provider.dart';
 import '../text/asset_picker_text.dart';
-import '../text/asset_picker_text_provider.dart';
-import '../theme/asset_picker_theme.dart';
+import '../text/asset_picker_text_scope.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 
 /// The iCloud download strip, shown between the selected strip and the footer.
@@ -24,8 +24,8 @@ class CloudProgressBar extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
-    final AssetPickerText text = ref.watch(assetPickerTextProvider);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
+    final AssetPickerText text = context.pickerText;
     final bool failed = commit.hasFailures;
 
     return ColoredBox(

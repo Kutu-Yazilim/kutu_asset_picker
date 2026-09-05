@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kutu_asset_picker/src/constants/asset_picker_quality.dart';
 import 'package:kutu_asset_picker/src/crop/preview_thumb_size.dart';
+import 'package:kutu_asset_picker/src/picker/thumbnail_fallback.dart';
 import 'package:kutu_asset_picker/src/providers/injection_providers.dart';
 import 'package:kutu_asset_picker/src/source/picker_asset.dart';
 import 'package:kutu_asset_picker/src/source/picker_asset_image_provider.dart';
@@ -32,5 +33,9 @@ class CropAssetImage extends ConsumerWidget {
         ),
         fit: BoxFit.fill,
         gaplessPlayback: true,
+        // The same degrade-not-crash rule as the grid thumbnail: an undecodable
+        // preview still leaves the crop step usable.
+        errorBuilder: (BuildContext context, Object error, StackTrace? stack) =>
+            const ThumbnailFallback(),
       );
 }

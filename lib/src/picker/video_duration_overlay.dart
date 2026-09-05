@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../config/picker_tuning.dart';
 import '../source/picker_asset.dart';
 import '../source/picker_media_type.dart';
-import '../theme/asset_picker_theme.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 import 'duration_format.dart';
 
@@ -26,7 +26,7 @@ class VideoDurationOverlay extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
 
     return Container(
       padding: PickerChromeSizes.durationChipPadding,

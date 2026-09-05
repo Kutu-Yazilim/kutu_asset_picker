@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/picker_tuning.dart';
 import '../providers/selection_provider.dart';
 import '../source/picker_asset.dart';
-import '../theme/asset_picker_theme.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 import 'asset_thumbnail.dart';
 import 'selection_badge.dart';
@@ -33,7 +33,7 @@ class AssetGridCell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final int index = ref.watch(selectionIndexProvider(asset.id));
     final bool capReached = ref.watch(selectionCapReachedProvider);
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
 
     final bool disabled = capReached && index == 0;
 

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/picker_tuning.dart';
 import '../providers/camera_capture_provider.dart';
 import '../text/asset_picker_text.dart';
-import '../text/asset_picker_text_provider.dart';
-import '../theme/asset_picker_theme.dart';
+import '../text/asset_picker_text_scope.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 
 /// The first cell in the grid, which delegates to the OS camera.
@@ -20,8 +20,8 @@ class CameraTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
-    final AssetPickerText text = ref.watch(assetPickerTextProvider);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
+    final AssetPickerText text = context.pickerText;
     final bool capturing = ref.watch(cameraCaptureProvider);
 
     return RepaintBoundary(

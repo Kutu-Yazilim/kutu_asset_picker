@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
 import 'package:kutu_asset_picker/testing.dart';
+import 'package:kutu_asset_picker/src/text/asset_picker_text_scope.dart';
 
 /// Builds a `PickerAsset` with sensible defaults, so a test names only what it
 /// cares about.
@@ -73,7 +74,6 @@ Future<ProviderContainer> pumpPicker(
       assetPickerConfigProvider.overrideWithValue(config),
       assetSourceProvider.overrideWithValue(source),
       pickerCameraDelegateProvider.overrideWithValue(camera),
-      assetPickerTextProvider.overrideWithValue(text),
       ...extraOverrides,
     ],
   );
@@ -84,7 +84,10 @@ Future<ProviderContainer> pumpPicker(
       container: container,
       child: MaterialApp(
         theme: theme ?? ThemeData.light(),
-        home: wrapInScaffold ? Scaffold(body: child) : child,
+        home: AssetPickerTextScope(
+          text: text,
+          child: wrapInScaffold ? Scaffold(body: child) : child,
+        ),
       ),
     ),
   );

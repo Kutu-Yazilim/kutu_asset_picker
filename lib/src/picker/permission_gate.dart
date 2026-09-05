@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/picker_tuning.dart';
 import '../providers/permission_provider.dart';
 import '../source/picker_permission.dart';
-import '../theme/asset_picker_theme.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 import 'full_access_body.dart';
 import 'limited_access_body.dart';
@@ -31,7 +31,7 @@ class PermissionGate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
 
     return ref.watch(assetPickerPermissionProvider).when(
           loading: () => Center(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../text/asset_picker_text.dart';
-import '../text/asset_picker_text_provider.dart';
-import '../theme/asset_picker_theme.dart';
+import '../text/asset_picker_text_scope.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 import 'album_dropdown_button.dart';
 
@@ -26,8 +26,8 @@ class PickerAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
-    final AssetPickerText text = ref.watch(assetPickerTextProvider);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
+    final AssetPickerText text = context.pickerText;
 
     return AppBar(
       backgroundColor: theme.background,

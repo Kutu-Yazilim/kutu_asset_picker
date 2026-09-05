@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/asset_picker_theme.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 import '../config/picker_tuning.dart';
 
@@ -13,7 +13,7 @@ class ThumbnailFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
     return ColoredBox(
       color: theme.surface,
       child: Center(

@@ -1,5 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart' show Override;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
@@ -108,20 +106,6 @@ void main() {
 
     expect(text.pickerNext, 'Continue');
     expect(text.pickerCancel, 'Cancel', reason: 'everything else is inherited');
-  });
-
-  test('the provider defaults to English and is overridable', () {
-    final ProviderContainer plain = ProviderContainer();
-    addTearDown(plain.dispose);
-    expect(plain.read(assetPickerTextProvider), isA<AssetPickerTextEn>());
-
-    final ProviderContainer custom = ProviderContainer(
-      overrides: <Override>[
-        assetPickerTextProvider.overrideWithValue(const _OneStringOverride()),
-      ],
-    );
-    addTearDown(custom.dispose);
-    expect(custom.read(assetPickerTextProvider).pickerNext, 'Continue');
   });
 
   group('assetPickerTextFromLocale', () {

@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config/picker_tuning.dart';
 import '../text/asset_picker_text.dart';
-import '../text/asset_picker_text_provider.dart';
-import '../theme/asset_picker_theme.dart';
+import '../text/asset_picker_text_scope.dart';
+import '../theme/asset_picker_theme_scope.dart';
 import '../theme/resolved_asset_picker_theme.dart';
 
 /// The empty state under **full** access, where the library really is empty.
@@ -23,8 +23,8 @@ class EmptyLibraryView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ResolvedAssetPickerTheme theme = AssetPickerTheme.resolve(context);
-    final AssetPickerText text = ref.watch(assetPickerTextProvider);
+    final ResolvedAssetPickerTheme theme = context.pickerTheme;
+    final AssetPickerText text = context.pickerText;
 
     return Padding(
       padding: PickerChromeSizes.statePadding,
