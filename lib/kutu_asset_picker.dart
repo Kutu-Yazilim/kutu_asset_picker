@@ -11,3 +11,4 @@ export 'src/config/asset_picker_config.dart';
 export 'src/config/crop_aspect.dart';
 export 'src/config/picker_enums.dart';
 export 'src/config/picker_tuning.dart';
+export 'src/source/asset_source.dart';
