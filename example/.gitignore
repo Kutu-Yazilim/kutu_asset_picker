@@ -49,3 +49,14 @@ app.*.map.json
 
 # Local monorepo link; pub publish must never ship it.
 pubspec_overrides.yaml
+
+# Platform build output the monorepo root used to ignore.
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/ephemeral/
+android/.gradle/
+android/local.properties
+.flutter-plugins
+pubspec_overrides.yaml

@@ -6,3 +6,8 @@ build/
 # A library package does not commit its lock file.
 pubspec.lock
 example/pubspec.lock
+
+# Local links pub reads and pub publish must never ship (see the release doc).
+pubspec_overrides.yaml
+example/pubspec_overrides.yaml
+.DS_Store
