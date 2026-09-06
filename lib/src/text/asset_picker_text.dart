@@ -101,6 +101,9 @@ abstract base class AssetPickerText {
   /// Pause the video preview.
   String get cropPause;
 
+  /// The draggable kept range between the trim handles, for screen readers.
+  String get cropKeptRange;
+
   /// The export failed.
   String get exportFailed;
 

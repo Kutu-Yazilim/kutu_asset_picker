@@ -16,6 +16,7 @@ void main() {
   const assetId = 'clip-1';
   const total = Duration(seconds: 40);
   const trackWidth = 300.0;
+  const text = AssetPickerTextEn();
 
   Future<ProviderContainer> pumpOverlay(
     WidgetTester tester, {
@@ -64,6 +65,23 @@ void main() {
         container.read(videoTrimControllerProvider(assetId, total)).trim;
     expect(trim.start, const Duration(seconds: 10));
     expect(trim.end, const Duration(seconds: 30));
+  });
+
+  testWidgets('the zone carries a semantics label, as delegate copy',
+      (tester) async {
+    // A screen reader user cannot see the frame bars that say "grab me";
+    // the label is how the zone announces itself.
+    await pumpOverlay(tester);
+
+    expect(
+      find.descendant(
+        of: find.byKey(TrimHandlesOverlay.rangeKey),
+        matching: find.byWidgetPredicate(
+          (w) => w is Semantics && w.properties.label == text.cropKeptRange,
+        ),
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('the zone sits between the handles and never over them',

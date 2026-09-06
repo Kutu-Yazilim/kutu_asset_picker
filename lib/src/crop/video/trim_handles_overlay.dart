@@ -7,6 +7,7 @@ import 'trim_handle.dart';
 import 'trim_math.dart';
 import 'video_crop_constants.dart';
 import 'video_trim_controller.dart';
+import '../../text/asset_picker_text_scope.dart';
 import '../../theme/asset_picker_theme_scope.dart';
 
 /// The trim mode of the scrubber: two handles, the dimming that shows what
@@ -86,12 +87,17 @@ class TrimHandlesOverlay extends ConsumerWidget {
             onHorizontalDragEnd: (_) => ref
                 .read(videoTrimControllerProvider(assetId, total).notifier)
                 .endDrag(),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.symmetric(
-                  horizontal: BorderSide(
-                    color: theme.onSurface,
-                    width: VideoCropConstants.rangeFrameWidth,
+            // The frame bars say "grab me" to a sighted author; the label
+            // says it to a screen reader.
+            child: Semantics(
+              label: context.pickerText.cropKeptRange,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  border: Border.symmetric(
+                    horizontal: BorderSide(
+                      color: theme.onSurface,
+                      width: VideoCropConstants.rangeFrameWidth,
+                    ),
                   ),
                 ),
               ),
