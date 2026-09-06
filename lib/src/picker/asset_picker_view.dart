@@ -28,6 +28,14 @@ void _ignore() {}
 /// `AssetPickerScope` does exactly that and is what `KutuAssetPicker.show`
 /// mounts. A scope created here would shadow the consumer's own overrides.
 ///
+/// **Give it a root, not a nested scope.** If your app already has a
+/// `ProviderScope`, do not wrap this in a `ProviderScope(overrides: …)` — that
+/// is a child scope, and the picker's own providers, which do not declare
+/// `dependencies`, resolve at your root, where the injection providers throw.
+/// Either override the two providers at your root, or mount this under an
+/// `UncontrolledProviderScope` over a fresh `ProviderContainer(overrides: …)`,
+/// which is what `AssetPickerScope` does.
+///
 /// The result arrives through [onCompleted] rather than a `Future`, because a
 /// button that awaited one would break Flutter rule 9. `ref.listen` on the
 /// export controller is the same pattern every screen in `apps/mobile` uses.

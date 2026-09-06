@@ -1,3 +1,18 @@
+## 0.1.1
+
+- **Fixed: the picker showed "photo access is off" and never asked the OS
+  when the host app already had a root `ProviderScope`** — which every
+  Riverpod app does. `AssetPickerScope` nested a `ProviderScope(overrides:)`
+  under the host's, making it a child scope; providers the picker does not
+  override, such as its permission provider, then resolved at the host's
+  root, where the injection providers throw by design, and the gate rendered
+  that error as a denial. The scope now owns a root container of its own.
+  The example app has no root scope, which is why it never reproduced.
+- Documented that a consumer embedding `AssetPickerView` directly must give
+  it a root container (`UncontrolledProviderScope` over a fresh
+  `ProviderContainer`) or override the injection providers at their own root,
+  not a nested `ProviderScope(overrides:)`.
+
 ## 0.1.0
 
 First release.

@@ -1,6 +1,6 @@
 name: kutu_asset_picker
 description: "A themeable Flutter gallery picker with device-side crop for photos and video: per-asset aspect ratios, trim, cover frames, and a designed limited-access state."
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/Kutu-Yazilim/kutu_asset_picker
 repository: https://github.com/Kutu-Yazilim/kutu_asset_picker
 issue_tracker: https://github.com/Kutu-Yazilim/kutu_asset_picker/issues

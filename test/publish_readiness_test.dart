@@ -124,7 +124,7 @@ void main() {
     });
 
     test('declares the version this slice ships', () {
-      expect(pubspec['version'], '0.1.0');
+      expect(pubspec['version'], '0.1.1');
     });
 
     test('depends on kutu_media_transform as a hosted version', () {

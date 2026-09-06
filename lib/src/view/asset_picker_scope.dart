@@ -9,12 +9,27 @@ import 'package:kutu_asset_picker/src/text/asset_picker_text.dart';
 import 'package:kutu_asset_picker/src/theme/asset_picker_theme.dart';
 import 'package:kutu_media_transform/kutu_media_transform.dart';
 
-/// The `ProviderScope` the picker needs, plus the view.
+/// The Riverpod container the picker needs, plus the view.
 ///
 /// A consumer embedding [AssetPickerView] inside their own Riverpod tree writes
 /// the equivalent overrides themselves; this widget exists so
 /// `KutuAssetPicker.show` — and the `example/` app — do not have to.
-class AssetPickerScope extends StatelessWidget {
+///
+/// **It owns a ROOT container, deliberately not a nested `ProviderScope`.** A
+/// `ProviderScope(overrides: …)` placed under a host app's own scope becomes
+/// a *child* scope, and Riverpod resolves any provider the child does not
+/// override at the nearest ancestor that does — the host's root — unless that
+/// provider declares `dependencies`. The picker's permission provider is not
+/// overridden here, so under a host with a root scope it was read from the
+/// host's container, where the injection providers throw by design, and the
+/// gate rendered that error as "photo access is off" without ever asking the
+/// OS. Every Riverpod app has a root scope; the example app does not, which
+/// is why it never reproduced. A fresh container with no parent is what the
+/// package's own test harness always used, and it is what this builds.
+///
+/// The picker reads nothing from the host's providers, so isolation costs it
+/// nothing.
+class AssetPickerScope extends StatefulWidget {
   /// Creates a [AssetPickerScope].
   const AssetPickerScope({
     required this.config,
@@ -49,20 +64,33 @@ class AssetPickerScope extends StatelessWidget {
   final AssetPickerText? text;
 
   @override
-  Widget build(BuildContext context) {
-    final engine = transform;
-    return ProviderScope(
-      overrides: [
-        assetPickerConfigProvider.overrideWithValue(config),
-        assetSourceProvider.overrideWithValue(source),
-        if (engine != null) mediaTransformProvider.overrideWithValue(engine),
-      ],
-      child: AssetPickerView(
-        onCompleted: onCompleted,
-        onCancelled: onCancelled,
-        theme: theme,
-        text: text,
-      ),
-    );
+  State<AssetPickerScope> createState() => _AssetPickerScopeState();
+}
+
+class _AssetPickerScopeState extends State<AssetPickerScope> {
+  late final ProviderContainer _container = ProviderContainer(
+    overrides: [
+      assetPickerConfigProvider.overrideWithValue(widget.config),
+      assetSourceProvider.overrideWithValue(widget.source),
+      if (widget.transform case final MediaTransform engine)
+        mediaTransformProvider.overrideWithValue(engine),
+    ],
+  );
+
+  @override
+  void dispose() {
+    _container.dispose();
+    super.dispose();
   }
+
+  @override
+  Widget build(BuildContext context) => UncontrolledProviderScope(
+        container: _container,
+        child: AssetPickerView(
+          onCompleted: widget.onCompleted,
+          onCancelled: widget.onCancelled,
+          theme: widget.theme,
+          text: widget.text,
+        ),
+      );
 }
