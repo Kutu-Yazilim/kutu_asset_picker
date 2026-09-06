@@ -151,27 +151,40 @@ void main() {
     });
   });
 
-  group('local monorepo link', () {
-    test('the override lives in pubspec_overrides.yaml and is gitignored', () {
-      // Slice 3 Task 1 created this file. It is not deleted here — the package
-      // cannot resolve without it until kutu_media_transform 0.1.0 is on
-      // pub.dev — it is gitignored so `dart pub publish` never ships it.
-      final File overrides = File('pubspec_overrides.yaml');
+  group('the transform is a hosted dependency, everywhere', () {
+    test('pubspec.yaml names a hosted constraint and no path', () {
+      // kutu_media_transform 0.2.0 is on pub.dev, so nothing local is needed
+      // to resolve any more. A path dependency here would make the package
+      // unpublishable; `dart pub publish` refuses one outright.
+      final Object? declared =
+          (pubspec['dependencies'] as YamlMap)['kutu_media_transform'];
       expect(
-        overrides.existsSync(),
-        isTrue,
-        reason: 'local resolution needs a path override outside pubspec.yaml',
+        declared,
+        isA<String>(),
+        reason: 'a map would mean a path or git dependency',
       );
-      final YamlMap parsed = loadYaml(overrides.readAsStringSync()) as YamlMap;
-      final YamlMap declared = parsed['dependency_overrides'] as YamlMap;
-      final YamlMap transform = declared['kutu_media_transform'] as YamlMap;
-      expect(transform['path'], '../kutu_media_transform');
+      expect(declared, startsWith('^'));
+    });
 
-      expect(
-        isGitIgnored('pubspec_overrides.yaml'),
-        isTrue,
-        reason: 'an override the archive could pick up must be ignored',
-      );
+    test('any local override is gitignored, so the archive cannot pick it up',
+        () {
+      // Developing the two packages side by side is still legitimate, and a
+      // `pubspec_overrides.yaml` is how you do it. It must never ship, and
+      // `dart pub publish` honours gitignore — asked of git itself, so this
+      // holds both in a monorepo whose root supplies the rule and in this
+      // package's own repository.
+      for (final String path in <String>[
+        'pubspec_overrides.yaml',
+        'example/pubspec_overrides.yaml',
+      ]) {
+        if (File(path).existsSync()) {
+          expect(
+            isGitIgnored(path),
+            isTrue,
+            reason: '$path exists and would reach the archive',
+          );
+        }
+      }
     });
   });
 
@@ -326,26 +339,21 @@ void main() {
       );
     });
 
-    test('the example resolves kutu_media_transform through its own override',
-        () {
-      // An override file is read only when its OWN directory is the resolution
-      // root, so the package's pubspec_overrides.yaml does nothing here.
-      final File overrides = File('example/pubspec_overrides.yaml');
+    test('the example depends on the transform as a hosted package', () {
+      // This file ships inside the published archive, where a path such as
+      // ../../kutu_media_transform does not exist — a consumer unpacking the
+      // example could not resolve it. Only the smoke test needs the
+      // dependency at all, for FakeMediaTransform.
+      final YamlMap examplePubspec =
+          loadYaml(File('example/pubspec.yaml').readAsStringSync()) as YamlMap;
+      final Object? declared = (examplePubspec['dev_dependencies']
+          as YamlMap)['kutu_media_transform'];
       expect(
-        overrides.existsSync(),
-        isTrue,
-        reason: 'flutter pub get in example/ cannot resolve without this',
+        declared,
+        isA<String>(),
+        reason: 'a map would mean a path dependency that cannot ship',
       );
-      final YamlMap parsed = loadYaml(overrides.readAsStringSync()) as YamlMap;
-      final YamlMap declared = parsed['dependency_overrides'] as YamlMap;
-      final YamlMap transform = declared['kutu_media_transform'] as YamlMap;
-      expect(transform['path'], '../../kutu_media_transform');
-
-      expect(
-        isGitIgnored('example/pubspec_overrides.yaml'),
-        isTrue,
-        reason: 'an override inside the package dir would ship in the archive',
-      );
+      expect(declared, startsWith('^'));
     });
 
     test('the example ships the platform setup the README promises', () {

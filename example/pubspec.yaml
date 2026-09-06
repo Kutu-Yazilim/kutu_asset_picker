@@ -19,8 +19,9 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   # Only the smoke test needs this, for FakeMediaTransform. The example app
   # itself never imports it — the picker pulls the plugin in transitively.
-  kutu_media_transform:
-    path: ../../kutu_media_transform
+  # Hosted, not a path: this file ships inside the published archive, where
+  # ../../kutu_media_transform does not exist.
+  kutu_media_transform: ^0.2.0
   riverpod_annotation: ^4.0.7
 
 flutter:

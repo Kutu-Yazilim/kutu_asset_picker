@@ -38,21 +38,18 @@ void main() {
     expect(minor * 1000 + patch, greaterThanOrEqualTo(8 * 1000 + 1));
   });
 
-  test('the local path override lives outside pubspec.yaml', () {
+  test('pubspec.yaml carries no override and no path dependency', () {
     // Design §3.2: a package-side `dependency_overrides:` block triggers a
-    // publish hint and invalidates pana's `pub downgrade` check (20 points).
-    // pubspec_overrides.yaml carries it instead. Slice 7 does not delete it —
-    // the package cannot resolve locally until kutu_media_transform 0.1.0 is on
-    // pub.dev — it untracks and gitignores it, and `dart pub publish` honours
-    // gitignore, so the file never reaches the archive. That is why the
-    // existsSync expectation below still holds after slice 7.
+    // publish hint and invalidates pana's `pub downgrade` check (20 points),
+    // and `dart pub publish` refuses a path dependency outright. Since
+    // kutu_media_transform 0.2.0 is on pub.dev the constraint is an ordinary
+    // hosted one and no local file is needed to resolve. A side-by-side
+    // development override is still allowed, but only in the gitignored
+    // pubspec_overrides.yaml — publish_readiness_test.dart asserts that.
     final String pubspec = File('pubspec.yaml').readAsStringSync();
     expect(pubspec, isNot(contains('dependency_overrides')));
     expect(pubspec, isNot(contains('path: ../')));
-
-    final File overrides = File('pubspec_overrides.yaml');
-    expect(overrides.existsSync(), isTrue);
-    expect(overrides.readAsStringSync(), contains('../kutu_media_transform'));
+    expect(pubspec, contains('kutu_media_transform: ^'));
   });
 
   test('the changelog carries the pubspec version verbatim', () {
