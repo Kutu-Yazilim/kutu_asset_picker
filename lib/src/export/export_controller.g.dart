@@ -10,8 +10,8 @@ part of 'export_controller.dart';
 // ignore_for_file: type=lint, type=warning
 /// Drives the sequential [ExportQueue] and publishes its progress.
 ///
-/// [run] **never throws**. The Done button calls it and walks away — Flutter
-/// rule 9 forbids `await` in UI — so an escaping exception would surface as an
+/// [ExportController.run] **never throws**. The Done button calls it and walks
+/// away — Flutter rule 9 forbids `await` in UI — so an escaping exception would surface as an
 /// unhandled zone error with no UI anywhere to show it.
 
 @ProviderFor(ExportController)
@@ -19,15 +19,15 @@ final exportControllerProvider = ExportControllerProvider._();
 
 /// Drives the sequential [ExportQueue] and publishes its progress.
 ///
-/// [run] **never throws**. The Done button calls it and walks away — Flutter
-/// rule 9 forbids `await` in UI — so an escaping exception would surface as an
+/// [ExportController.run] **never throws**. The Done button calls it and walks
+/// away — Flutter rule 9 forbids `await` in UI — so an escaping exception would surface as an
 /// unhandled zone error with no UI anywhere to show it.
 final class ExportControllerProvider
     extends $NotifierProvider<ExportController, ExportProgress> {
   /// Drives the sequential [ExportQueue] and publishes its progress.
   ///
-  /// [run] **never throws**. The Done button calls it and walks away — Flutter
-  /// rule 9 forbids `await` in UI — so an escaping exception would surface as an
+  /// [ExportController.run] **never throws**. The Done button calls it and walks
+  /// away — Flutter rule 9 forbids `await` in UI — so an escaping exception would surface as an
   /// unhandled zone error with no UI anywhere to show it.
   ExportControllerProvider._()
       : super(
@@ -60,8 +60,8 @@ String _$exportControllerHash() => r'524b9b87f4a09661117dd521c578b31024181c3f';
 
 /// Drives the sequential [ExportQueue] and publishes its progress.
 ///
-/// [run] **never throws**. The Done button calls it and walks away — Flutter
-/// rule 9 forbids `await` in UI — so an escaping exception would surface as an
+/// [ExportController.run] **never throws**. The Done button calls it and walks
+/// away — Flutter rule 9 forbids `await` in UI — so an escaping exception would surface as an
 /// unhandled zone error with no UI anywhere to show it.
 
 abstract class _$ExportController extends $Notifier<ExportProgress> {

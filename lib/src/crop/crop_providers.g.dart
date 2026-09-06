@@ -224,25 +224,25 @@ abstract class _$FocusedAsset extends $Notifier<String?> {
 
 /// True while a crop gesture is in flight.
 ///
-/// Drives the rule-of-thirds grid fading in here, and the floating video trim
-/// bar fading out in slice 5 (spec §2.7) — which is why it is a provider rather
-/// than a hook inside the viewport.
+/// Drives the rule-of-thirds grid fading in. A provider rather than a hook
+/// inside the viewport because the overlay that fades is the viewport's
+/// sibling, not its child.
 
 @ProviderFor(CropInteraction)
 final cropInteractionProvider = CropInteractionProvider._();
 
 /// True while a crop gesture is in flight.
 ///
-/// Drives the rule-of-thirds grid fading in here, and the floating video trim
-/// bar fading out in slice 5 (spec §2.7) — which is why it is a provider rather
-/// than a hook inside the viewport.
+/// Drives the rule-of-thirds grid fading in. A provider rather than a hook
+/// inside the viewport because the overlay that fades is the viewport's
+/// sibling, not its child.
 final class CropInteractionProvider
     extends $NotifierProvider<CropInteraction, bool> {
   /// True while a crop gesture is in flight.
   ///
-  /// Drives the rule-of-thirds grid fading in here, and the floating video trim
-  /// bar fading out in slice 5 (spec §2.7) — which is why it is a provider rather
-  /// than a hook inside the viewport.
+  /// Drives the rule-of-thirds grid fading in. A provider rather than a hook
+  /// inside the viewport because the overlay that fades is the viewport's
+  /// sibling, not its child.
   CropInteractionProvider._()
       : super(
           from: null,
@@ -274,9 +274,9 @@ String _$cropInteractionHash() => r'a0806fb7812f22131f8f4bbb9c66605d9cb15244';
 
 /// True while a crop gesture is in flight.
 ///
-/// Drives the rule-of-thirds grid fading in here, and the floating video trim
-/// bar fading out in slice 5 (spec §2.7) — which is why it is a provider rather
-/// than a hook inside the viewport.
+/// Drives the rule-of-thirds grid fading in. A provider rather than a hook
+/// inside the viewport because the overlay that fades is the viewport's
+/// sibling, not its child.
 
 abstract class _$CropInteraction extends $Notifier<bool> {
   bool build();

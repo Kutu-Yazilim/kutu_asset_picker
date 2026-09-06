@@ -24,6 +24,9 @@ class _ExampleAppState extends State<ExampleApp> {
   @override
   Widget build(BuildContext context) => MaterialApp(
         title: ExampleSeed.title,
+        // The pub.dev screenshots are captured from this app; a DEBUG ribbon
+        // across the corner of every one of them is noise, not information.
+        debugShowCheckedModeBanner: false,
         theme:
             ThemeData(colorSchemeSeed: ExampleSeed.color, useMaterial3: true),
         darkTheme: ThemeData(

@@ -8,9 +8,14 @@ part of 'video_preview_player.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// The muted, initialised preview player for [assetId], seeked to the trim's
+/// in point. Disposed with the provider; framing a crop is a silent activity.
 
 @ProviderFor(videoPreviewPlayer)
 final videoPreviewPlayerProvider = VideoPreviewPlayerFamily._();
+
+/// The muted, initialised preview player for [assetId], seeked to the trim's
+/// in point. Disposed with the provider; framing a crop is a silent activity.
 
 final class VideoPreviewPlayerProvider extends $FunctionalProvider<
         AsyncValue<VideoPreviewPlayer>,
@@ -19,6 +24,8 @@ final class VideoPreviewPlayerProvider extends $FunctionalProvider<
     with
         $FutureModifier<VideoPreviewPlayer>,
         $FutureProvider<VideoPreviewPlayer> {
+  /// The muted, initialised preview player for [assetId], seeked to the trim's
+  /// in point. Disposed with the provider; framing a crop is a silent activity.
   VideoPreviewPlayerProvider._(
       {required VideoPreviewPlayerFamily super.from,
       required String super.argument})
@@ -67,7 +74,10 @@ final class VideoPreviewPlayerProvider extends $FunctionalProvider<
 }
 
 String _$videoPreviewPlayerHash() =>
-    r'9264402ea307d850fde9ba7eb28457a81cd0a30a';
+    r'00b09f3b27d2d6957676106d4ce2cf5303e8958e';
+
+/// The muted, initialised preview player for [assetId], seeked to the trim's
+/// in point. Disposed with the provider; framing a crop is a silent activity.
 
 final class VideoPreviewPlayerFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<VideoPreviewPlayer>, String> {
@@ -79,6 +89,9 @@ final class VideoPreviewPlayerFamily extends $Family
           $allTransitiveDependencies: null,
           isAutoDispose: true,
         );
+
+  /// The muted, initialised preview player for [assetId], seeked to the trim's
+  /// in point. Disposed with the provider; framing a crop is a silent activity.
 
   VideoPreviewPlayerProvider call(
     String assetId,

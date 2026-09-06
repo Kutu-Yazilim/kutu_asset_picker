@@ -12,7 +12,7 @@ import 'package:kutu_media_transform/kutu_media_transform.dart';
 /// phone and a tablet, would break on rotation, and the export path would have
 /// to be told the layout size to reconstruct a [CropRect]. Storing against a
 /// fixed square area removes all three problems: the crop rect a state produces
-/// is identical everywhere, and [CropViewport] is the only code that ever
+/// is identical everywhere, and `CropViewport` is the only code that ever
 /// converts, through [rescaleCropState].
 ///
 /// Square on purpose, so no aspect ratio in the menu is privileged over

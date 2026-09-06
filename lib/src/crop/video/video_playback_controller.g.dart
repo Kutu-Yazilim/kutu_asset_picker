@@ -15,9 +15,11 @@ part of 'video_playback_controller.dart';
 ///
 /// - **Play** seeks to the playhead when it is inside the kept range and to the
 ///   in point otherwise, then polls the platform position every
-///   [VideoCropConstants.playbackPollInterval] and loops at the out point. The
-///   loop plays again after seeking, because the platform stops at the end of
-///   the file and cannot be trusted to still be running.
+///   [VideoCropConstants.playbackPollInterval] and loops at the out point — or
+///   from before the in point, which is where a natively looping player lands
+///   when a clip trimmed from the middle reaches the end of its file. The loop
+///   plays again after seeking rather than trusting the player to still be
+///   running.
 /// - **Pause** holds the playhead. In trim mode it then seeks the player onto
 ///   it, so the line on the strip and the frame on screen agree — the poll is
 ///   up to one interval behind the picture. In cover mode it sets the cover
@@ -43,9 +45,11 @@ final videoPlaybackControllerProvider = VideoPlaybackControllerFamily._();
 ///
 /// - **Play** seeks to the playhead when it is inside the kept range and to the
 ///   in point otherwise, then polls the platform position every
-///   [VideoCropConstants.playbackPollInterval] and loops at the out point. The
-///   loop plays again after seeking, because the platform stops at the end of
-///   the file and cannot be trusted to still be running.
+///   [VideoCropConstants.playbackPollInterval] and loops at the out point — or
+///   from before the in point, which is where a natively looping player lands
+///   when a clip trimmed from the middle reaches the end of its file. The loop
+///   plays again after seeking rather than trusting the player to still be
+///   running.
 /// - **Pause** holds the playhead. In trim mode it then seeks the player onto
 ///   it, so the line on the strip and the frame on screen agree — the poll is
 ///   up to one interval behind the picture. In cover mode it sets the cover
@@ -69,9 +73,11 @@ final class VideoPlaybackControllerProvider
   ///
   /// - **Play** seeks to the playhead when it is inside the kept range and to the
   ///   in point otherwise, then polls the platform position every
-  ///   [VideoCropConstants.playbackPollInterval] and loops at the out point. The
-  ///   loop plays again after seeking, because the platform stops at the end of
-  ///   the file and cannot be trusted to still be running.
+  ///   [VideoCropConstants.playbackPollInterval] and loops at the out point — or
+  ///   from before the in point, which is where a natively looping player lands
+  ///   when a clip trimmed from the middle reaches the end of its file. The loop
+  ///   plays again after seeking rather than trusting the player to still be
+  ///   running.
   /// - **Pause** holds the playhead. In trim mode it then seeks the player onto
   ///   it, so the line on the strip and the frame on screen agree — the poll is
   ///   up to one interval behind the picture. In cover mode it sets the cover
@@ -136,7 +142,7 @@ final class VideoPlaybackControllerProvider
 }
 
 String _$videoPlaybackControllerHash() =>
-    r'ec733a45109ad2f84d70c8e29b864c7d65dcaca5';
+    r'af629ea946c7792ba87219811617c222ce65befe';
 
 /// Plays the kept range of one video, so the author finds a moment by watching
 /// for it instead of guessing from twelve filmstrip thumbnails.
@@ -145,9 +151,11 @@ String _$videoPlaybackControllerHash() =>
 ///
 /// - **Play** seeks to the playhead when it is inside the kept range and to the
 ///   in point otherwise, then polls the platform position every
-///   [VideoCropConstants.playbackPollInterval] and loops at the out point. The
-///   loop plays again after seeking, because the platform stops at the end of
-///   the file and cannot be trusted to still be running.
+///   [VideoCropConstants.playbackPollInterval] and loops at the out point — or
+///   from before the in point, which is where a natively looping player lands
+///   when a clip trimmed from the middle reaches the end of its file. The loop
+///   plays again after seeking rather than trusting the player to still be
+///   running.
 /// - **Pause** holds the playhead. In trim mode it then seeks the player onto
 ///   it, so the line on the strip and the frame on screen agree — the poll is
 ///   up to one interval behind the picture. In cover mode it sets the cover
@@ -190,9 +198,11 @@ final class VideoPlaybackControllerFamily extends $Family
   ///
   /// - **Play** seeks to the playhead when it is inside the kept range and to the
   ///   in point otherwise, then polls the platform position every
-  ///   [VideoCropConstants.playbackPollInterval] and loops at the out point. The
-  ///   loop plays again after seeking, because the platform stops at the end of
-  ///   the file and cannot be trusted to still be running.
+  ///   [VideoCropConstants.playbackPollInterval] and loops at the out point — or
+  ///   from before the in point, which is where a natively looping player lands
+  ///   when a clip trimmed from the middle reaches the end of its file. The loop
+  ///   plays again after seeking rather than trusting the player to still be
+  ///   running.
   /// - **Pause** holds the playhead. In trim mode it then seeks the player onto
   ///   it, so the line on the strip and the frame on screen agree — the poll is
   ///   up to one interval behind the picture. In cover mode it sets the cover
@@ -228,9 +238,11 @@ final class VideoPlaybackControllerFamily extends $Family
 ///
 /// - **Play** seeks to the playhead when it is inside the kept range and to the
 ///   in point otherwise, then polls the platform position every
-///   [VideoCropConstants.playbackPollInterval] and loops at the out point. The
-///   loop plays again after seeking, because the platform stops at the end of
-///   the file and cannot be trusted to still be running.
+///   [VideoCropConstants.playbackPollInterval] and loops at the out point — or
+///   from before the in point, which is where a natively looping player lands
+///   when a clip trimmed from the middle reaches the end of its file. The loop
+///   plays again after seeking rather than trusting the player to still be
+///   running.
 /// - **Pause** holds the playhead. In trim mode it then seeks the player onto
 ///   it, so the line on the strip and the frame on screen agree — the poll is
 ///   up to one interval behind the picture. In cover mode it sets the cover

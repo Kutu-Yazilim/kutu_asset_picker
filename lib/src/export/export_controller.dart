@@ -14,8 +14,8 @@ part 'export_controller.g.dart';
 
 /// Drives the sequential [ExportQueue] and publishes its progress.
 ///
-/// [run] **never throws**. The Done button calls it and walks away — Flutter
-/// rule 9 forbids `await` in UI — so an escaping exception would surface as an
+/// [ExportController.run] **never throws**. The Done button calls it and walks
+/// away — Flutter rule 9 forbids `await` in UI — so an escaping exception would surface as an
 /// unhandled zone error with no UI anywhere to show it.
 @Riverpod(keepAlive: true)
 class ExportController extends _$ExportController {

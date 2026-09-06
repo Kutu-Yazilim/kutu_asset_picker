@@ -162,6 +162,41 @@ taking `config` and `source` as plain arguments alongside `onCompleted` and `onC
 `landscape169` (16:9), `story916` (9:16), `banner31` (3:1) — plus
 `CropAspect(x: …, y: …, label: CropAspectLabel.custom)` for anything else.
 
+## The crop step
+
+One screen for every selected asset, with a permanent rail of thumbnails along the
+bottom to tab between them. Each asset keeps its own framing and its own ratio; *Apply
+to all* copies the ratio, never the pan and zoom, because a crop centred on a face in
+one photo lands on a shoulder in the next.
+
+**Framing.** The window is fixed and the media moves under it: drag to pan, pinch to
+zoom, fling to coast. The image can never leave a gap — zoom-out stops at the scale
+that still covers the window, and pans clamp at the edges. The rest of the photo shows
+darkened beyond the window, and a drag that starts on that darkened part still pans. A
+rule-of-thirds grid fades in while you hold and out when you let go.
+
+**Video.** A control bar sits under the window — under, not over, so it never covers
+the footage being framed — and the window is the same size whether a photo or a video
+is focused. The bar holds:
+
+- **Trim.** Two handles on a filmstrip of the whole clip. Drag a handle to move one
+  end, or grab the framed zone between them to carry the whole range with its length
+  intact. Dragging seeks the muted preview, so you see the frame under your finger.
+- **Play.** The play chip plays the kept range, looping at the out point. In trim mode
+  a playhead rides the filmstrip and stays where playback stopped, as the mark to drag
+  a handle towards; pausing lands the picture on that exact frame.
+- **Cover.** A second mode on the same filmstrip: one cursor picks the poster frame,
+  constrained to the kept range. While the clip plays the cursor follows the playhead,
+  and pausing — with the chip or by grabbing the cursor — picks that frame.
+
+`enableTrim: false` and `enableCoverFrame: false` remove their controls; with both off
+the bar is gone and the video is cropped whole. `maxVideoDuration` caps the kept range
+and slides the window rather than letting it exceed the cap.
+
+Everything above is on-device preview only. Nothing is written until *Done*, when the
+export queue runs the framing, trim and cover through `kutu_media_transform`, one
+asset at a time.
+
 ## The result, and who owns the files
 
 ```dart

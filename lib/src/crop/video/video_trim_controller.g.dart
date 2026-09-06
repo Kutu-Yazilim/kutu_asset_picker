@@ -87,7 +87,7 @@ final class VideoTrimControllerProvider
 }
 
 String _$videoTrimControllerHash() =>
-    r'8ef046af91c61b15d17b1aefb86b509f957c5dae';
+    r'1b33d27029dafd8c2535ab13617d0910bc377199';
 
 /// Owns the trim handles and the cover cursor for one asset.
 ///

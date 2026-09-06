@@ -14,9 +14,9 @@ topics:
 screenshots:
   - description: The gallery grid with numbered selection badges and the camera tile.
     path: doc/picker-grid.png
-  - description: The photo crop step, showing the ratio chips and the rule-of-thirds overlay.
+  - description: The photo crop step, with the rest of the photo dimmed beyond the window and the ratio chips below.
     path: doc/crop-photo.png
-  - description: The video crop step, with the trim rail floating over the footage.
+  - description: The video crop step, with the trim range, playhead and cover controls under the window.
     path: doc/crop-video-trim.png
   - description: The limited-access state, with its permanent Manage selection bar.
     path: doc/limited-access.png
