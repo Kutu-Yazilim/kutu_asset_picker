@@ -43,6 +43,13 @@ Iterable<File> packageMarkdown() sync* {
   }
 }
 
+/// Whether git ignores [path] from this package's directory — asked of git
+/// itself rather than read from a particular `.gitignore`, so the assertion
+/// holds whether the package lives in the monorepo, whose root supplies the
+/// rule, or in its own repository, whose `.gitignore` does.
+bool isGitIgnored(String path) =>
+    Process.runSync('git', <String>['check-ignore', '-q', path]).exitCode == 0;
+
 void main() {
   final YamlMap pubspec =
       loadYaml(File('pubspec.yaml').readAsStringSync()) as YamlMap;
@@ -160,8 +167,11 @@ void main() {
       final YamlMap transform = declared['kutu_media_transform'] as YamlMap;
       expect(transform['path'], '../kutu_media_transform');
 
-      final String rootIgnore = File('../../.gitignore').readAsStringSync();
-      expect(rootIgnore, contains('packages/*/pubspec_overrides.yaml'));
+      expect(
+        isGitIgnored('pubspec_overrides.yaml'),
+        isTrue,
+        reason: 'an override the archive could pick up must be ignored',
+      );
     });
   });
 
@@ -332,8 +342,8 @@ void main() {
       expect(transform['path'], '../../kutu_media_transform');
 
       expect(
-        File('../../.gitignore').readAsStringSync(),
-        contains('packages/*/example/pubspec_overrides.yaml'),
+        isGitIgnored('example/pubspec_overrides.yaml'),
+        isTrue,
         reason: 'an override inside the package dir would ship in the archive',
       );
     });
