@@ -62,6 +62,19 @@ class VideoTrimController extends _$VideoTrimController {
     _seek(next.end);
   }
 
+  /// Carry the whole kept range by [deltaFraction] of the clip.
+  ///
+  /// One drag of the zone instead of one per handle, for the author who kept
+  /// 0:10–0:20 and now wants 0:30–0:40. The cover frame is a spot inside that
+  /// zone, so it travels by the same amount and lands where it was relative
+  /// to the new range; the picture follows the in point being placed.
+  void nudgeRange(double deltaFraction) {
+    final next = trimShifted(state.trim, _delta(deltaFraction), total);
+    final carried = next.start - state.trim.start;
+    _commit(next, clampCoverAt(state.coverAt + carried, next));
+    _seek(next.start);
+  }
+
   /// Move the cover cursor by [deltaFraction] of the whole clip.
   void nudgeCover(double deltaFraction) =>
       setCover(state.coverAt + _delta(deltaFraction));

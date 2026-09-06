@@ -59,6 +59,21 @@ DurationRange trimWithEnd(
   return DurationRange(start: nextStart, end: nextEnd);
 }
 
+/// Carry the whole kept range by [delta], keeping its length.
+///
+/// Sliding stops at either edge of the clip rather than shrinking the range:
+/// the author asked to move what they kept, not to keep less of it. A range
+/// as long as the clip therefore cannot move at all.
+DurationRange trimShifted(
+  DurationRange current,
+  Duration delta,
+  Duration total,
+) {
+  final length = current.duration;
+  final start = _clamp(current.start + delta, Duration.zero, total - length);
+  return DurationRange(start: start, end: start + length);
+}
+
 /// A cover frame only ever lives inside the kept range.
 Duration clampCoverAt(Duration proposed, DurationRange trim) =>
     _clamp(proposed, trim.start, trim.end);

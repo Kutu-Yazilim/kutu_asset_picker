@@ -44,6 +44,47 @@ void main() {
     expect(find.byType(TrimHandle), findsNWidgets(2));
   });
 
+  testWidgets('DRAGGING THE KEPT ZONE CARRIES IT WHOLE', (tester) async {
+    // Instead of moving the in point and then the out point, the author
+    // grabs the zone between the handles and slides it. Keep 0:00–0:20,
+    // drag its middle a quarter of the track: 0:10–0:30.
+    final container = await pumpOverlay(tester);
+    container
+        .read(videoTrimControllerProvider(assetId, total).notifier)
+        .nudgeEnd(-0.5);
+    await tester.pump();
+
+    await tester.drag(
+      find.byKey(TrimHandlesOverlay.rangeKey),
+      const Offset(trackWidth / 4, 0),
+    );
+    await tester.pump();
+
+    final trim =
+        container.read(videoTrimControllerProvider(assetId, total)).trim;
+    expect(trim.start, const Duration(seconds: 10));
+    expect(trim.end, const Duration(seconds: 30));
+  });
+
+  testWidgets('the zone sits between the handles and never over them',
+      (tester) async {
+    final container = await pumpOverlay(tester);
+    container
+        .read(videoTrimControllerProvider(assetId, total).notifier)
+        .nudgeEnd(-0.5);
+    await tester.pump();
+
+    final Rect zone = tester.getRect(find.byKey(TrimHandlesOverlay.rangeKey));
+    final Rect startHandle = tester.getRect(find.byWidgetPredicate(
+      (w) => w is TrimHandle && w.side == TrimHandleSide.start,
+    ));
+    final Rect endHandle = tester.getRect(find.byWidgetPredicate(
+      (w) => w is TrimHandle && w.side == TrimHandleSide.end,
+    ));
+    expect(zone.left, greaterThanOrEqualTo(startHandle.right));
+    expect(zone.right, lessThanOrEqualTo(endHandle.left));
+  });
+
   testWidgets('dragging the in handle right moves the in point',
       (tester) async {
     final container = await pumpOverlay(tester);

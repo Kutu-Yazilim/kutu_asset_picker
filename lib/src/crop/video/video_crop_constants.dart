@@ -75,6 +75,10 @@ abstract final class VideoCropConstants {
   /// The handle width.
   static const double handleWidth = 14;
 
+  /// The bars along the top and bottom of the kept zone, joining the two
+  /// handles into one frame: the cue that the zone is a thing to grab.
+  static const double rangeFrameWidth = 2;
+
   /// The handle grip width.
   static const double handleGripWidth = 2;
 

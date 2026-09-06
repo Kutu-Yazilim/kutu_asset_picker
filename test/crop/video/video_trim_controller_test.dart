@@ -2,6 +2,7 @@ import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
+import 'package:kutu_asset_picker/src/crop/video/video_crop_constants.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_seek_providers.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_trim_controller.dart';
 
@@ -86,6 +87,52 @@ void main() {
     expect(trim.duration, const Duration(seconds: 10));
     expect(trim.end, const Duration(seconds: 30));
     expect(trim.start, const Duration(seconds: 20));
+  });
+
+  test('CARRYING THE RANGE MOVES BOTH ENDS AND THE COVER WITH THEM', () {
+    // The author kept 0:00–0:20, changed their mind, and wants 0:10–0:30:
+    // one drag of the kept zone instead of two drags of the handles. The
+    // cover frame is a spot inside that zone, so it travels too.
+    final container = containerWith(const AssetPickerConfig());
+    final notifier =
+        container.read(videoTrimControllerProvider(assetId, total).notifier)
+          ..nudgeEnd(-0.5)
+          ..setCover(const Duration(seconds: 5));
+
+    notifier.nudgeRange(0.25);
+
+    final state = container.read(videoTrimControllerProvider(assetId, total));
+    expect(state.trim.start, const Duration(seconds: 10));
+    expect(state.trim.end, const Duration(seconds: 30));
+    expect(state.coverAt, const Duration(seconds: 15));
+  });
+
+  test('a carried range stops at the clip edge and keeps its length', () {
+    final container = containerWith(const AssetPickerConfig());
+    final notifier = container
+        .read(videoTrimControllerProvider(assetId, total).notifier)
+      ..nudgeEnd(-0.5);
+
+    notifier.nudgeRange(0.9);
+
+    final trim =
+        container.read(videoTrimControllerProvider(assetId, total)).trim;
+    expect(trim.end, total);
+    expect(trim.start, const Duration(seconds: 20));
+  });
+
+  test('carrying the range shows the frame at its new in point', () {
+    fakeAsync((async) {
+      final container = containerWith(const AssetPickerConfig());
+      container.read(videoTrimControllerProvider(assetId, total).notifier)
+        ..nudgeEnd(-0.5)
+        ..nudgeRange(0.25);
+      // The out-handle seek is still in flight, so the range's seek waits
+      // out the coalescer's floor before it lands.
+      async.elapse(VideoCropConstants.seekDebounce * 2);
+
+      expect(seekTarget.seeks.last, const Duration(seconds: 10));
+    });
   });
 
   test('the cover frame is pulled back inside a shrinking range', () {

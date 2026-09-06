@@ -190,4 +190,41 @@ void main() {
       expect(resumePoint(const Duration(seconds: 2), trim), trim.start);
     });
   });
+
+  group('trimShifted', () {
+    const total = Duration(seconds: 40);
+    const current = DurationRange(
+      start: Duration(seconds: 10),
+      end: Duration(seconds: 20),
+    );
+
+    test('carries both ends by the same amount, keeping the duration', () {
+      final next = trimShifted(current, const Duration(seconds: 15), total);
+
+      expect(next.start, const Duration(seconds: 25));
+      expect(next.end, const Duration(seconds: 35));
+      expect(next.duration, current.duration);
+    });
+
+    test('stops at the end of the clip without shrinking', () {
+      final next = trimShifted(current, const Duration(seconds: 30), total);
+
+      expect(next.end, total);
+      expect(next.start, const Duration(seconds: 30));
+      expect(next.duration, current.duration);
+    });
+
+    test('stops at the start of the clip without shrinking', () {
+      final next = trimShifted(current, const Duration(seconds: -30), total);
+
+      expect(next.start, Duration.zero);
+      expect(next.end, const Duration(seconds: 10));
+    });
+
+    test('a range as long as the clip cannot move at all', () {
+      const whole = DurationRange(start: Duration.zero, end: total);
+
+      expect(trimShifted(whole, const Duration(seconds: 5), total), whole);
+    });
+  });
 }
