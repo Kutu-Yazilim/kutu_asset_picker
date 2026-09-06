@@ -95,6 +95,12 @@ abstract base class AssetPickerText {
   /// The crop cover frame.
   String get cropCoverFrame;
 
+  /// Play the video preview.
+  String get cropPlay;
+
+  /// Pause the video preview.
+  String get cropPause;
+
   /// The export failed.
   String get exportFailed;
 

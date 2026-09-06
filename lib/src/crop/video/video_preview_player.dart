@@ -40,7 +40,14 @@ Future<VideoPreviewPlayer> videoPreviewPlayer(Ref ref, String assetId) async {
   ref.onDispose(controller.dispose);
   await controller.initialize();
   await controller.setVolume(0);
-  await controller.setLooping(false);
+  // Looping on the PLATFORM, on purpose. `video_player` answers end-of-file
+  // with a `completed` event whose handler pauses and then seeks to the last
+  // frame, asynchronously; that chain races the playback controller's own
+  // seek-to-in-point-and-play and leaves AVPlayer black with the position
+  // pinned at the end. A natively looping player never reaches that state:
+  // the file wraps to zero, and the controller snaps a wrapped position back
+  // to the in point (spec §6.3).
+  await controller.setLooping(true);
   await controller.seekTo(
     initialTrim(
       preview.info.duration,

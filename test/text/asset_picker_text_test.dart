@@ -13,7 +13,7 @@ final class _OneStringOverride extends AssetPickerTextEn {
   String get pickerNext => 'Continue';
 }
 
-/// Contract §8's full surface: 25 getters and 7 methods.
+/// Contract §8's full surface: 27 getters and 7 methods.
 List<String> allStrings(AssetPickerText text) => <String>[
       text.pickerTitle,
       text.pickerNext,
@@ -38,6 +38,8 @@ List<String> allStrings(AssetPickerText text) => <String>[
       text.cropReorderHint,
       text.cropTrim,
       text.cropCoverFrame,
+      text.cropPlay,
+      text.cropPause,
       text.exportFailed,
       text.exportCancel,
       text.selectedCount(3),
@@ -167,9 +169,9 @@ void main() {
     });
 
     test('the checklist covers contract §8 in full', () {
-      // 25 getters + 7 methods. If a member is added to the base class and not
+      // 27 getters + 7 methods. If a member is added to the base class and not
       // to allStrings, a locale can ship with a hole in it and nothing fails.
-      expect(allStrings(const AssetPickerTextEn()), hasLength(32));
+      expect(allStrings(const AssetPickerTextEn()), hasLength(34));
     });
 
     test('Turkish is actually translated, not English wearing a tr label', () {
@@ -182,6 +184,7 @@ void main() {
       expect(tr.pickerManageSelection, isNot(en.pickerManageSelection));
       expect(tr.pickerEmptyLibrary, isNot(en.pickerEmptyLibrary));
       expect(tr.pickerRemove, isNot(en.pickerRemove));
+      expect(tr.cropPlay, isNot(en.cropPlay));
     });
 
     test('the ratio labels are the digits, in both locales', () {

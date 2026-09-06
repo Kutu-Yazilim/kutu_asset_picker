@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'trim_math.dart';
 import 'video_crop_constants.dart';
+import 'video_playback_controller.dart';
 import 'video_trim_controller.dart';
 import '../../theme/asset_picker_theme_scope.dart';
 
@@ -11,6 +12,11 @@ import '../../theme/asset_picker_theme_scope.dart';
 /// The frames underneath are the same [FilmstripStrip] the trim mode uses, and
 /// the seek goes through the same coalescer — the whole of "cover picking" is
 /// this overlay swapping in for the handles.
+///
+/// While the clip plays the cursor rides the playhead, and nothing is
+/// committed until the pause: the cursor is the frame being chosen, so
+/// following is how the author watches for it, and pausing — by the chip, or
+/// by grabbing the cursor — is the choice.
 class CoverCursorOverlay extends ConsumerWidget {
   /// Creates a [CoverCursorOverlay].
   const CoverCursorOverlay({
@@ -36,11 +42,15 @@ class CoverCursorOverlay extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = context.pickerTheme;
     final trimState = ref.watch(videoTrimControllerProvider(assetId, total));
+    final playback = ref.watch(videoPlaybackControllerProvider(assetId, total));
     final mask =
         theme.cropMask.withValues(alpha: VideoCropConstants.maskOpacity);
     final startX = fractionOfTime(trimState.trim.start, total) * trackWidth;
     final endX = fractionOfTime(trimState.trim.end, total) * trackWidth;
-    final cursorX = fractionOfTime(trimState.coverAt, total) * trackWidth;
+    final cursorAt = playback.isPlaying
+        ? playback.playhead ?? trimState.coverAt
+        : trimState.coverAt;
+    final cursorX = fractionOfTime(cursorAt, total) * trackWidth;
     return Stack(
       children: [
         Positioned(
@@ -57,13 +67,20 @@ class CoverCursorOverlay extends ConsumerWidget {
           right: 0,
           child: ColoredBox(color: mask),
         ),
+        // Offset by the HIT BOX's half-width, not the line's: the line is
+        // centred inside a handle-wide grab area, and offsetting by the line's
+        // own width put it five pixels late — two thirds of a second on a
+        // forty-second clip, on the one control whose whole job is precision.
         Positioned(
-          left: cursorX - VideoCropConstants.coverCursorWidth / 2,
+          left: cursorX - VideoCropConstants.handleWidth / 2,
           top: 0,
           bottom: 0,
           child: GestureDetector(
             key: cursorKey,
             behavior: HitTestBehavior.opaque,
+            onHorizontalDragStart: (_) => ref
+                .read(videoPlaybackControllerProvider(assetId, total).notifier)
+                .pause(),
             onHorizontalDragUpdate: (details) => ref
                 .read(videoTrimControllerProvider(assetId, total).notifier)
                 .nudgeCover(fractionOfDx(details.delta.dx, trackWidth)),

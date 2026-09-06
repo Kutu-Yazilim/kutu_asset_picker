@@ -73,6 +73,10 @@ base class AssetPickerTextTr extends AssetPickerText {
   String get cropTrim => 'Kes';
   @override
   String get cropCoverFrame => 'Kapak';
+  @override
+  String get cropPlay => 'Oynat';
+  @override
+  String get cropPause => 'Duraklat';
 
   @override
   String get exportFailed => 'Dışa aktarma başarısız';

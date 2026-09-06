@@ -163,4 +163,31 @@ void main() {
       expect(fractionOfDx(30, 0), 0);
     });
   });
+
+  group('resumePoint', () {
+    const trim = DurationRange(
+      start: Duration(seconds: 10),
+      end: Duration(seconds: 20),
+    );
+
+    test('resumes from a playhead inside the kept range', () {
+      expect(
+        resumePoint(const Duration(seconds: 15), trim),
+        const Duration(seconds: 15),
+      );
+      expect(resumePoint(trim.start, trim), trim.start);
+    });
+
+    test('restarts from the in point when there is no playhead', () {
+      expect(resumePoint(null, trim), trim.start);
+    });
+
+    test('restarts from the in point when the playhead has left the range', () {
+      // The out point itself counts as outside: resuming there would loop on
+      // the very first poll.
+      expect(resumePoint(trim.end, trim), trim.start);
+      expect(resumePoint(const Duration(seconds: 30), trim), trim.start);
+      expect(resumePoint(const Duration(seconds: 2), trim), trim.start);
+    });
+  });
 }

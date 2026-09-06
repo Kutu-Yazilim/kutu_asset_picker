@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/injection_providers.dart';
+import 'playback_toggle_chip.dart';
 import 'scrubber_mode_toggle.dart';
 import 'trim_range_label.dart';
 import 'video_bar_visibility.dart';
@@ -9,7 +10,8 @@ import 'video_crop_constants.dart';
 import 'video_scrubber.dart';
 import '../../theme/asset_picker_theme_scope.dart';
 
-/// The video controls: the trim/cover toggle, the kept range, the scrubber.
+/// The video controls: the trim/cover toggle, play/pause, the kept range, the
+/// scrubber.
 ///
 /// Lives in the band `CropStage` reserves **under** the crop window, never
 /// over the footage. It used to float inside the crop area and fade out while
@@ -61,10 +63,26 @@ class VideoControlBar extends ConsumerWidget {
             SizedBox(
               height: VideoCropConstants.barRowHeight,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const ScrubberModeToggle(),
-                  TrimRangeLabel(assetId: assetId, total: total),
+                  const SizedBox(width: VideoCropConstants.toggleGap),
+                  // The play chip and the range are one right-aligned group
+                  // that scales down rather than overflows when a narrow
+                  // screen or a large text scale leaves the row short.
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          PlaybackToggleChip(assetId: assetId, total: total),
+                          const SizedBox(width: VideoCropConstants.toggleGap),
+                          TrimRangeLabel(assetId: assetId, total: total),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

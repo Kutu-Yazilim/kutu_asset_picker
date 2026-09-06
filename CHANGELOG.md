@@ -19,7 +19,9 @@ First release.
 - Video is cropped, trimmed and given a cover frame on device, through
   `kutu_media_transform`. The trim and cover controls sit in a band under the
   crop window, reserved for the whole session so the window never resizes
-  between a photo and a video.
+  between a photo and a video. The kept range can be played, looping, with a
+  playhead on the filmstrip to drag a trim handle towards; in cover mode
+  pausing picks the frame.
 - `AssetPickerConfig` for behaviour, `AssetPickerTheme` (a `ThemeExtension`,
   every field nullable, falling back to `ColorScheme`) for looks, and
   `AssetPickerText` for copy, with English and Turkish shipped.

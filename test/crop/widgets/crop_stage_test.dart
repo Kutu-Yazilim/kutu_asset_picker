@@ -6,6 +6,7 @@ import 'package:kutu_asset_picker/kutu_asset_picker.dart';
 import 'package:kutu_asset_picker/src/constants/asset_picker_sizes.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_bar_slot.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_control_bar.dart';
+import 'package:kutu_asset_picker/src/crop/video/video_playback_providers.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_seek_providers.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/crop_dimming_mask.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/crop_stage.dart';
@@ -14,6 +15,7 @@ import 'package:kutu_asset_picker/testing.dart';
 import 'package:kutu_media_transform/kutu_media_transform.dart';
 import 'package:kutu_media_transform/testing.dart';
 
+import '../../support/fake_playback_target.dart';
 import '../../support/fake_seek_target.dart';
 import '../../support/picker_test_harness.dart';
 
@@ -86,6 +88,8 @@ Future<void> pumpStage(
     overrides: [
       selectionProvider.overrideWith(() => _FixedSelection(selection)),
       videoSeekTargetProvider(videoId).overrideWithValue(FakeSeekTarget()),
+      videoPlaybackTargetProvider(videoId)
+          .overrideWithValue(FakePlaybackTarget()),
     ],
   );
   await settleIo(tester);

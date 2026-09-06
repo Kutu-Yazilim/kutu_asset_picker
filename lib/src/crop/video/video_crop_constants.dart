@@ -19,6 +19,28 @@ abstract final class VideoCropConstants {
   /// calls cancel one another.
   static const Duration seekDebounce = Duration(milliseconds: 40);
 
+  /// How often the playhead is refreshed from the player while it plays.
+  ///
+  /// `video_player` refreshes its own position only every 500 ms, too coarse
+  /// for a line the author reads a trim point from, so playback asks the
+  /// platform directly at this rate.
+  static const Duration playbackPollInterval = Duration(milliseconds: 100);
+
+  /// How far before the in point a polled position may sit before it counts
+  /// as the platform having wrapped to the start of the file.
+  ///
+  /// A frame-accurate seek lands a few milliseconds early — AVPlayer reports
+  /// the decoded frame's own time — and without this slack every poll after
+  /// a seek to the in point would read as "before the in point" and seek
+  /// again, freezing the picture on the first frame.
+  static const Duration playbackWrapTolerance = Duration(milliseconds: 500);
+
+  /// The playhead width.
+  static const double playheadWidth = 2;
+
+  /// The play/pause icon size.
+  static const double playbackIconSize = 20;
+
   /// Translucency of the control bar's surface.
   static const double barSurfaceOpacity = 0.82;
 

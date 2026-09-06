@@ -80,6 +80,10 @@ base class AssetPickerTextEn extends AssetPickerText {
   String get cropTrim => 'Trim';
   @override
   String get cropCoverFrame => 'Cover';
+  @override
+  String get cropPlay => 'Play';
+  @override
+  String get cropPause => 'Pause';
 
   @override
   String get exportFailed => 'Export failed';

@@ -3,13 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
 import 'package:kutu_asset_picker/src/crop/video/cover_cursor_overlay.dart';
+import 'package:kutu_asset_picker/src/crop/video/playback_toggle_chip.dart';
+import 'package:kutu_asset_picker/src/crop/video/playhead_overlay.dart';
 import 'package:kutu_asset_picker/src/crop/video/scrubber_mode.dart';
 import 'package:kutu_asset_picker/src/crop/video/scrubber_mode_toggle.dart';
 import 'package:kutu_asset_picker/src/crop/video/trim_handles_overlay.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_control_bar.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_crop_constants.dart';
+import 'package:kutu_asset_picker/src/crop/video/video_playback_providers.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_seek_providers.dart';
 
+import '../../support/fake_playback_target.dart';
 import '../../support/fake_seek_target.dart';
 import '../../support/picker_test_harness.dart';
 
@@ -39,6 +43,8 @@ void main() {
         config: config,
         overrides: [
           videoSeekTargetProvider(assetId).overrideWithValue(FakeSeekTarget()),
+          videoPlaybackTargetProvider(assetId)
+              .overrideWithValue(FakePlaybackTarget()),
         ],
       );
 
@@ -69,6 +75,27 @@ void main() {
 
     expect(find.byType(CoverCursorOverlay), findsOneWidget);
     expect(find.byType(TrimHandlesOverlay), findsNothing);
+  });
+
+  testWidgets('carries the play toggle in its row', (tester) async {
+    await pumpBar(tester);
+
+    expect(find.byType(PlaybackToggleChip), findsOneWidget);
+    expect(find.byTooltip(text.cropPlay), findsOneWidget);
+  });
+
+  testWidgets('the playhead rides the strip in trim mode only', (tester) async {
+    // In cover mode the cursor itself follows playback, so a second line
+    // there would be two marks for one instant.
+    final container = await pumpBar(tester);
+    expect(find.byType(PlayheadOverlay), findsOneWidget);
+
+    container
+        .read(scrubberModeControllerProvider.notifier)
+        .select(ScrubberMode.cover);
+    await tester.pump();
+
+    expect(find.byType(PlayheadOverlay), findsNothing);
   });
 
   testWidgets('LAYS OUT AT EXACTLY THE HEIGHT THE STAGE RESERVES FOR IT',

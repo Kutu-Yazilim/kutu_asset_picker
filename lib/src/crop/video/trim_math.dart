@@ -63,6 +63,16 @@ DurationRange trimWithEnd(
 Duration clampCoverAt(Duration proposed, DurationRange trim) =>
     _clamp(proposed, trim.start, trim.end);
 
+/// Where playback resumes: the playhead while it is inside the kept range,
+/// otherwise the in point.
+///
+/// The out point itself counts as outside — resuming there would loop on the
+/// very first poll.
+Duration resumePoint(Duration? playhead, DurationRange trim) =>
+    playhead != null && playhead >= trim.start && playhead < trim.end
+        ? playhead
+        : trim.start;
+
 /// Time at fraction.
 Duration timeAtFraction(double fraction, Duration total) => Duration(
       microseconds: (total.inMicroseconds * fraction.clamp(0.0, 1.0)).round(),
