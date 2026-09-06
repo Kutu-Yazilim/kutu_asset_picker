@@ -10,6 +10,15 @@ import '../theme/resolved_asset_picker_theme.dart';
 import 'album_list_sheet.dart';
 
 /// The app-bar album switcher.
+///
+/// The sheet it opens is a new route on the **host's** navigator — above the
+/// `ProviderScope` the picker created for itself, and above its theme and text
+/// scopes. So the route is handed all three explicitly: the picker's container
+/// through an `UncontrolledProviderScope`, and the resolved theme and copy
+/// through the same scope widgets the picker's own subtree uses. Without that
+/// the sheet's first `ref.watch` finds no scope at all in a host app that has
+/// no Riverpod of its own, and in one that does it finds the wrong scope, with
+/// none of the picker's overrides.
 class AlbumDropdownButton extends ConsumerWidget {
   /// Creates a [AlbumDropdownButton].
   const AlbumDropdownButton({super.key});
@@ -24,7 +33,16 @@ class AlbumDropdownButton extends ConsumerWidget {
       onPressed: () => showModalBottomSheet<void>(
         context: context,
         showDragHandle: true,
-        builder: (BuildContext context) => const AlbumListSheet(),
+        builder: (BuildContext _) => UncontrolledProviderScope(
+          container: ProviderScope.containerOf(context, listen: false),
+          child: AssetPickerThemeScope(
+            resolved: theme,
+            child: AssetPickerTextScope(
+              text: text,
+              child: const AlbumListSheet(),
+            ),
+          ),
+        ),
       ),
       icon: Icon(Icons.expand_more, color: theme.onSurface),
       iconAlignment: IconAlignment.end,

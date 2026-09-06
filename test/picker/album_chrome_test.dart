@@ -21,6 +21,8 @@ FakeAssetSource _twoAlbums() => FakeAssetSource(
     );
 
 void main() {
+  albumSheetScopeTests();
+
   testWidgets('the dropdown shows the fallback label before albums load',
       (WidgetTester tester) async {
     final FakeAssetSource source = _twoAlbums()
@@ -111,5 +113,56 @@ void main() {
 
     expect(find.byType(AlbumDropdownButton), findsOneWidget);
     expect(find.byTooltip(en.pickerCancel), findsOneWidget);
+  });
+}
+
+void albumSheetScopeTests() {
+  testWidgets(
+      "THE ALBUM SHEET IS BOUND TO THE PICKER'S OWN SCOPE, NOT THE APP ROOT'S",
+      (WidgetTester tester) async {
+    // The regression this pins: `showModalBottomSheet` pushes its route on the
+    // HOST navigator, above the `ProviderScope` the picker creates for itself.
+    // In an app with no Riverpod of its own the sheet's first `ref.watch` found
+    // no scope at all — a red "No ProviderScope found" the moment the album
+    // name was tapped. The harness above never saw it because it mounts the
+    // scope above `MaterialApp`, exactly where a real host does not.
+    final FakeAssetSource source = _twoAlbums();
+    addTearDown(source.dispose);
+    const Color scarlet = Color(0xFFB00020);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: AssetPickerScope(
+          config: const AssetPickerConfig(),
+          source: source,
+          theme: const AssetPickerTheme(background: scarlet),
+          onCompleted: (AssetPickerResult _) {},
+          onCancelled: () {},
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(AlbumDropdownButton));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    expect(find.byType(AlbumListSheet), findsOneWidget);
+    expect(find.text('Camera'), findsOneWidget);
+    // The picker's explicit theme reaches the sheet too, rather than the sheet
+    // re-resolving from whatever `Theme` the host app happens to have.
+    expect(
+      tester
+          .widget<Material>(
+            find
+                .descendant(
+                  of: find.byType(AlbumListSheet),
+                  matching: find.byType(Material),
+                )
+                .first,
+          )
+          .color,
+      scarlet,
+    );
   });
 }

@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/src/config/asset_picker_config.dart';
 import 'package:kutu_asset_picker/src/config/crop_aspect.dart';
 import 'package:kutu_asset_picker/src/config/picker_enums.dart';
+import 'package:kutu_asset_picker/src/picker/asset_grid_cell.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/asset_crop_step.dart';
 import 'package:kutu_asset_picker/src/export/export_cache.dart';
 import 'package:kutu_asset_picker/src/export/export_controller.dart';
@@ -22,7 +23,9 @@ import 'package:kutu_asset_picker/src/text/asset_picker_text_tr.dart';
 import 'package:kutu_asset_picker/src/view/asset_picker_scope.dart';
 import 'package:kutu_asset_picker/src/view/kutu_asset_picker.dart';
 import 'package:kutu_asset_picker/src/view/picker_step_controller.dart';
+import 'package:kutu_asset_picker/testing.dart';
 
+import '../support/pump_picker.dart';
 import '../support/recording_media_transform.dart';
 import '../support/stub_asset_source.dart';
 import '../support/tiny_png.dart';
@@ -352,6 +355,49 @@ void main() {
 
       expect(find.byType(BottomSheet), findsOneWidget);
       expect(find.byType(AssetPickerScope), findsOneWidget);
+    });
+  });
+
+  group('a sheet picker reaching its crop step', () {
+    testWidgets('THE CROP STEP FILLS THE MODAL IT OPENED IN', (tester) async {
+      // The half-page cropper: `CropStepHost`'s sheet branch was a 70% panel
+      // aligned to the bottom, and the modal's own material painted the full
+      // height above it. The crop step must start where the sheet starts and
+      // end where it ends — there is no scrollable to drag the gap closed.
+      final FakeAssetSource source = fakeSourceWith(testAssets(2));
+      addTearDown(source.dispose);
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) => TextButton(
+              onPressed: () => KutuAssetPicker.show(
+                context,
+                config: const AssetPickerConfig(
+                  pickerSurface: PickerSurface.sheet,
+                  cropSurface: PickerSurface.sheet,
+                  aspects: [CropAspect.square],
+                ),
+                source: source,
+                transform: RecordingMediaTransform(outputFor: outputFile),
+              ),
+              child: const Text('open'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(AssetGridCell).first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(en.pickerNext));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AssetCropStep), findsOneWidget);
+      final Rect sheet = tester.getRect(find.byType(BottomSheet));
+      final Rect crop = tester.getRect(find.byType(AssetCropStep));
+      expect(crop.top, closeTo(sheet.top, 1));
+      expect(crop.height, closeTo(sheet.height, 1));
     });
   });
 

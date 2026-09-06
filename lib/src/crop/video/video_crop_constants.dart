@@ -19,19 +19,10 @@ abstract final class VideoCropConstants {
   /// calls cancel one another.
   static const Duration seekDebounce = Duration(milliseconds: 40);
 
-  /// The bar fade duration.
-  static const Duration barFadeDuration = Duration(milliseconds: 160);
-
-  /// The bar opacity idle.
-  static const double barOpacityIdle = 1;
-
-  /// The bar opacity dragging.
-  static const double barOpacityDragging = 0;
-
-  /// Translucency of the floating bar over the footage (spec §2.7).
+  /// Translucency of the control bar's surface.
   static const double barSurfaceOpacity = 0.82;
 
-  /// The bar inset.
+  /// The gap between the crop window and the bar below it.
   static const double barInset = 12;
 
   /// The bar padding.
@@ -40,8 +31,24 @@ abstract final class VideoCropConstants {
   /// The bar content gap.
   static const double barContentGap = 8;
 
+  /// Height of the bar's toggle/label row. Fixed rather than intrinsic — the
+  /// same height as the aspect chips — so [barHeight] is a constant the stage
+  /// can reserve before the bar is built.
+  static const double barRowHeight = 32;
+
   /// The filmstrip height.
   static const double filmstripHeight = 44;
+
+  /// The bar's laid-out height, derived from its parts. `CropStage` reserves
+  /// a band of this height plus [barInset] under the crop window for every
+  /// asset in a session that contains a video (spec §2.7), and it has to know
+  /// the number before the bar exists, or the window could not be computed.
+  static const double barHeight =
+      barPadding * 2 + barRowHeight + barContentGap + filmstripHeight;
+
+  /// What the stage reserves under the crop window: the bar and the gap above
+  /// it.
+  static const double barSlotHeight = barInset + barHeight;
 
   /// The handle width.
   static const double handleWidth = 14;

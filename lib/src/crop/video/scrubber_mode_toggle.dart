@@ -8,7 +8,7 @@ import 'video_bar_visibility.dart';
 import 'video_crop_constants.dart';
 import '../../text/asset_picker_text_scope.dart';
 
-/// Trim ↔ cover, on the floating bar.
+/// Trim ↔ cover, on the control bar.
 ///
 /// Renders nothing when the config leaves only one mode — the scrubber is then
 /// permanently in that mode and a one-option toggle is noise.

@@ -13,6 +13,10 @@ import 'package:kutu_asset_picker/src/providers/injection_providers.dart';
 
 const Size kImage = Size(1000, 500);
 const Size kWindow = Size(300, 300);
+// The stage the viewport is laid out in. Wider and taller than the window on
+// purpose: the media shows through the mask beyond the window, so the viewport
+// fills the stage and the window sits centred inside it.
+const Size kStage = Size(400, 360);
 // scaleToCover(1000x500, 300x300) = 0.6, so the scaled image is 600x300:
 // 150 logical px of horizontal slack and none vertically.
 const double kMinScale = 0.6;
@@ -41,15 +45,18 @@ Future<ProviderContainer> pumpViewport(WidgetTester tester) async {
   await tester.pumpWidget(
     UncontrolledProviderScope(
       container: container,
-      child: const MaterialApp(
+      child: MaterialApp(
         home: Center(
-          child: CropViewport(
-            assetId: 'a',
-            imageSize: kImage,
-            window: kWindow,
-            // A plain colour, not an Image: this test is about the gesture
-            // math, and a decode would make it depend on real bytes.
-            child: ColoredBox(color: Color(0xFF00FF00)),
+          child: SizedBox.fromSize(
+            size: kStage,
+            child: const CropViewport(
+              assetId: 'a',
+              imageSize: kImage,
+              window: kWindow,
+              // A plain colour, not an Image: this test is about the gesture
+              // math, and a decode would make it depend on real bytes.
+              child: ColoredBox(color: Color(0xFF00FF00)),
+            ),
           ),
         ),
       ),
@@ -77,6 +84,80 @@ void main() {
   });
 
   group('CropViewport', () {
+    testWidgets(
+        'FILLS THE STAGE IT IS GIVEN, SO THE MEDIA SHOWS THROUGH THE MASK '
+        'BEYOND THE WINDOW', (tester) async {
+      // The viewport used to be a window-sized box with its own `ClipRect`, so
+      // everything outside the window was cut away and the mask dimmed nothing
+      // but the stage background — a flat grey band instead of the darkened
+      // rest of the photograph. The clip now sits at the stage's edge.
+      await pumpViewport(tester);
+
+      expect(tester.getSize(find.byType(CropViewport)), kStage);
+      expect(
+        tester.getSize(
+          find.descendant(
+            of: find.byType(CropViewport),
+            matching: find.byType(ClipRect),
+          ),
+        ),
+        kStage,
+      );
+    });
+
+    testWidgets('a drag that starts on the dimmed part of the image still pans',
+        (tester) async {
+      final container = await pumpViewport(tester);
+      // 10px in from the stage's left edge: outside the 300px window centred
+      // in the 400px stage, on footage the author can see and expects to grab.
+      // Measured from the window centre rather than the viewport's own box, so
+      // a window-sized viewport cannot pass this by shrinking the stage.
+      final Offset centre = tester.getCenter(find.byType(CropViewport));
+      final gesture = await tester.startGesture(
+        Offset(centre.dx - kStage.width / 2 + 10, centre.dy),
+      );
+
+      await gesture.moveBy(const Offset(80, 0));
+      await tester.pump();
+
+      expect(layoutState(container).offset.dx, greaterThan(0));
+
+      await gesture.up();
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets('a pinch is anchored under the fingers, in window coordinates',
+        (tester) async {
+      // The viewport is stage-sized, so a gesture's local focal point arrives
+      // in stage coordinates and must be rebased onto the window before it
+      // meets `focalAnchoredOffset`. Pinching about the window centre cannot
+      // tell the two frames apart; pinching 50px to its right can.
+      final container = await pumpViewport(tester);
+      final Offset focal =
+          tester.getCenter(find.byType(CropViewport)) + const Offset(50, 0);
+      final left = await tester.startGesture(focal - const Offset(20, 0));
+      final right = await tester.startGesture(focal + const Offset(20, 0));
+
+      await left.moveBy(const Offset(-10, 0));
+      await right.moveBy(const Offset(10, 0));
+      await tester.pump();
+
+      // 40px apart → 60px apart is ×1.5. The recognizer starts the two-finger
+      // gesture on the first finger's move, when the focal is 45px right of
+      // the centre, and the update lands with it 50px right — so the anchor is
+      // 45 × (1 − 1.5) = −22.5, carried 5px by the focal's own drift: −17.5.
+      // In stage coordinates the centre would be off by (50, 30) and the
+      // image would slide down as well as sideways.
+      final state = layoutState(container);
+      expect(state.scale, closeTo(kMinScale * 1.5, 1e-6));
+      expect(state.offset.dx, closeTo(-17.5, 1e-6));
+      expect(state.offset.dy, closeTo(0, 1e-6));
+
+      await left.up();
+      await right.up();
+      await tester.pumpAndSettle();
+    });
+
     testWidgets('opens at exactly the cover scale, centred', (tester) async {
       final container = await pumpViewport(tester);
 

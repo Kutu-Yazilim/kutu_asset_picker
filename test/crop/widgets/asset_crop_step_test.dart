@@ -112,6 +112,20 @@ Future<ProviderContainer> pumpStep(
   return container;
 }
 
+/// The rounded top the sheet branch adds, told apart from any other clip in
+/// the step by its radius.
+final Finder sheetClip = find.byWidgetPredicate(
+  (Widget widget) =>
+      widget is ClipRRect &&
+      widget.borderRadius ==
+          BorderRadius.vertical(
+            top: Radius.circular(PickerChromeSizes.sheetRadius),
+          ),
+);
+
+double screenHeight(WidgetTester tester) =>
+    tester.view.physicalSize.height / tester.view.devicePixelRatio;
+
 void main() {
   const text = AssetPickerTextEn();
 
@@ -212,21 +226,21 @@ void main() {
       );
 
       expect(find.byType(AssetCropStep), findsOneWidget);
-      expect(find.byType(FractionallySizedBox), findsNothing);
+      expect(sheetClip, findsNothing);
       final Size size = tester.getSize(find.byType(AssetCropStep).first);
-      expect(
-          size.height,
-          closeTo(
-              tester.view.physicalSize.height / tester.view.devicePixelRatio,
-              1));
+      expect(size.height, closeTo(screenHeight(tester), 1));
     });
 
-    testWidgets('sheet shapes it as a bottom panel, not full bleed', (
+    testWidgets('SHEET FILLS THE SPACE IT IS GIVEN, UNDER A ROUNDED TOP', (
       tester,
     ) async {
-      // The dead-config bug this pins: a consumer asking for
-      // `pickerSurface: sheet, cropSurface: page` — or the reverse — used to
-      // get whichever one pickerSurface named, for both steps (spec §2.6).
+      // The half-page cropper this pins: the sheet branch used to be a fixed
+      // 70% panel aligned to the bottom of whatever it was mounted in. Inside
+      // `KutuAssetPicker.show`'s modal route the material behind it paints the
+      // full height regardless, so the author saw a blank band above a
+      // half-height cropper — and the crop step has no scrollable, so nothing
+      // could be dragged up to close the gap. The rounded top is what still
+      // tells the sheet branch apart from the page one (spec §2.6).
       await pumpStep(
         tester,
         ids: ['a'],
@@ -238,15 +252,10 @@ void main() {
       );
 
       expect(find.byType(AssetCropStep), findsOneWidget);
-      expect(find.byType(FractionallySizedBox), findsOneWidget);
+      expect(find.byType(FractionallySizedBox), findsNothing);
+      expect(sheetClip, findsOneWidget);
       final Size size = tester.getSize(find.byType(AssetCropStep).first);
-      final double screen =
-          tester.view.physicalSize.height / tester.view.devicePixelRatio;
-      expect(size.height, lessThan(screen));
-      expect(
-        size.height,
-        closeTo(screen * PickerChromeSizes.sheetInitialExtent, 1),
-      );
+      expect(size.height, closeTo(screenHeight(tester), 1));
     });
 
     testWidgets('cropSurface is read independently of pickerSurface', (
@@ -264,7 +273,7 @@ void main() {
       );
 
       // pickerSurface says sheet; the crop step must still be a page.
-      expect(find.byType(FractionallySizedBox), findsNothing);
+      expect(sheetClip, findsNothing);
     });
   });
 }

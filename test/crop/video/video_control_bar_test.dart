@@ -1,37 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
 import 'package:kutu_asset_picker/src/crop/video/cover_cursor_overlay.dart';
-import 'package:kutu_asset_picker/src/crop/video/crop_gesture_activity.dart';
-import 'package:kutu_asset_picker/src/crop/video/floating_video_bar.dart';
 import 'package:kutu_asset_picker/src/crop/video/scrubber_mode.dart';
 import 'package:kutu_asset_picker/src/crop/video/scrubber_mode_toggle.dart';
 import 'package:kutu_asset_picker/src/crop/video/trim_handles_overlay.dart';
+import 'package:kutu_asset_picker/src/crop/video/video_control_bar.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_crop_constants.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_seek_providers.dart';
 
 import '../../support/fake_seek_target.dart';
 import '../../support/picker_test_harness.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   const assetId = 'clip-1';
   const total = Duration(seconds: 40);
   const text = AssetPickerTextEn();
 
+  // Loose height on purpose: the bar's laid-out height is the thing under
+  // test, so nothing here may impose one.
   Future<ProviderContainer> pumpBar(
     WidgetTester tester, {
     AssetPickerConfig config = const AssetPickerConfig(),
   }) =>
       pumpPickerWidget(
         tester,
-        const SizedBox(
-          width: 320,
-          height: 140,
-          child: FloatingVideoBar(
-            assetId: assetId,
-            total: total,
-            srcPath: '/tmp/clip.mp4',
+        const Center(
+          child: SizedBox(
+            width: 320,
+            child: VideoControlBar(
+              assetId: assetId,
+              total: total,
+              srcPath: '/tmp/clip.mp4',
+            ),
           ),
         ),
         config: config,
@@ -69,45 +71,19 @@ void main() {
     expect(find.byType(TrimHandlesOverlay), findsNothing);
   });
 
-  testWidgets('is fully opaque at rest', (tester) async {
+  testWidgets('LAYS OUT AT EXACTLY THE HEIGHT THE STAGE RESERVES FOR IT',
+      (tester) async {
+    // `CropStage` reserves `barSlotHeight` under the crop window before the
+    // bar exists — it has to, or the window could not be computed — so the
+    // bar's height is a constant derived from its parts, not something the
+    // theme's text metrics decide at runtime. A bar taller than this would
+    // overflow the band; a shorter one would leave a gap the chip row below
+    // reads as misalignment.
     await pumpBar(tester);
 
     expect(
-      tester.widget<AnimatedOpacity>(_barOpacity).opacity,
-      VideoCropConstants.barOpacityIdle,
-    );
-  });
-
-  testWidgets('fades out while the footage is being dragged', (tester) async {
-    final container = await pumpBar(tester);
-
-    container.read(cropGestureActivityProvider.notifier).pointerDown();
-    await tester.pump();
-
-    expect(
-      tester.widget<AnimatedOpacity>(_barOpacity).opacity,
-      VideoCropConstants.barOpacityDragging,
-    );
-    expect(
-        tester
-            .widget<IgnorePointer>(find.descendant(
-                of: find.byType(FloatingVideoBar),
-                matching: find.byType(IgnorePointer)))
-            .ignoring,
-        isTrue);
-  });
-
-  testWidgets('returns on release', (tester) async {
-    final container = await pumpBar(tester);
-    container.read(cropGestureActivityProvider.notifier).pointerDown();
-    await tester.pump();
-
-    container.read(cropGestureActivityProvider.notifier).pointerUp();
-    await tester.pump(VideoCropConstants.barFadeDuration);
-
-    expect(
-      tester.widget<AnimatedOpacity>(_barOpacity).opacity,
-      VideoCropConstants.barOpacityIdle,
+      tester.getSize(find.byType(VideoControlBar)).height,
+      VideoCropConstants.barHeight,
     );
   });
 
@@ -132,12 +108,7 @@ void main() {
       ),
     );
 
-    expect(_barOpacity, findsNothing);
+    // The harness fixes the width; the bar's own contribution is the height.
+    expect(tester.getSize(find.byType(VideoControlBar)).height, 0);
   });
 }
-
-/// The bar's own fade, not any AnimatedOpacity the surrounding chrome adds.
-final Finder _barOpacity = find.descendant(
-  of: find.byType(FloatingVideoBar),
-  matching: find.byType(AnimatedOpacity),
-);

@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kutu_asset_picker/kutu_asset_picker.dart';
-import 'package:kutu_asset_picker/src/crop/video/floating_video_bar.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_crop_error_view.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_crop_loading.dart';
-import 'package:kutu_asset_picker/src/crop/video/video_crop_stack.dart';
+import 'package:kutu_asset_picker/src/crop/video/video_control_bar.dart';
+import 'package:kutu_asset_picker/src/crop/video/video_crop_viewport.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_crop_surface.dart';
 import 'package:kutu_asset_picker/src/crop/video/video_seek_providers.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/crop_viewport.dart';
@@ -85,35 +85,11 @@ void main() {
   });
 
   testWidgets(
-      'the stack fills its box and the crop window is exactly the '
-      'window it was handed — the bar costs it nothing', (tester) async {
-    await pumpPickerWidget(
-      tester,
-      VideoCropStack(
-        assetId: assetId,
-        preview: (file: clip, info: info, sizeBytes: 2048),
-        window: window,
-      ),
-      config: const AssetPickerConfig(),
-      surfaceSize: surface,
-      overrides: [
-        videoSeekTargetProvider(assetId).overrideWithValue(FakeSeekTarget()),
-      ],
-    );
-
-    // Spec §2.7: tabbing between a photo and a video must not resize anything.
-    // The bar floats over the stack, so it takes no space from the crop area,
-    // and the viewport occupies precisely the window CropStage laid out.
-    expect(tester.getSize(find.byType(VideoCropStack)), surface);
-    expect(tester.getSize(find.byType(CropViewport)), window);
-  });
-
-  testWidgets(
-      'the trim bar is positioned over the crop area, not stacked under it',
+      'the viewport fills its box and frames exactly the window it was handed',
       (tester) async {
     await pumpPickerWidget(
       tester,
-      VideoCropStack(
+      VideoCropViewport(
         assetId: assetId,
         preview: (file: clip, info: info, sizeBytes: 2048),
         window: window,
@@ -125,27 +101,45 @@ void main() {
       ],
     );
 
+    // The same shape as the photo branch: stage-sized, so the footage shows
+    // through the mask beyond the window, with the window CropStage laid out
+    // centred inside it (spec §2.7).
+    expect(tester.getSize(find.byType(VideoCropViewport)), surface);
+    expect(tester.getSize(find.byType(CropViewport)), surface);
     expect(
-      find.ancestor(
-        of: find.byType(FloatingVideoBar),
-        matching: find.byType(Positioned),
-      ),
-      findsOneWidget,
+      tester.widget<CropViewport>(find.byType(CropViewport)).window,
+      window,
     );
-    expect(
-      find.ancestor(
-        of: find.byType(FloatingVideoBar),
-        matching: find.byType(Column),
+  });
+
+  testWidgets('carries no controls — the bar lives in the stage\'s own band',
+      (tester) async {
+    // The bar used to be `Positioned` over the footage here, which is how it
+    // ended up covering the bottom of the crop window. `CropStage` now reserves
+    // a band below the window for it, so the viewport is footage and nothing
+    // else.
+    await pumpPickerWidget(
+      tester,
+      VideoCropViewport(
+        assetId: assetId,
+        preview: (file: clip, info: info, sizeBytes: 2048),
+        window: window,
       ),
-      findsNothing,
+      config: const AssetPickerConfig(),
+      surfaceSize: surface,
+      overrides: [
+        videoSeekTargetProvider(assetId).overrideWithValue(FakeSeekTarget()),
+      ],
     );
+
+    expect(find.byType(VideoControlBar), findsNothing);
   });
 
   testWidgets('gives crop_math the ROTATED display size, not the coded one',
       (tester) async {
     await pumpPickerWidget(
       tester,
-      VideoCropStack(
+      VideoCropViewport(
         assetId: assetId,
         preview: (file: clip, info: info, sizeBytes: 2048),
         window: window,

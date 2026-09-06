@@ -113,9 +113,9 @@ class FocusedAsset extends _$FocusedAsset {
 
 /// True while a crop gesture is in flight.
 ///
-/// Drives the rule-of-thirds grid fading in here, and the floating video trim
-/// bar fading out in slice 5 (spec §2.7) — which is why it is a provider rather
-/// than a hook inside the viewport.
+/// Drives the rule-of-thirds grid fading in. A provider rather than a hook
+/// inside the viewport because the overlay that fades is the viewport's
+/// sibling, not its child.
 @Riverpod(keepAlive: true)
 class CropInteraction extends _$CropInteraction {
   @override

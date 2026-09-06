@@ -12,11 +12,14 @@ First release.
 - Full, limited and denied permission states are all designed. Limited access
   renders the same grid over the granted subset with a persistent
   *Manage selection* bar, and the empty state never claims the library is empty.
-- Crop step with pan and pinch-zoom against a fixed window, per-asset aspect
+- Crop step with pan and pinch-zoom against a fixed window, the rest of the
+  media showing dimmed beyond it and draggable from there, per-asset aspect
   ratios, an *Apply to all* affordance, and crop state preserved across asset
   switching.
 - Video is cropped, trimmed and given a cover frame on device, through
-  `kutu_media_transform`.
+  `kutu_media_transform`. The trim and cover controls sit in a band under the
+  crop window, reserved for the whole session so the window never resizes
+  between a photo and a video.
 - `AssetPickerConfig` for behaviour, `AssetPickerTheme` (a `ThemeExtension`,
   every field nullable, falling back to `ColorScheme`) for looks, and
   `AssetPickerText` for copy, with English and Turkish shipped.

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'video_crop_error_view.dart';
 import 'video_crop_loading.dart';
-import 'video_crop_stack.dart';
+import 'video_crop_viewport.dart';
 import 'video_preview_source.dart';
 
 /// The crop area for a video: the async gate, and nothing else.
@@ -26,7 +26,7 @@ class VideoCropSurface extends ConsumerWidget {
       ref.watch(videoPreviewSourceProvider(assetId)).when(
             loading: VideoCropLoading.new,
             error: (error, _) => VideoCropErrorView(error: error),
-            data: (preview) => VideoCropStack(
+            data: (preview) => VideoCropViewport(
               assetId: assetId,
               preview: preview,
               window: window,

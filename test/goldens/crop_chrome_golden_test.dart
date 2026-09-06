@@ -8,6 +8,7 @@ import 'package:kutu_asset_picker/src/crop/crop_providers.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/crop_aspect_chip_row.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/crop_dimming_mask.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/crop_thirds_overlay.dart';
+import 'package:kutu_asset_picker/src/crop/widgets/crop_viewport.dart';
 import 'package:kutu_asset_picker/src/providers/asset_page_provider.dart';
 import 'package:kutu_asset_picker/src/providers/selection_provider.dart';
 import 'package:kutu_asset_picker/src/providers/injection_providers.dart';
@@ -16,6 +17,7 @@ import 'package:kutu_asset_picker/src/source/picker_media_type.dart';
 
 const Size kStage = Size(320, 320);
 const Size kWindow = Size(240, 135);
+const Key viewportGoldenKey = Key('crop viewport golden');
 
 PickerAsset asset(String id) => PickerAsset(
       id: id,
@@ -138,6 +140,60 @@ void main() {
       await expectLater(
         find.byType(CropThirdsOverlay),
         matchesGoldenFile('crop_thirds_$suffix.png'),
+      );
+    });
+
+    testWidgets('media shows through the mask beyond the window — $suffix', (
+      tester,
+    ) async {
+      // A 1000×500 image covering a 240×135 window is drawn 270×135, so 15px
+      // of it shows on either side of the window. Those strips must be the
+      // image, darkened — not the stage backdrop. Above and below the window
+      // there is no image, and the backdrop shows dimmed there instead.
+      final container = ProviderContainer(
+        overrides: [
+          assetPickerConfigProvider.overrideWithValue(
+            const AssetPickerConfig(aspects: [CropAspect.landscape169]),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: stage(
+            brightness,
+            RepaintBoundary(
+              key: viewportGoldenKey,
+              child: Stack(
+                alignment: Alignment.center,
+                children: const [
+                  CropViewport(
+                    assetId: 'a',
+                    imageSize: Size(1000, 500),
+                    window: kWindow,
+                    child: ColoredBox(color: Color(0xFF00C853)),
+                  ),
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: CropDimmingMask(
+                        window: kWindow,
+                        shape: CropOverlayShape.rectangle,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      await expectLater(
+        find.byKey(viewportGoldenKey),
+        matchesGoldenFile('crop_viewport_dimmed_$suffix.png'),
       );
     });
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kutu_asset_picker/src/config/picker_enums.dart';
-import 'package:kutu_asset_picker/src/config/picker_tuning.dart';
 import 'package:kutu_asset_picker/src/crop/widgets/asset_crop_step.dart';
 import 'package:kutu_asset_picker/src/providers/injection_providers.dart';
 import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
@@ -18,11 +17,14 @@ import 'package:kutu_asset_picker/src/theme/asset_picker_theme_scope.dart';
 /// the crop step would give the cropper two hosts, which is the thing spec §2.6
 /// picked a separate step to avoid.
 ///
-/// The sheet branch is a fixed-height rounded panel rather than a
-/// `DraggableScrollableSheet`: the crop step contains no scrollable to hand
-/// that widget's `ScrollController` to, so a draggable sheet here would render
-/// a drag affordance that does nothing. Drag-to-dismiss belongs to the modal
-/// route `KutuAssetPicker.show` created, which is still there underneath.
+/// The sheet branch is a rounded panel that **fills whatever it is given**.
+/// It used to be a fixed 70% panel aligned to the bottom, and that was a
+/// half-page cropper: inside `KutuAssetPicker.show`'s modal route the material
+/// behind the panel paints the full height regardless, so the author saw a
+/// blank band above a squat crop area — and the crop step contains no
+/// scrollable, so unlike the grid's `DraggableScrollableSheet` there was
+/// nothing to drag up to close the gap. Drag-to-dismiss still belongs to the
+/// modal route `KutuAssetPicker.show` created, which is there underneath.
 class CropStepHost extends ConsumerWidget {
   /// Creates a [CropStepHost].
   const CropStepHost({required this.onBack, super.key});
@@ -37,19 +39,13 @@ class CropStepHost extends ConsumerWidget {
             backgroundColor: context.pickerTheme.background,
             body: AssetCropStep(onBack: onBack),
           ),
-        PickerSurface.sheet => Align(
-            alignment: Alignment.bottomCenter,
-            child: FractionallySizedBox(
-              heightFactor: PickerChromeSizes.sheetInitialExtent,
-              child: ClipRRect(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(context.pickerTheme.sheetRadius),
-                ),
-                child: ColoredBox(
-                  color: context.pickerTheme.background,
-                  child: AssetCropStep(onBack: onBack),
-                ),
-              ),
+        PickerSurface.sheet => ClipRRect(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(context.pickerTheme.sheetRadius),
+            ),
+            child: ColoredBox(
+              color: context.pickerTheme.background,
+              child: AssetCropStep(onBack: onBack),
             ),
           ),
       };
