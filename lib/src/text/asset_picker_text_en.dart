@@ -25,6 +25,9 @@ base class AssetPickerTextEn extends AssetPickerText {
   String get pickerCameraTile => 'Camera';
 
   @override
+  String get pickerCaptureFailed => 'Could not use the camera';
+
+  @override
   String get pickerRemove => 'Remove';
 
   @override

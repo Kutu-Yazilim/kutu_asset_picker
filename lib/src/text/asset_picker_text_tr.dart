@@ -30,6 +30,9 @@ base class AssetPickerTextTr extends AssetPickerText {
   @override
   String get pickerCameraTile => 'Kamera';
 
+  @override
+  String get pickerCaptureFailed => 'Kamera kullanılamadı';
+
   /// The selected strip's per-tile remove tooltip — slice 3 Task 27 added this
   /// getter to the base class, so a delegate that omits it does not compile.
   @override

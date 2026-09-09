@@ -75,7 +75,9 @@ void main() {
       tester,
       const SizedBox(height: 80, width: 80, child: CameraTile()),
       source: source,
-      camera: _RecordingCamera(_shot()),
+      camera: _RecordingCamera(
+        CapturedMedia(file: File('/tmp/shot.jpg'), kind: PickerMediaType.image),
+      ),
     );
 
     // Page the album first, so there is a list to prepend to.
@@ -130,5 +132,28 @@ void main() {
     // It still appears in the grid — it is a real asset now — but the cap is
     // the cap.
     expect(container.read(selectionProvider), <String>['a0']);
+  });
+
+  testWidgets('a refused save is named in the cell, not swallowed',
+      (WidgetTester tester) async {
+    final source = fakeSourceWith(testAssets(2))..saveThrows = true;
+    addTearDown(source.dispose);
+
+    await pumpPicker(
+      tester,
+      const SizedBox(height: 80, width: 80, child: CameraTile()),
+      source: source,
+      camera: _RecordingCamera(
+        CapturedMedia(file: File('/tmp/shot.jpg'), kind: PickerMediaType.image),
+      ),
+    );
+
+    expect(find.text(en.pickerCameraTile), findsOneWidget);
+
+    await tester.tap(find.byType(CameraTile));
+    await tester.pumpAndSettle();
+
+    expect(find.text(en.pickerCaptureFailed), findsOneWidget);
+    expect(find.text(en.pickerCameraTile), findsNothing);
   });
 }

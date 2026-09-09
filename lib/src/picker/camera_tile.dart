@@ -25,6 +25,7 @@ class CameraTile extends ConsumerWidget {
     final AssetPickerText text = context.pickerText;
     final CameraCaptureStatus status = ref.watch(cameraCaptureProvider);
     final bool capturing = status == CameraCaptureStatus.capturing;
+    final bool failed = status == CameraCaptureStatus.failed;
 
     return RepaintBoundary(
       child: GestureDetector(
@@ -40,13 +41,18 @@ class CameraTile extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(
-                  Icons.photo_camera_outlined,
+                  failed ? Icons.error_outline : Icons.photo_camera_outlined,
                   size: PickerChromeSizes.cameraIconSize,
-                  color: theme.onSurfaceMuted,
+                  color: failed ? theme.danger : theme.onSurfaceMuted,
                 ),
                 Text(
-                  text.pickerCameraTile,
-                  style: theme.labelStyle.copyWith(color: theme.onSurfaceMuted),
+                  failed ? text.pickerCaptureFailed : text.pickerCameraTile,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.labelStyle.copyWith(
+                    color: failed ? theme.danger : theme.onSurfaceMuted,
+                  ),
                 ),
               ],
             ),

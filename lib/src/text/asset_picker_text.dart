@@ -17,6 +17,15 @@ import '../config/picker_enums.dart';
 /// `cropReorderHint`, `cropTrim`, `cropCoverFrame`, `exportFailed`,
 /// `exportCancel`, `aspectLabel`, `durationRange`, `exportProgress` — plus
 /// `AssetPickerTextTr` and `assetPickerTextFromLocale`.
+///
+/// Keys: `pickerTitle`, `pickerNext`, `pickerCancel`, `pickerDone`,
+/// `pickerAlbumAll`, `pickerAlbumSwitch`, `pickerCameraTile`, `pickerRemove`,
+/// `pickerPermissionDeniedTitle`, `pickerPermissionDeniedBody`,
+/// `pickerOpenSettings`, `pickerLimitedBanner`, `pickerManageSelection`,
+/// `pickerEmptyLimited`, `pickerEmptyLibrary`, `pickerDownloadingFromCloud`,
+/// `pickerDownloadFailed`, `pickerRetry`, `pickerCaptureFailed`, `cropTitle`,
+/// `cropApplyToAll`, `cropReorderHint`, `cropTrim`, `cropCoverFrame`,
+/// `cropPlay`, `cropPause`, `cropKeptRange`, `exportFailed`, `exportCancel`.
 abstract base class AssetPickerText {
   /// Creates a [AssetPickerText].
   const AssetPickerText();
@@ -41,6 +50,9 @@ abstract base class AssetPickerText {
 
   /// The picker camera tile.
   String get pickerCameraTile;
+
+  /// Shown in the camera cell when a capture or its save failed.
+  String get pickerCaptureFailed;
 
   /// The tooltip on a selected strip tile's remove affordance.
   String get pickerRemove;
