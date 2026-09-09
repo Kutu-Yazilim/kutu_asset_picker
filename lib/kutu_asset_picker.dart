@@ -17,6 +17,7 @@ export 'src/source/photo_manager_asset_source.dart';
 export 'src/source/picker_asset_image_provider.dart';
 export 'src/source/picker_asset_key.dart';
 export 'src/camera/picker_camera_delegate.dart';
+export 'src/camera/captured_media.dart';
 export 'src/providers/injection_providers.dart';
 export 'src/providers/permission_provider.dart';
 export 'src/providers/albums_provider.dart';
