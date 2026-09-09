@@ -43,35 +43,40 @@ class CameraCapture extends _$CameraCapture {
     }
 
     state = CameraCaptureStatus.capturing;
+    PickerAsset? saved;
     try {
-      final CapturedMedia? capture = await delegate
+      final CapturedMedia? shot = await delegate
           .capture(ref.read(assetPickerConfigProvider).mediaTypes);
-      if (capture == null) {
+      if (shot == null) {
         // Backed out. Not a failure, so the tile shows nothing.
         state = CameraCaptureStatus.idle;
         return;
       }
 
-      final PickerAsset? saved =
-          await ref.read(assetSourceProvider).saveToLibrary(capture);
+      saved = await ref.read(assetSourceProvider).saveToLibrary(shot);
       if (saved == null) {
         state = CameraCaptureStatus.failed;
         return;
       }
-
-      // Prepend rather than wait for the platform change notification: the
-      // user tapped the camera tile and expects their photo to be right there.
-      ref.read(assetPageProvider.notifier).prepend(saved);
-      // toggleAsset respects maxSelection, so a capture past the cap appears
-      // in the grid without silently evicting an earlier pick.
-      ref.read(selectionProvider.notifier).toggleAsset(saved);
-      state = CameraCaptureStatus.idle;
     } on Object {
-      // Broad on purpose. The delegate reaches a plugin (a denied camera
+      // Broad on purpose: the delegate reaches a plugin (a denied camera
       // permission arrives as a PlatformException) and the save reaches the
-      // platform. Neither may escape as an unhandled rejection, and both mean
-      // the same thing to the user.
+      // platform. Neither may escape as an unhandled rejection, and both
+      // mean the same thing to the user. Scoped narrowly on purpose too —
+      // this try wraps only the delegate call and the save (and the null
+      // checks that read their results). The grid/selection updates below
+      // run outside it, so a bug in our own code is never reported to the
+      // user as a capture failure.
       state = CameraCaptureStatus.failed;
+      return;
     }
+
+    // Prepend rather than wait for the platform change notification: the
+    // user tapped the camera tile and expects their photo to be right there.
+    ref.read(assetPageProvider.notifier).prepend(saved);
+    // toggleAsset respects maxSelection, so a capture past the cap appears
+    // in the grid without silently evicting an earlier pick.
+    ref.read(selectionProvider.notifier).toggleAsset(saved);
+    state = CameraCaptureStatus.idle;
   }
 }
