@@ -114,5 +114,5 @@ void main() {
 
 final class _FakeCamera implements PickerCameraDelegate {
   @override
-  Future<PickerAsset?> capture(Set<PickerMediaType> kinds) async => null;
+  Future<CapturedMedia?> capture(Set<PickerMediaType> kinds) async => null;
 }

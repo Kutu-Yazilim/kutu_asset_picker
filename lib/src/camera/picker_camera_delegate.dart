@@ -1,5 +1,5 @@
-import '../source/picker_asset.dart';
 import '../source/picker_media_type.dart';
+import 'captured_media.dart';
 
 /// Reaches the OS camera on the picker's behalf.
 ///
@@ -7,18 +7,18 @@ import '../source/picker_media_type.dart';
 /// (design §2.8) — a fully in-package camera was rejected as a second large
 /// subsystem. Reaching the system camera needs a plugin, and this package
 /// ships none, so the choice of plugin belongs to the app.
-///
-/// Return the captured asset if you saved it into the device library (for
-/// example with `PhotoManager.editor.saveImage`, which returns an
-/// `AssetEntity`); the picker prepends it to the grid and selects it. Return
-/// null if the user cancelled, or if the capture already landed in the library
-/// — `AssetSource.changes` re-pages the grid either way, it just will not be
-/// auto-selected.
-///
-/// Do not use `photo_manager`'s latitude/longitude save APIs: an unreleased
-/// commit removes CoreLocation, which will make `saveImage(latitude:)` throw
-/// (design §13).
 abstract interface class PickerCameraDelegate {
-  /// Capture.
-  Future<PickerAsset?> capture(Set<PickerMediaType> kinds);
+  /// Runs the OS camera for one of [kinds] and returns what it wrote.
+  ///
+  /// Return null when the user backed out.
+  ///
+  /// **Do not save into the device library.** The picker does that behind
+  /// `AssetSource.saveToLibrary`, so `photo_manager` and `AssetEntity` stay
+  /// inside the source layer (design §4.1) and a host needs no photo-library
+  /// dependency of its own.
+  ///
+  /// [kinds] is what the surface accepts. A plugin that can only capture one
+  /// kind per call narrows the set itself — how a host asks its user to
+  /// choose is the host's business, not the picker's.
+  Future<CapturedMedia?> capture(Set<PickerMediaType> kinds);
 }

@@ -13,7 +13,7 @@ final class _NullCamera implements PickerCameraDelegate {
   const _NullCamera();
 
   @override
-  Future<PickerAsset?> capture(Set<PickerMediaType> kinds) async => null;
+  Future<CapturedMedia?> capture(Set<PickerMediaType> kinds) async => null;
 }
 
 const PickerAlbum _recent =

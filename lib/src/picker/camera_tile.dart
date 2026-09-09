@@ -23,7 +23,8 @@ class CameraTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ResolvedAssetPickerTheme theme = context.pickerTheme;
     final AssetPickerText text = context.pickerText;
-    final bool capturing = ref.watch(cameraCaptureProvider);
+    final CameraCaptureStatus status = ref.watch(cameraCaptureProvider);
+    final bool capturing = status == CameraCaptureStatus.capturing;
 
     return RepaintBoundary(
       child: GestureDetector(

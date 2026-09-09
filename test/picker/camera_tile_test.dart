@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,15 +12,18 @@ import '../support/pump_picker.dart';
 final class _RecordingCamera implements PickerCameraDelegate {
   _RecordingCamera(this.result);
 
-  final PickerAsset? result;
+  final CapturedMedia? result;
   final List<Set<PickerMediaType>> calls = <Set<PickerMediaType>>[];
 
   @override
-  Future<PickerAsset?> capture(Set<PickerMediaType> kinds) async {
+  Future<CapturedMedia?> capture(Set<PickerMediaType> kinds) async {
     calls.add(kinds);
     return result;
   }
 }
+
+CapturedMedia _shot() =>
+    CapturedMedia(file: File('/tmp/shot.jpg'), kind: PickerMediaType.image);
 
 void main() {
   testWidgets('the tile is labelled through the text delegate',
@@ -62,13 +67,15 @@ void main() {
       (WidgetTester tester) async {
     final source = fakeSourceWith(testAssets(2));
     addTearDown(source.dispose);
-    final PickerAsset captured = testAsset('fresh');
+    // The delegate only hands back a file; the library asset the grid shows
+    // is whatever the fake source's saveToLibrary is configured to return.
+    source.saveResult = testAsset('fresh');
 
     final ProviderContainer container = await pumpPicker(
       tester,
       const SizedBox(height: 80, width: 80, child: CameraTile()),
       source: source,
-      camera: _RecordingCamera(captured),
+      camera: _RecordingCamera(_shot()),
     );
 
     // Page the album first, so there is a list to prepend to.
@@ -112,7 +119,7 @@ void main() {
       tester,
       const SizedBox(height: 80, width: 80, child: CameraTile()),
       source: source,
-      camera: _RecordingCamera(testAsset('fresh')),
+      camera: _RecordingCamera(_shot()),
       config: const AssetPickerConfig(maxSelection: 1),
     );
     container.read(selectionProvider.notifier).toggleAsset(testAsset('a0'));
