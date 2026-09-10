@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kutu_asset_picker/src/camera/picker_camera_delegate.dart';
 import 'package:kutu_asset_picker/src/config/asset_picker_config.dart';
 import 'package:kutu_asset_picker/src/picker/asset_picker_view.dart';
 import 'package:kutu_asset_picker/src/providers/injection_providers.dart';
@@ -25,7 +26,11 @@ import 'package:kutu_media_transform/kutu_media_transform.dart';
 /// gate rendered that error as "photo access is off" without ever asking the
 /// OS. Every Riverpod app has a root scope; the example app does not, which
 /// is why it never reproduced. A fresh container with no parent is what the
-/// package's own test harness always used, and it is what this builds.
+/// package's own test harness always used, and it is what this builds. The
+/// same isolation is why `camera` must arrive as a constructor argument
+/// rather than a host-side override: an override of
+/// `pickerCameraDelegateProvider` placed in the host's tree would be exactly
+/// as invisible as the permission provider was.
 ///
 /// The picker reads nothing from the host's providers, so isolation costs it
 /// nothing.
@@ -37,6 +42,7 @@ class AssetPickerScope extends StatefulWidget {
     required this.onCompleted,
     required this.onCancelled,
     this.transform,
+    this.camera,
     this.theme,
     this.text,
     super.key,
@@ -57,6 +63,14 @@ class AssetPickerScope extends StatefulWidget {
   /// Null keeps `mediaTransformProvider`'s real default, which is the plugin.
   final MediaTransform? transform;
 
+  /// The OS camera, or null for no camera cell.
+  ///
+  /// It is a constructor argument rather than something a host overrides in
+  /// its own `ProviderScope`, because this widget owns a ROOT container: an
+  /// override placed in the host's tree has no ancestor relationship to it
+  /// and would never be seen.
+  final PickerCameraDelegate? camera;
+
   /// The theme.
   final AssetPickerTheme? theme;
 
@@ -74,6 +88,8 @@ class _AssetPickerScopeState extends State<AssetPickerScope> {
       assetSourceProvider.overrideWithValue(widget.source),
       if (widget.transform case final MediaTransform engine)
         mediaTransformProvider.overrideWithValue(engine),
+      if (widget.camera case final PickerCameraDelegate lens)
+        pickerCameraDelegateProvider.overrideWithValue(lens),
     ],
   );
 

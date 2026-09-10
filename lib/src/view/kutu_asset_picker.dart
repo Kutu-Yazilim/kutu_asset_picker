@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kutu_asset_picker/src/camera/picker_camera_delegate.dart';
 import 'package:kutu_asset_picker/src/config/asset_picker_config.dart';
 import 'package:kutu_asset_picker/src/config/picker_enums.dart';
 import 'package:kutu_asset_picker/src/export/export_cache.dart';
@@ -21,11 +22,15 @@ abstract final class KutuAssetPicker {
 
   /// Pushes the configured surface and resolves with the author's selection, or
   /// null if they backed out.
+  ///
+  /// [camera] adds the camera cell to the grid. Null, the default, means no
+  /// camera: this package ships no capture plugin on purpose (design §2.8).
   static Future<AssetPickerResult?> show(
     BuildContext context, {
     required AssetPickerConfig config,
     AssetSource? source,
     MediaTransform? transform,
+    PickerCameraDelegate? camera,
     AssetPickerTheme? theme,
     AssetPickerText? text,
   }) {
@@ -38,6 +43,7 @@ abstract final class KutuAssetPicker {
             config: config,
             source: gallery,
             transform: transform,
+            camera: camera,
             theme: theme,
             text: text,
             onCompleted: (result) => Navigator.of(routeContext).pop(result),
@@ -62,6 +68,7 @@ abstract final class KutuAssetPicker {
         config: config,
         source: gallery,
         transform: transform,
+        camera: camera,
         theme: theme,
         text: text,
         onCompleted: (result) => Navigator.of(sheetContext).pop(result),

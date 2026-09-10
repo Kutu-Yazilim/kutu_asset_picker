@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:kutu_media_transform/kutu_media_transform.dart';
 
+import '../camera/captured_media.dart';
 import 'asset_source.dart';
 import 'picker_album.dart';
 import 'picker_asset.dart';
@@ -252,5 +253,30 @@ final class FakeAssetSource implements AssetSource {
       throw StateError(
           'PhotoCachingManager is experimental and just proved it.');
     }
+  }
+
+  /// Captures handed to [saveToLibrary], in order.
+  final List<CapturedMedia> savedCaptures = <CapturedMedia>[];
+
+  /// What [saveToLibrary] returns. Null models a platform save that produced
+  /// nothing the picker can surface.
+  PickerAsset? saveResult = PickerAsset(
+    id: 'captured',
+    type: PickerMediaType.image,
+    width: 1080,
+    height: 1920,
+    createdAt: DateTime.utc(2026),
+  );
+
+  /// When true, [saveToLibrary] throws instead of returning.
+  bool saveThrows = false;
+
+  @override
+  Future<PickerAsset?> saveToLibrary(CapturedMedia capture) async {
+    savedCaptures.add(capture);
+    if (saveThrows) {
+      throw StateError('fake save refused');
+    }
+    return saveResult;
   }
 }

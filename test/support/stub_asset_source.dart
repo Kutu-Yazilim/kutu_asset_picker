@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:kutu_asset_picker/src/camera/captured_media.dart';
 import 'package:kutu_asset_picker/src/source/asset_source.dart';
 import 'package:kutu_asset_picker/src/source/picker_album.dart';
 import 'package:kutu_asset_picker/src/source/picker_asset.dart';
@@ -79,6 +80,10 @@ class StubAssetSource implements AssetSource {
 
   @override
   Future<void> manageLimitedSelection(Set<PickerMediaType> kinds) async {}
+
+  @override
+  Future<PickerAsset?> saveToLibrary(CapturedMedia capture) =>
+      throw UnimplementedError('stub source does not save captures');
 
   @override
   Future<PickerPermission> requestPermission(

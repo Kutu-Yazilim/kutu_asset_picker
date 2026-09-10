@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:kutu_media_transform/kutu_media_transform.dart';
 import 'package:photo_manager/photo_manager.dart';
 
+import '../camera/captured_media.dart';
 import 'asset_source.dart';
 import 'photo_manager_filter.dart';
 import 'photo_manager_mappers.dart';
@@ -229,6 +230,20 @@ final class PhotoManagerAssetSource implements AssetSource {
     // Android 14+ does filter by type (design §4.2). Callers must re-query
     // albums and restart paging after this returns either way.
     await PhotoManager.presentLimited(type: requestTypeFor(kinds));
+  }
+
+  @override
+  Future<PickerAsset?> saveToLibrary(CapturedMedia capture) async {
+    // No latitude/longitude. An unreleased photo_manager commit removes
+    // CoreLocation and makes the location-carrying overloads throw
+    // (design §13), and the picker never needs the coordinate.
+    final AssetEntity entity = switch (capture.kind) {
+      PickerMediaType.image =>
+        await PhotoManager.editor.saveImageWithPath(capture.file.path),
+      PickerMediaType.video =>
+        await PhotoManager.editor.saveVideo(capture.file),
+    };
+    return pickerAssetFrom(entity);
   }
 
   @override

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:kutu_media_transform/kutu_media_transform.dart';
 
+import '../camera/captured_media.dart';
 import '../source/asset_source.dart';
 import '../source/picker_album.dart';
 import '../source/picker_asset.dart';
@@ -82,6 +83,10 @@ final class FlattenedAssetSource implements AssetSource {
   @override
   Future<void> manageLimitedSelection(Set<PickerMediaType> kinds) =>
       delegate.manageLimitedSelection(kinds);
+
+  @override
+  Future<PickerAsset?> saveToLibrary(CapturedMedia capture) =>
+      delegate.saveToLibrary(capture);
 
   @override
   Stream<void> get changes => delegate.changes;

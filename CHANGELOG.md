@@ -1,3 +1,18 @@
+## 0.2.0
+
+**Breaking.** The camera cell works. It never could before: `KutuAssetPicker.show`
+and `AssetPickerScope` accepted no delegate, and 0.1.1's root-container fix closed
+the only other route a host had.
+
+- `KutuAssetPicker.show` and `AssetPickerScope` take a `camera:` delegate.
+- `PickerCameraDelegate.capture` now returns `CapturedMedia?` (a file plus its
+  kind) instead of `PickerAsset?`. A host no longer saves to the photo library
+  and therefore needs no `photo_manager` dependency of its own.
+- `AssetSource` gains `saveToLibrary`, which is where that write now happens.
+  **Anyone implementing `AssetSource` must add it.**
+- New `AssetPickerText.pickerCaptureFailed`. A denied camera permission or a
+  refused library write is now visible in the cell rather than silent.
+
 ## 0.1.1
 
 - **Fixed: the picker showed "photo access is off" and never asked the OS

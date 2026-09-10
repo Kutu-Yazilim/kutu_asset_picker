@@ -10,25 +10,25 @@ part of 'camera_capture_provider.dart';
 // ignore_for_file: type=lint, type=warning
 /// Drives the OS camera delegate.
 ///
-/// State is "a capture is in flight", so the tile can go inert rather than
-/// launching two cameras on a double tap. All the `await`ing happens here and
-/// none of it in the widget (Flutter rule 9).
+/// All the `await`ing happens here and none of it in the widget (Flutter
+/// rule 9). The tile goes inert while a capture is in flight rather than
+/// launching two cameras on a double tap.
 
 @ProviderFor(CameraCapture)
 final cameraCaptureProvider = CameraCaptureProvider._();
 
 /// Drives the OS camera delegate.
 ///
-/// State is "a capture is in flight", so the tile can go inert rather than
-/// launching two cameras on a double tap. All the `await`ing happens here and
-/// none of it in the widget (Flutter rule 9).
+/// All the `await`ing happens here and none of it in the widget (Flutter
+/// rule 9). The tile goes inert while a capture is in flight rather than
+/// launching two cameras on a double tap.
 final class CameraCaptureProvider
-    extends $NotifierProvider<CameraCapture, bool> {
+    extends $NotifierProvider<CameraCapture, CameraCaptureStatus> {
   /// Drives the OS camera delegate.
   ///
-  /// State is "a capture is in flight", so the tile can go inert rather than
-  /// launching two cameras on a double tap. All the `await`ing happens here and
-  /// none of it in the widget (Flutter rule 9).
+  /// All the `await`ing happens here and none of it in the widget (Flutter
+  /// rule 9). The tile goes inert while a capture is in flight rather than
+  /// launching two cameras on a double tap.
   CameraCaptureProvider._()
       : super(
           from: null,
@@ -48,30 +48,33 @@ final class CameraCaptureProvider
   CameraCapture create() => CameraCapture();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(bool value) {
+  Override overrideWithValue(CameraCaptureStatus value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<bool>(value),
+      providerOverride: $SyncValueProvider<CameraCaptureStatus>(value),
     );
   }
 }
 
-String _$cameraCaptureHash() => r'e818f88d699488e575678ff535c2e46d24a3c317';
+String _$cameraCaptureHash() => r'dd247ddd9f8660108cc4ae837ad7d2ff567cc462';
 
 /// Drives the OS camera delegate.
 ///
-/// State is "a capture is in flight", so the tile can go inert rather than
-/// launching two cameras on a double tap. All the `await`ing happens here and
-/// none of it in the widget (Flutter rule 9).
+/// All the `await`ing happens here and none of it in the widget (Flutter
+/// rule 9). The tile goes inert while a capture is in flight rather than
+/// launching two cameras on a double tap.
 
-abstract class _$CameraCapture extends $Notifier<bool> {
-  bool build();
+abstract class _$CameraCapture extends $Notifier<CameraCaptureStatus> {
+  CameraCaptureStatus build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<bool, bool>;
+    final ref = this.ref as $Ref<CameraCaptureStatus, CameraCaptureStatus>;
     final element = ref.element as $ClassProviderElement<
-        AnyNotifier<bool, bool>, bool, Object?, Object?>;
+        AnyNotifier<CameraCaptureStatus, CameraCaptureStatus>,
+        CameraCaptureStatus,
+        Object?,
+        Object?>;
     return element.handleCreate(ref, build);
   }
 }
