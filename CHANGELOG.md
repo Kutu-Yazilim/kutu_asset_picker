@@ -12,6 +12,9 @@ the only other route a host had.
   **Anyone implementing `AssetSource` must add it.**
 - New `AssetPickerText.pickerCaptureFailed`. A denied camera permission or a
   refused library write is now visible in the cell rather than silent.
+  **Anyone subclassing `AssetPickerText` must add it.** The shipped English
+  and Turkish implementations already have it, so only a direct subclass is
+  affected.
 
 ## 0.1.1
 
