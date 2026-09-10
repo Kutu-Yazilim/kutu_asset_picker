@@ -11,7 +11,7 @@ theming, and no ownership of your `Navigator`.
 
 ```yaml
 dependencies:
-  kutu_asset_picker: ^0.1.0
+  kutu_asset_picker: ^0.2.0
 ```
 
 The transform engine is a separate package and comes in transitively; depend on it
@@ -162,6 +162,74 @@ taking `config` and `source` as plain arguments alongside `onCompleted` and `onC
 `landscape169` (16:9), `story916` (9:16), `banner31` (3:1) — plus
 `CropAspect(x: …, y: …, label: CropAspectLabel.custom)` for anything else.
 
+## Camera
+
+The grid's first cell can hand off to the OS camera — but this package ships **no
+capture plugin**. Reaching a real camera needs a platform plugin, and picking one is a
+host decision, not this package's. `image_picker` is a common choice — add it to your
+own `pubspec.yaml`, not this package's — and implement the seam yourself:
+
+```dart
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
+import 'package:kutu_asset_picker/kutu_asset_picker.dart';
+
+class ImagePickerCameraDelegate implements PickerCameraDelegate {
+  const ImagePickerCameraDelegate();
+
+  @override
+  Future<CapturedMedia?> capture(Set<PickerMediaType> kinds) async {
+    final ImagePicker picker = ImagePicker();
+    // image_picker cannot offer photo and video from one camera call — a host
+    // that allows both kinds decides which to launch before calling here.
+    final bool video =
+        kinds.length == 1 && kinds.single == PickerMediaType.video;
+    final XFile? shot = video
+        ? await picker.pickVideo(source: ImageSource.camera)
+        : await picker.pickImage(source: ImageSource.camera);
+    if (shot == null) {
+      return null; // the user backed out
+    }
+    return CapturedMedia(
+      file: File(shot.path),
+      kind: video ? PickerMediaType.video : PickerMediaType.image,
+    );
+  }
+}
+```
+
+Pass it to either entry point:
+
+```dart
+await KutuAssetPicker.show(
+  context,
+  config: config,
+  camera: const ImagePickerCameraDelegate(),
+);
+```
+
+`enableCamera` already defaults to `true`, so a non-null `camera` is all the tile
+needs to appear; set `enableCamera: false` to keep a delegate wired but hide it.
+
+**Return the raw file and stop — do not save it yourself.** The picker addresses
+every asset by a platform id (`PickerAsset.id`): thumbnails and export both resolve
+through it, and a bare temp file the camera just wrote has no such id to give them.
+`AssetSource.saveToLibrary` is what turns your `CapturedMedia` into a library asset,
+immediately after your delegate returns — so captures are saved into the device
+library not as a policy choice but because that is the only way one can join the
+grid at all. That is also why this package's own `photo_manager` dependency, not
+yours, is what touches the library: a delegate needs none.
+
+A denied camera permission or a refused library write both render
+`AssetPickerText.pickerCaptureFailed` on the tile — silent before 0.2.0, visible now.
+
+Two permission surfaces, not one. Your delegate's plugin needs whatever it needs to
+launch the camera (`CAMERA` / `NSCameraUsageDescription`, already in
+[Platform setup](#platform-setup) behind `enableCamera`). Saving the result needs the
+library's **write** access separately — new on Android, nothing new on iOS; see that
+same section for the exact keys.
+
 ## The crop step
 
 One screen for every selected asset, with a permanent rail of thumbnails along the
@@ -301,6 +369,12 @@ above `<application>`:
     android:name="android.permission.READ_EXTERNAL_STORAGE"
     android:maxSdkVersion="32" />
 
+<!-- Android 9 (API 28) and below, and only reachable through the camera cell's
+     library save: pre-scoped-storage MediaStore inserts need this. -->
+<uses-permission
+    android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    android:maxSdkVersion="28" />
+
 <!-- Only when AssetPickerConfig.enableCamera is true. -->
 <uses-permission android:name="android.permission.CAMERA" />
 ```
@@ -309,6 +383,10 @@ Also required: `minSdkVersion` 24 or higher (Flutter's current default).
 
 Requesting broad `READ_MEDIA_IMAGES` / `READ_MEDIA_VIDEO` carries Play Store review risk.
 Read the next section before you ship.
+
+`WRITE_EXTERNAL_STORAGE` above only matters pre-scoped-storage: Android 10 (API 29) and
+later grants an app write access to the MediaStore item it just created without it, which
+is what the camera cell's library save relies on from there on.
 
 ### iOS
 
@@ -341,8 +419,10 @@ after copying setup blocks from two packages.
 
 Also required: deployment target 13.0 or higher.
 
-`NSPhotoLibraryAddUsageDescription` is *not* needed: this package never writes to the
-photo library.
+`NSPhotoLibraryAddUsageDescription` is *not* needed. This package requests `readWrite`
+access — `photo_manager`'s default, and this package never asks for the narrower
+`addOnly` level — so the camera cell's library save runs under the same
+`NSPhotoLibraryUsageDescription` grant above rather than a second one.
 
 ## Limited access is a designed state, not a fallback
 
